@@ -45,6 +45,7 @@ namespace WpfApp1
 
             newTable.MouseMove += Table_MouseMove;
             newTable.MouseUp += Table_MouseUp;
+            
 
             Console.WriteLine("Width: " + newTable.circleUI.Width);
         }
@@ -55,7 +56,6 @@ namespace WpfApp1
 
         private void Table_MouseMove(object sender, MouseEventArgs e)
         {
-            //Console.WriteLine("Moving");
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 Point point = e.GetPosition(this.canvas);
@@ -77,14 +77,15 @@ namespace WpfApp1
                 Console.WriteLine("Width: " + newTable.circleUI.Width);
             }
 
+            e.Handled = true;
+
         }
 
         private void Table_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            Circle table = (Circle)sender;
-            if (!table.Added && ((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Red)
+            if (!((Circle)sender).Added && ((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Red)
             {
-                canvas.
+                canvas.Children.Remove((Circle)sender);
             }
         }
 
