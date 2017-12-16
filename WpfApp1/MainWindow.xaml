@@ -5,8 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <StackPanel>
-        
-    </StackPanel>
+        Title="MainWindow" Height="600" Width="600">
+    <Grid AllowDrop="True">
+        <TabControl>
+            <TabItem Header="Main">
+                
+            </TabItem>
+            <TabItem 
+                Header="Table">
+                <local:Table/>
+
+            </TabItem>
+            <TabItem Header="Edit">
+
+            </TabItem>
+            <TabItem Header="Sales">
+
+            </TabItem>
+        </TabControl>
+       
+
+    </Grid>
 </Window>

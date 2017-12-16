@@ -16,15 +16,34 @@ using System.Windows.Shapes;
 namespace WpfApp1
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Circle.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Circle : UserControl
     {
-        public MainWindow()
+        public Circle()
         {
             InitializeComponent();
         }
 
+        public Circle(Circle c)
+        {
+            InitializeComponent();
+            this.circleUI.Height = c.circleUI.Height;
+            this.circleUI.Width = c.circleUI.Height;
+            this.circleUI.Fill = c.circleUI.Fill;
+        }
+
+        public bool Added
+        {
+            get;
+            set;
+        }
+        
+
+
+
+
+      
 
     }
 }
