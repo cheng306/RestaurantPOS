@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WpfApp1.Table"
+﻿<UserControl x:Class="WpfApp1.TablesLayout"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -11,25 +11,13 @@
         Background="Beige"
         Height="500"
         Width="500"
-        x:Name="canvas"
-        AllowDrop="True"
-        MouseDown="Canvas_MouseDown"
-        >
+        x:Name="canvas">
 
         <local:Circle x:Name="addButton" 
             Canvas.Right="0" 
             Canvas.Bottom="0"
             MouseDown="AddButton_MouseDown"
-            AllowDrop="True"
-            >
-            
-
-
-        </local:Circle>
-
-        
-
-
+            AllowDrop="True"/>
 
 
 

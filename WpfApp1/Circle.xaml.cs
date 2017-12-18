@@ -38,6 +38,12 @@ namespace WpfApp1
             get;
             set;
         }
+
+        public Point Center
+        {
+            get;
+            set;
+        }
         
 
 

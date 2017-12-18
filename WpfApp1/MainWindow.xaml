@@ -13,7 +13,7 @@
             </TabItem>
             <TabItem 
                 Header="Table">
-                <local:Table/>
+                <local:TablesLayout/>
 
             </TabItem>
             <TabItem Header="Edit">
