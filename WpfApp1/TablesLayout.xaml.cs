@@ -65,6 +65,7 @@ namespace WpfApp1
 
             canvas.Children.Add(newTable);
 
+
             newTable.CaptureMouse();
             newTable.MouseMove += Table_MouseMove;
             newTable.MouseUp += Table_MouseUp;
@@ -108,9 +109,12 @@ namespace WpfApp1
 
         private void Table_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            ((UIElement)sender).CaptureMouse();
+            pointList.Remove(((Circle)sender).Center);
+            ((UIElement)sender).CaptureMouse(); 
             previousPt.X = (Double)((Circle)sender).GetValue(Canvas.LeftProperty);
             previousPt.Y = (Double)((Circle)sender).GetValue(Canvas.TopProperty);
+
+
             Console.WriteLine("Table_MouseDown");
 
         }
@@ -128,15 +132,29 @@ namespace WpfApp1
                     Double x = (Double)((DependencyObject)sender).GetValue(Canvas.LeftProperty)+radius;
                     Double y = (Double)((DependencyObject)sender).GetValue(Canvas.TopProperty) + radius;
                     Point newPoint = new Point(x,y);
+                    ((Circle)sender).Center = newPoint;
                     pointList.Add(newPoint);
+                    ((Circle)sender).Added = true;
                     //Console.WriteLine(e.GetPosition(canvas));
                     //Console.WriteLine(((DependencyObject)sender).GetValue(Canvas.LeftProperty) + " " + ((DependencyObject)sender).GetValue(Canvas.TopProperty));
                 }
                 
             }
-            else
+            else //Table has been added before which mean move a existed table
             {
-
+                if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Red)
+                {
+                    ((Circle)sender).SetValue(Canvas.LeftProperty, previousPt.X );
+                    ((Circle)sender).SetValue(Canvas.TopProperty, previousPt.Y);
+                }
+                else
+                {
+                    Double x = (Double)((DependencyObject)sender).GetValue(Canvas.LeftProperty) + radius;
+                    Double y = (Double)((DependencyObject)sender).GetValue(Canvas.TopProperty) + radius;
+                    Point newPoint = new Point(x, y);
+                    ((Circle)sender).Center = newPoint;
+                    pointList.Add(newPoint);
+                }
             }
             ((UIElement)sender).ReleaseMouseCapture();
 
