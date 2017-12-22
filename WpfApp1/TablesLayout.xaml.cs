@@ -39,6 +39,8 @@ namespace WpfApp1
             InitializeComponent();
 
             addButton.Center = new Point(canvas.Width - radius, canvas.Height - radius);
+            
+
             pointList = new List<Point>();
             circleList = new List<Circle>();
 
@@ -48,7 +50,6 @@ namespace WpfApp1
             radius = diameter/2;
             pointList.Add(new Point(canvas.Width - radius, canvas.Height - radius));
             
-            //Console.WriteLine(pointList[0]);
         }
 
         private void AddButton_MouseDown(object sender, MouseButtonEventArgs e)
@@ -69,7 +70,7 @@ namespace WpfApp1
             newTable.CaptureMouse();
             newTable.MouseMove += Table_MouseMove;
             newTable.MouseUp += Table_MouseUp;
-            newTable.MouseDown += Table_MouseDown;
+            newTable.MouseDown += Table_MouseDownAsync;
             
 
             //Console.WriteLine("Width: " + newTable.circleUI.Width);
@@ -107,16 +108,16 @@ namespace WpfApp1
 
         }
 
-        private void Table_MouseDown(object sender, MouseButtonEventArgs e)
+        private async void Table_MouseDownAsync(object sender, MouseButtonEventArgs e)
         {
             pointList.Remove(((Circle)sender).Center);
             ((UIElement)sender).CaptureMouse(); 
             previousPt.X = (Double)((Circle)sender).GetValue(Canvas.LeftProperty);
             previousPt.Y = (Double)((Circle)sender).GetValue(Canvas.TopProperty);
 
-
+            await HoldDelay();
+            Console.WriteLine(e.LeftButton);
             Console.WriteLine("Table_MouseDown");
-
         }
 
         private void Table_MouseUp(object sender, MouseButtonEventArgs e)
@@ -126,34 +127,42 @@ namespace WpfApp1
                 if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Red)
                 {
                     canvas.Children.Remove((Circle)sender);
+
                 }
                 else
                 {
-                    Double x = (Double)((DependencyObject)sender).GetValue(Canvas.LeftProperty)+radius;
-                    Double y = (Double)((DependencyObject)sender).GetValue(Canvas.TopProperty) + radius;
-                    Point newPoint = new Point(x,y);
-                    ((Circle)sender).Center = newPoint;
-                    pointList.Add(newPoint);
+                    AddNewCoordinate(sender);
+                    SolidColorBrush brush = (SolidColorBrush)((Circle)sender).circleUI.Fill;
+                    brush.Color = Colors.Yellow;
+                    brush.Opacity = 1;
+                    //((SolidColorBrush)((Circle)sender).circleUI.Fill).Color = Colors.Yellow;
+
                     ((Circle)sender).Added = true;
                     //Console.WriteLine(e.GetPosition(canvas));
                     //Console.WriteLine(((DependencyObject)sender).GetValue(Canvas.LeftProperty) + " " + ((DependencyObject)sender).GetValue(Canvas.TopProperty));
                 }
                 
             }
-            else //Table has been added before which mean move a existed table
+            else //((Circle)sender).Added) which mean move a existed table
             {
                 if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Red)
                 {
                     ((Circle)sender).SetValue(Canvas.LeftProperty, previousPt.X );
                     ((Circle)sender).SetValue(Canvas.TopProperty, previousPt.Y);
+
+                    SolidColorBrush brush = (SolidColorBrush)((Circle)sender).circleUI.Fill;
+                    brush.Color = Colors.Yellow;
+                    brush.Opacity = 1;
+
+                    pointList.Add(((Circle)sender).Center);
                 }
                 else
                 {
-                    Double x = (Double)((DependencyObject)sender).GetValue(Canvas.LeftProperty) + radius;
-                    Double y = (Double)((DependencyObject)sender).GetValue(Canvas.TopProperty) + radius;
-                    Point newPoint = new Point(x, y);
-                    ((Circle)sender).Center = newPoint;
-                    pointList.Add(newPoint);
+                    AddNewCoordinate(sender);
+
+                    SolidColorBrush brush = (SolidColorBrush)((Circle)sender).circleUI.Fill;
+                    brush.Color = Colors.Yellow;
+                    brush.Opacity = 1;
                 }
             }
             ((UIElement)sender).ReleaseMouseCapture();
@@ -181,6 +190,22 @@ namespace WpfApp1
                 }
             }
             return false;
+        }
+
+        public void AddNewCoordinate(object sender)
+        {
+            Double x = (Double)((DependencyObject)sender).GetValue(Canvas.LeftProperty) + radius;
+            Double y = (Double)((DependencyObject)sender).GetValue(Canvas.TopProperty) + radius;
+            Point newPoint = new Point(x, y);
+            ((Circle)sender).Center = newPoint;
+            pointList.Add(newPoint);
+        }
+
+        public async Task HoldDelay()
+        {
+      
+            await Task.Delay(2000);
+            
         }
     }
 }

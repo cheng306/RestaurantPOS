@@ -17,7 +17,12 @@
             Canvas.Right="0" 
             Canvas.Bottom="0"
             MouseDown="AddButton_MouseDown"
-            AllowDrop="True"/>
+            AllowDrop="True">
+
+           
+
+
+        </local:Circle>
 
 
 
