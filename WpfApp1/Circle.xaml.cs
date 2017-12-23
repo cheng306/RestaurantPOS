@@ -33,17 +33,12 @@ namespace WpfApp1
             this.circleUI.Fill = c.circleUI.Fill;
         }
 
-        public bool Added
-        {
-            get;
-            set;
-        }
+        public bool Added { get; set; }
 
-        public Point Center
-        {
-            get;
-            set;
-        }
+        public bool Movable { get; set; }
+
+
+        public Point Center{   get; set; }
         
 
 

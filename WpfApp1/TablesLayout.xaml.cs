@@ -55,37 +55,39 @@ namespace WpfApp1
         private void AddButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
             newTable = new Circle();
+
+            //how the new circle look
             newTable.SetValue(Canvas.RightProperty, distance);
             newTable.SetValue(Canvas.BottomProperty, distance);
             SolidColorBrush myBrush = new SolidColorBrush()
             {
-                Opacity = 0.5
+                Color = Colors.Red
             };
             newTable.circleUI.Fill = myBrush;
+            newTable.Opacity = 0.5;
             newTable.Added = false;
 
             canvas.Children.Add(newTable);
 
-
+            //logic of the new circle
             newTable.CaptureMouse();
             newTable.MouseMove += Table_MouseMove;
             newTable.MouseUp += Table_MouseUp;
             newTable.MouseDown += Table_MouseDownAsync;
             
-
-            //Console.WriteLine("Width: " + newTable.circleUI.Width);
         }
 
         
 
         private void Table_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed && ((UIElement)sender).IsMouseCaptured)
+            Circle circle = (Circle)sender;
+            if (circle.IsMouseCaptured && e.LeftButton == MouseButtonState.Pressed) 
             {
                 Point point = e.GetPosition(canvas);
                 //Circle newTable = (Circle)sender;
-                ((Circle)sender).SetValue(Canvas.LeftProperty, point.X - (radius + distance));
-                ((Circle)sender).SetValue(Canvas.TopProperty, point.Y - (radius + distance));
+                circle.SetValue(Canvas.LeftProperty, point.X - (radius + distance));
+                circle.SetValue(Canvas.TopProperty, point.Y - (radius + distance));
 
                 point.X = point.X - distance;
                 point.Y = point.Y - distance;
@@ -93,15 +95,13 @@ namespace WpfApp1
                 if (!Overlap(point))
                 {
                     ((SolidColorBrush)((Circle)sender).circleUI.Fill).Color = Colors.Green;
+                    
                 }
                 else
                 {
                     ((SolidColorBrush)((Circle)sender).circleUI.Fill).Color = Colors.Red;
                 }
-                //Console.WriteLine("Fill " + ((Circle)sender).circleUI.Fill);
-                //Console.WriteLine("Circle: "+ ((Circle)sender).GetValue(Canvas.LeftProperty) + " "+ ((Circle)sender).GetValue(Canvas.TopProperty));
-                //Console.WriteLine("pointer: "+e.GetPosition(canvas));
-                //Console.WriteLine("Width: " + newTable.circleUI.Width);
+                Console.WriteLine("MouseMove");
             }
 
             e.Handled = true;
@@ -110,18 +110,26 @@ namespace WpfApp1
 
         private async void Table_MouseDownAsync(object sender, MouseButtonEventArgs e)
         {
-            pointList.Remove(((Circle)sender).Center);
-            ((UIElement)sender).CaptureMouse(); 
-            previousPt.X = (Double)((Circle)sender).GetValue(Canvas.LeftProperty);
-            previousPt.Y = (Double)((Circle)sender).GetValue(Canvas.TopProperty);
-
-            await HoldDelay();
-            Console.WriteLine(e.LeftButton);
+            Circle circle = (Circle)sender;
             Console.WriteLine("Table_MouseDown");
+            await HoldDelay();
+            if (circle.IsMouseOver && e.LeftButton == MouseButtonState.Pressed)
+            {
+                circle.CaptureMouse();
+                pointList.Remove(circle.Center);
+                previousPt.X = (Double)(circle.GetValue(Canvas.LeftProperty));
+                previousPt.Y = (Double)(circle.GetValue(Canvas.TopProperty));
+                circle.Opacity = 0.5;
+                ((SolidColorBrush)circle.circleUI.Fill).Color = Colors.Green;
+
+            }
+            
+            Console.WriteLine("Table_MouseDown2");
         }
 
         private void Table_MouseUp(object sender, MouseButtonEventArgs e)
         {
+            Circle circle = (Circle)sender;
             if (!((Circle)sender).Added)
             {
                 if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Red)
@@ -131,15 +139,10 @@ namespace WpfApp1
                 }
                 else
                 {
-                    AddNewCoordinate(sender);
-                    SolidColorBrush brush = (SolidColorBrush)((Circle)sender).circleUI.Fill;
-                    brush.Color = Colors.Yellow;
-                    brush.Opacity = 1;
-                    //((SolidColorBrush)((Circle)sender).circleUI.Fill).Color = Colors.Yellow;
+                    AddNewCoordinate(circle);
+                    SolidYellowCircle(circle);
 
-                    ((Circle)sender).Added = true;
-                    //Console.WriteLine(e.GetPosition(canvas));
-                    //Console.WriteLine(((DependencyObject)sender).GetValue(Canvas.LeftProperty) + " " + ((DependencyObject)sender).GetValue(Canvas.TopProperty));
+                    circle.Added = true;              
                 }
                 
             }
@@ -147,26 +150,23 @@ namespace WpfApp1
             {
                 if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Red)
                 {
-                    ((Circle)sender).SetValue(Canvas.LeftProperty, previousPt.X );
-                    ((Circle)sender).SetValue(Canvas.TopProperty, previousPt.Y);
+                    circle.SetValue(Canvas.LeftProperty, previousPt.X );
+                    circle.SetValue(Canvas.TopProperty, previousPt.Y);
+                    pointList.Add(circle.Center);
 
-                    SolidColorBrush brush = (SolidColorBrush)((Circle)sender).circleUI.Fill;
-                    brush.Color = Colors.Yellow;
-                    brush.Opacity = 1;
-
-                    pointList.Add(((Circle)sender).Center);
+                    SolidYellowCircle(circle);
                 }
                 else
                 {
-                    AddNewCoordinate(sender);
-
-                    SolidColorBrush brush = (SolidColorBrush)((Circle)sender).circleUI.Fill;
-                    brush.Color = Colors.Yellow;
-                    brush.Opacity = 1;
+                    AddNewCoordinate(circle);
+                    SolidYellowCircle(circle);
+              
+                    //Console.WriteLine("MouseUp with successfully move a circle");
                 }
             }
-            ((UIElement)sender).ReleaseMouseCapture();
-
+            
+            circle.ReleaseMouseCapture();
+            
             Console.WriteLine("Table_MouseUp");
         }
 
@@ -192,20 +192,25 @@ namespace WpfApp1
             return false;
         }
 
-        public void AddNewCoordinate(object sender)
+        private void AddNewCoordinate(Circle circle)
         {
-            Double x = (Double)((DependencyObject)sender).GetValue(Canvas.LeftProperty) + radius;
-            Double y = (Double)((DependencyObject)sender).GetValue(Canvas.TopProperty) + radius;
+            Double x = (Double)circle.GetValue(Canvas.LeftProperty) + radius;
+            Double y = (Double)circle.GetValue(Canvas.TopProperty) + radius;
             Point newPoint = new Point(x, y);
-            ((Circle)sender).Center = newPoint;
+            circle.Center = newPoint;
             pointList.Add(newPoint);
         }
 
-        public async Task HoldDelay()
+        private void SolidYellowCircle(Circle circle)
         {
-      
-            await Task.Delay(2000);
-            
+            SolidColorBrush brush = (SolidColorBrush)circle.circleUI.Fill;
+            brush.Color = Colors.Yellow;
+            circle.Opacity = 1;
+        }
+
+        private async Task HoldDelay()
+        {
+            await Task.Delay(1000);   
         }
     }
 }
