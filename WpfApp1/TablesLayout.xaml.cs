@@ -38,7 +38,6 @@ namespace WpfApp1
         {
             InitializeComponent();
 
-            addButton.Center = new Point(canvas.Width - radius, canvas.Height - radius);
             
 
             pointList = new List<Point>();
@@ -48,8 +47,16 @@ namespace WpfApp1
             distance = 10.0;
             diameter = addButton.circleUI.Width;
             radius = diameter/2;
-            pointList.Add(new Point(canvas.Width - radius, canvas.Height - radius));
-            
+
+            addButton.Center = new Point(canvas.Width - radius, canvas.Height - radius);
+            deleteButton.Center = new Point(radius, canvas.Height - radius);
+            deleteButton.circleUI.Fill = new SolidColorBrush(Colors.Red);
+
+            pointList.Add(addButton.Center);
+            pointList.Add(deleteButton.Center);
+
+
+
         }
 
         private void AddButton_MouseDown(object sender, MouseButtonEventArgs e)

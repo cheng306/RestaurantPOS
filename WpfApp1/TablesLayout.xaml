@@ -13,16 +13,19 @@
         Width="500"
         x:Name="canvas">
 
-        <local:Circle x:Name="addButton" 
+        <local:Circle 
+            x:Name="addButton" 
             Canvas.Right="0" 
             Canvas.Bottom="0"
             MouseDown="AddButton_MouseDown"
             AllowDrop="True">
-
-           
-
-
         </local:Circle>
+
+        <local:Circle 
+            x:Name="deleteButton" 
+            Canvas.Left="0" 
+            Canvas.Bottom="0"/>
+
 
 
 
