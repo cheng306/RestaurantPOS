@@ -72,11 +72,12 @@ namespace WpfApp1
             };
             newTable.circleUI.Fill = myBrush;
             newTable.Opacity = 0.5;
-            newTable.Added = false;
-
-            canvas.Children.Add(newTable);
+            
 
             //logic of the new circle
+            newTable.Added = false;
+            canvas.Children.Add(newTable);
+            ChangeZIndex(newTable, 3);
             newTable.CaptureMouse();
             newTable.MouseMove += Table_MouseMove;
             newTable.MouseUp += Table_MouseUp;
@@ -122,6 +123,7 @@ namespace WpfApp1
             await HoldDelay();
             if (circle.IsMouseOver && e.LeftButton == MouseButtonState.Pressed)
             {
+                ChangeZIndex(circle, 3);
                 circle.CaptureMouse();
                 pointList.Remove(circle.Center);
                 previousPt.X = (Double)(circle.GetValue(Canvas.LeftProperty));
@@ -137,18 +139,17 @@ namespace WpfApp1
         private void Table_MouseUp(object sender, MouseButtonEventArgs e)
         {
             Circle circle = (Circle)sender;
+            ChangeZIndex(circle, 2);
             if (!((Circle)sender).Added)
             {
                 if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Red)
                 {
-                    canvas.Children.Remove((Circle)sender);
-
+                    canvas.Children.Remove(circle);
                 }
                 else
                 {
                     AddNewCoordinate(circle);
                     SolidYellowCircle(circle);
-
                     circle.Added = true;              
                 }
                 
@@ -213,6 +214,11 @@ namespace WpfApp1
             SolidColorBrush brush = (SolidColorBrush)circle.circleUI.Fill;
             brush.Color = Colors.Yellow;
             circle.Opacity = 1;
+        }
+
+        private void ChangeZIndex(Circle circle, int i)
+        {
+            circle.SetValue(Panel.ZIndexProperty, i);
         }
 
         private async Task HoldDelay()

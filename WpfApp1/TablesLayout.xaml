@@ -18,13 +18,14 @@
             Canvas.Right="0" 
             Canvas.Bottom="0"
             MouseDown="AddButton_MouseDown"
-            AllowDrop="True">
-        </local:Circle>
+            Panel.ZIndex="2"/>
+
 
         <local:Circle 
             x:Name="deleteButton" 
             Canvas.Left="0" 
-            Canvas.Bottom="0"/>
+            Canvas.Bottom="0"
+            Panel.ZIndex="2"/>
 
 
 
