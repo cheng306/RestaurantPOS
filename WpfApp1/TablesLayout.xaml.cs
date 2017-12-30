@@ -96,10 +96,13 @@ namespace WpfApp1
                 Point point = e.GetPosition(canvas);
                 //Circle newTable = (Circle)sender;
                 circle.SetValue(Canvas.LeftProperty, point.X - (radius + xDistance));
-                circle.SetValue(Canvas.TopProperty, point.Y - (radius + xDistance));
+                circle.SetValue(Canvas.TopProperty, point.Y - (radius + yDistance));
+
+                Console.WriteLine(circle.GetValue(Canvas.LeftProperty));
+                Console.WriteLine(circle.GetValue(Canvas.TopProperty));
 
                 point.X = point.X - xDistance;
-                point.Y = point.Y - xDistance;
+                point.Y = point.Y - yDistance;
 
                 if (!AllowRelease(circle,point))
                 {
@@ -127,11 +130,16 @@ namespace WpfApp1
                 ChangeZIndex(circle, 3);
                 circle.CaptureMouse();
                 pointList.Remove(circle.Center);
-                Console.WriteLine(pointList.Count);
+
+                //Console.WriteLine(pointList.Count);
                 previousPt.X = (Double)(circle.GetValue(Canvas.LeftProperty));
                 previousPt.Y = (Double)(circle.GetValue(Canvas.TopProperty));
                 selectedCircle = circle;
 
+                xDistance = e.GetPosition(canvas).X - circle.Center.X;
+                yDistance = e.GetPosition(canvas).Y - circle.Center.Y;
+                Console.WriteLine(circle.GetValue(Canvas.LeftProperty));
+                Console.WriteLine(circle.GetValue(Canvas.TopProperty));
                 circle.Opacity = 0.5;
                 ((SolidColorBrush)circle.circleUI.Fill).Color = Colors.Green;
 
@@ -168,7 +176,7 @@ namespace WpfApp1
                     Console.WriteLine(pointList.Count);
                     SolidYellowCircle(circle);
                 }
-                else
+                else if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Green)
                 {
                     AddNewCoordinate(circle);
                     SolidYellowCircle(circle);
