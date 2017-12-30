@@ -23,28 +23,29 @@ namespace WpfApp1
         Circle newTable;  
         Point previousPt;
 
-        //This is the vertical or horizontal distance between the circle center and the mouse pinter
-        Double distance;
+        //This is the horizontal distance between the circle center and the mouse pointer
+        Double xDistance;
+        Double yDistance;
 
-        //radius if CircleUI;
+        //radius if Circle
         Double radius;
 
+        //diameter of Circle
         Double diameter;
 
+        //a list of all centers of circles. Used for Overlap detection
         List<Point> pointList;
-        List<Circle> circleList;
 
+        Circle selectedCircle;
+        
         public TablesLayout()
         {
             InitializeComponent();
 
-            
-
             pointList = new List<Point>();
-            circleList = new List<Circle>();
-
+            
             previousPt = new Point();
-            distance = 10.0;
+          
             diameter = addButton.circleUI.Width;
             radius = diameter/2;
 
@@ -53,10 +54,8 @@ namespace WpfApp1
             deleteButton.circleUI.Fill = new SolidColorBrush(Colors.Red);
 
             pointList.Add(addButton.Center);
-            pointList.Add(deleteButton.Center);
-
-
-
+            Console.WriteLine(pointList.Count);
+            //pointList.Add(deleteButton.Center);
         }
 
         private void AddButton_MouseDown(object sender, MouseButtonEventArgs e)
@@ -64,8 +63,10 @@ namespace WpfApp1
             newTable = new Circle();
 
             //how the new circle look
-            newTable.SetValue(Canvas.RightProperty, distance);
-            newTable.SetValue(Canvas.BottomProperty, distance);
+            xDistance = 10.0;
+            yDistance = 10.0;
+            newTable.SetValue(Canvas.RightProperty, xDistance);
+            newTable.SetValue(Canvas.BottomProperty, yDistance);
             SolidColorBrush myBrush = new SolidColorBrush()
             {
                 Color = Colors.Red
@@ -79,13 +80,13 @@ namespace WpfApp1
             canvas.Children.Add(newTable);
             ChangeZIndex(newTable, 3);
             newTable.CaptureMouse();
+            selectedCircle = newTable;
+
+            //add listener
             newTable.MouseMove += Table_MouseMove;
             newTable.MouseUp += Table_MouseUp;
-            newTable.MouseDown += Table_MouseDownAsync;
-            
+            newTable.MouseDown += Table_MouseDownAsync;           
         }
-
-        
 
         private void Table_MouseMove(object sender, MouseEventArgs e)
         {
@@ -94,13 +95,13 @@ namespace WpfApp1
             {
                 Point point = e.GetPosition(canvas);
                 //Circle newTable = (Circle)sender;
-                circle.SetValue(Canvas.LeftProperty, point.X - (radius + distance));
-                circle.SetValue(Canvas.TopProperty, point.Y - (radius + distance));
+                circle.SetValue(Canvas.LeftProperty, point.X - (radius + xDistance));
+                circle.SetValue(Canvas.TopProperty, point.Y - (radius + xDistance));
 
-                point.X = point.X - distance;
-                point.Y = point.Y - distance;
+                point.X = point.X - xDistance;
+                point.Y = point.Y - xDistance;
 
-                if (!Overlap(point))
+                if (!AllowRelease(circle,point))
                 {
                     ((SolidColorBrush)((Circle)sender).circleUI.Fill).Color = Colors.Green;
                     
@@ -109,7 +110,7 @@ namespace WpfApp1
                 {
                     ((SolidColorBrush)((Circle)sender).circleUI.Fill).Color = Colors.Red;
                 }
-                Console.WriteLine("MouseMove");
+                //Console.WriteLine("MouseMove");
             }
 
             e.Handled = true;
@@ -119,21 +120,24 @@ namespace WpfApp1
         private async void Table_MouseDownAsync(object sender, MouseButtonEventArgs e)
         {
             Circle circle = (Circle)sender;
-            Console.WriteLine("Table_MouseDown");
+       
             await HoldDelay();
             if (circle.IsMouseOver && e.LeftButton == MouseButtonState.Pressed)
             {
                 ChangeZIndex(circle, 3);
                 circle.CaptureMouse();
                 pointList.Remove(circle.Center);
+                Console.WriteLine(pointList.Count);
                 previousPt.X = (Double)(circle.GetValue(Canvas.LeftProperty));
                 previousPt.Y = (Double)(circle.GetValue(Canvas.TopProperty));
+                selectedCircle = circle;
+
                 circle.Opacity = 0.5;
                 ((SolidColorBrush)circle.circleUI.Fill).Color = Colors.Green;
 
             }
             
-            Console.WriteLine("Table_MouseDown2");
+            //Console.WriteLine("Table_MouseDown");
         }
 
         private void Table_MouseUp(object sender, MouseButtonEventArgs e)
@@ -161,7 +165,7 @@ namespace WpfApp1
                     circle.SetValue(Canvas.LeftProperty, previousPt.X );
                     circle.SetValue(Canvas.TopProperty, previousPt.Y);
                     pointList.Add(circle.Center);
-
+                    Console.WriteLine(pointList.Count);
                     SolidYellowCircle(circle);
                 }
                 else
@@ -174,8 +178,9 @@ namespace WpfApp1
             }
             
             circle.ReleaseMouseCapture();
-            
-            Console.WriteLine("Table_MouseUp");
+            selectedCircle = null;
+
+            //Console.WriteLine("Table_MouseUp");
         }
 
         
@@ -184,19 +189,30 @@ namespace WpfApp1
         {
             ContentPresenter parent = (ContentPresenter)VisualTreeHelper.GetParent((Canvas)sender);
             var parent2 = VisualTreeHelper.GetParent(VisualTreeHelper.GetParent(parent));
-            Console.WriteLine(parent2);
+            //Console.WriteLine(parent2);
         }
 
-        public bool Overlap(Point point)
+        public bool AllowRelease(Circle circle, Point point)
         {
+            if (!circle.Added)
+            {
+                pointList.Add(deleteButton.Center);
+                //Console.WriteLine(pointList.Count);
+            }
+
             foreach (Point otherPoint in pointList)
             {
                 if ((Math.Abs(point.X - otherPoint.X) < diameter) 
                     && (Math.Abs(point.Y - otherPoint.Y) < diameter))
                 {
+                    pointList.Remove(deleteButton.Center);
+                    //Console.WriteLine(pointList.Count);
                     return true;
                 }
             }
+
+            pointList.Remove(deleteButton.Center);
+            //Console.WriteLine(pointList.Count);
             return false;
         }
 
