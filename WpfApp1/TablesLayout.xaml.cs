@@ -37,6 +37,8 @@ namespace WpfApp1
         List<Point> pointList;
 
         Circle selectedCircle;
+
+        Object objectLock;
         
         public TablesLayout()
         {
@@ -63,8 +65,8 @@ namespace WpfApp1
             newTable = new Circle();
 
             //how the new circle look
-            xDistance = 10.0;
-            yDistance = 10.0;
+            xDistance = radius/2;
+            yDistance = radius/2;
             newTable.SetValue(Canvas.RightProperty, xDistance);
             newTable.SetValue(Canvas.BottomProperty, yDistance);
             SolidColorBrush myBrush = new SolidColorBrush()
@@ -80,12 +82,13 @@ namespace WpfApp1
             canvas.Children.Add(newTable);
             ChangeZIndex(newTable, 3);
             newTable.CaptureMouse();
-            selectedCircle = newTable;
+            ChangeSelectedCricle(newTable);
 
             //add listener
             newTable.MouseMove += Table_MouseMove;
             newTable.MouseUp += Table_MouseUp;
-            newTable.MouseDown += Table_MouseDownAsync;           
+            newTable.MouseDown += Table_MouseDownAsync;
+            newTable.MouseLeave += Table_MouseLeave;
         }
 
         private void Table_MouseMove(object sender, MouseEventArgs e)
@@ -95,11 +98,12 @@ namespace WpfApp1
             {
                 Point point = e.GetPosition(canvas);
                 //Circle newTable = (Circle)sender;
+                Console.Write("MouseMove");
                 circle.SetValue(Canvas.LeftProperty, point.X - (radius + xDistance));
                 circle.SetValue(Canvas.TopProperty, point.Y - (radius + yDistance));
 
-                Console.WriteLine(circle.GetValue(Canvas.LeftProperty));
-                Console.WriteLine(circle.GetValue(Canvas.TopProperty));
+                Console.Write("x:"+circle.GetValue(Canvas.LeftProperty));
+                Console.WriteLine(" y: "+circle.GetValue(Canvas.TopProperty));
 
                 point.X = point.X - xDistance;
                 point.Y = point.Y - yDistance;
@@ -113,19 +117,30 @@ namespace WpfApp1
                 {
                     ((SolidColorBrush)((Circle)sender).circleUI.Fill).Color = Colors.Red;
                 }
-                //Console.WriteLine("MouseMove");
+                //
             }
 
             e.Handled = true;
 
         }
 
+        private void Table_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ChangeSelectedCricle(null);
+            objectLock = null;
+        }
+
         private async void Table_MouseDownAsync(object sender, MouseButtonEventArgs e)
         {
             Circle circle = (Circle)sender;
-       
+            selectedCircle = circle;
+            objectLock = new object();
+            Object objectLock2 = objectLock;
+
+            //hold for 1 second, if mouse le
             await HoldDelay();
-            if (circle.IsMouseOver && e.LeftButton == MouseButtonState.Pressed)
+
+            if (circle.IsMouseOver && e.LeftButton == MouseButtonState.Pressed && objectLock==objectLock2)
             {
                 ChangeZIndex(circle, 3);
                 circle.CaptureMouse();
@@ -134,12 +149,11 @@ namespace WpfApp1
                 //Console.WriteLine(pointList.Count);
                 previousPt.X = (Double)(circle.GetValue(Canvas.LeftProperty));
                 previousPt.Y = (Double)(circle.GetValue(Canvas.TopProperty));
-                selectedCircle = circle;
+                
 
                 xDistance = e.GetPosition(canvas).X - circle.Center.X;
                 yDistance = e.GetPosition(canvas).Y - circle.Center.Y;
-                Console.WriteLine(circle.GetValue(Canvas.LeftProperty));
-                Console.WriteLine(circle.GetValue(Canvas.TopProperty));
+                
                 circle.Opacity = 0.5;
                 ((SolidColorBrush)circle.circleUI.Fill).Color = Colors.Green;
 
@@ -186,13 +200,12 @@ namespace WpfApp1
             }
             
             circle.ReleaseMouseCapture();
-            selectedCircle = null;
-
+            ChangeSelectedCricle(null);
+            objectLock = null;
             //Console.WriteLine("Table_MouseUp");
         }
 
-        
-            
+          
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             ContentPresenter parent = (ContentPresenter)VisualTreeHelper.GetParent((Canvas)sender);
@@ -245,9 +258,22 @@ namespace WpfApp1
             circle.SetValue(Panel.ZIndexProperty, i);
         }
 
+        private void HoldDelayOuter()
+        {
+            HoldDelay();
+            Console.WriteLine(" HoldDelayOuter");
+
+        }
+
         private async Task HoldDelay()
         {
-            await Task.Delay(1000);   
+            await Task.Delay(1000);
+            Console.WriteLine("after 1 second");
+        }
+
+        private void ChangeSelectedCricle(Circle circle)
+        {
+            selectedCircle = circle;
         }
     }
 }
