@@ -52,11 +52,11 @@ namespace WpfApp1
             radius = diameter/2;
 
             addButton.Center = new Point(canvas.Width - radius, canvas.Height - radius);
+            pointList.Add(addButton.Center);
+
             deleteButton.Center = new Point(radius, canvas.Height - radius);
             deleteButton.circleUI.Fill = new SolidColorBrush(Colors.Red);
 
-            pointList.Add(addButton.Center);
-            Console.WriteLine(pointList.Count);
             //pointList.Add(deleteButton.Center);
         }
 
@@ -98,13 +98,11 @@ namespace WpfApp1
             {
                 Point point = e.GetPosition(canvas);
                 //Circle newTable = (Circle)sender;
-                Console.Write("MouseMove");
+ 
                 circle.SetValue(Canvas.LeftProperty, point.X - (radius + xDistance));
                 circle.SetValue(Canvas.TopProperty, point.Y - (radius + yDistance));
 
-                Console.Write("x:"+circle.GetValue(Canvas.LeftProperty));
-                Console.WriteLine(" y: "+circle.GetValue(Canvas.TopProperty));
-
+              
                 point.X = point.X - xDistance;
                 point.Y = point.Y - yDistance;
 
@@ -143,19 +141,27 @@ namespace WpfApp1
             if (circle.IsMouseOver && e.LeftButton == MouseButtonState.Pressed && objectLock==objectLock2)
             {
                 ChangeZIndex(circle, 3);
-                circle.CaptureMouse();
+
+                previousPt.X = (Double)(circle.GetValue(Canvas.LeftProperty));
+                previousPt.Y = (Double)(circle.GetValue(Canvas.TopProperty));
+
+                
                 pointList.Remove(circle.Center);
 
                 //Console.WriteLine(pointList.Count);
-                previousPt.X = (Double)(circle.GetValue(Canvas.LeftProperty));
-                previousPt.Y = (Double)(circle.GetValue(Canvas.TopProperty));
+                
                 
 
                 xDistance = e.GetPosition(canvas).X - circle.Center.X;
                 yDistance = e.GetPosition(canvas).Y - circle.Center.Y;
-                
+
+                Console.WriteLine("left x: " + previousPt.X + " center x: " + circle.Center.X);
+                Console.WriteLine("left y: " + previousPt.Y + " center y: " + circle.Center.Y);
+
                 circle.Opacity = 0.5;
                 ((SolidColorBrush)circle.circleUI.Fill).Color = Colors.Green;
+
+                circle.CaptureMouse();  
 
             }
             
@@ -187,7 +193,7 @@ namespace WpfApp1
                     circle.SetValue(Canvas.LeftProperty, previousPt.X );
                     circle.SetValue(Canvas.TopProperty, previousPt.Y);
                     pointList.Add(circle.Center);
-                    Console.WriteLine(pointList.Count);
+                    
                     SolidYellowCircle(circle);
                 }
                 else if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Green)
@@ -227,13 +233,13 @@ namespace WpfApp1
                     && (Math.Abs(point.Y - otherPoint.Y) < diameter))
                 {
                     pointList.Remove(deleteButton.Center);
-                    //Console.WriteLine(pointList.Count);
+                    
                     return true;
                 }
             }
 
             pointList.Remove(deleteButton.Center);
-            //Console.WriteLine(pointList.Count);
+           
             return false;
         }
 
@@ -243,6 +249,10 @@ namespace WpfApp1
             Double y = (Double)circle.GetValue(Canvas.TopProperty) + radius;
             Point newPoint = new Point(x, y);
             circle.Center = newPoint;
+
+            Console.WriteLine("In add: left x: " + (Double)circle.GetValue(Canvas.LeftProperty) + " center x: " + circle.Center.X);
+            Console.WriteLine("In add: left y: " + (Double)circle.GetValue(Canvas.TopProperty) + " center y: " + circle.Center.Y);
+
             pointList.Add(newPoint);
         }
 
@@ -268,7 +278,7 @@ namespace WpfApp1
         private async Task HoldDelay()
         {
             await Task.Delay(1000);
-            Console.WriteLine("after 1 second");
+          
         }
 
         private void ChangeSelectedCricle(Circle circle)
