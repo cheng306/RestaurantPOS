@@ -38,6 +38,7 @@ namespace WpfApp1
 
         Circle selectedCircle;
 
+
         Object objectLock;
         
         public TablesLayout()
@@ -57,7 +58,6 @@ namespace WpfApp1
             deleteButton.Center = new Point(radius, canvas.Height - radius);
             deleteButton.circleUI.Fill = new SolidColorBrush(Colors.Red);
 
-            //pointList.Add(deleteButton.Center);
         }
 
         private void AddButton_MouseDown(object sender, MouseButtonEventArgs e)
@@ -148,9 +148,6 @@ namespace WpfApp1
                 
                 pointList.Remove(circle.Center);
 
-                //Console.WriteLine(pointList.Count);
-                
-                
 
                 xDistance = e.GetPosition(canvas).X - circle.Center.X;
                 yDistance = e.GetPosition(canvas).Y - circle.Center.Y;
@@ -268,17 +265,9 @@ namespace WpfApp1
             circle.SetValue(Panel.ZIndexProperty, i);
         }
 
-        private void HoldDelayOuter()
-        {
-            HoldDelay();
-            Console.WriteLine(" HoldDelayOuter");
-
-        }
-
         private async Task HoldDelay()
         {
-            await Task.Delay(1000);
-          
+            await Task.Delay(1000);         
         }
 
         private void ChangeSelectedCricle(Circle circle)
