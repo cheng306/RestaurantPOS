@@ -36,9 +36,6 @@ namespace WpfApp1
         //a list of all centers of circles. Used for Overlap detection
         List<Point> pointList;
 
-        Circle selectedCircle;
-
-
         Object objectLock;
         
         public TablesLayout()
@@ -58,6 +55,18 @@ namespace WpfApp1
             deleteButton.Center = new Point(radius, canvas.Height - radius);
             deleteButton.circleUI.Fill = new SolidColorBrush(Colors.Red);
 
+            deleteButton.MouseEnter += DeleteButton_MouseEnter;
+
+        }
+
+        private void DeleteButton_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Console.WriteLine("DeleteButton_up");
+        }
+
+        private void DeleteButton_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Console.WriteLine("DeleteButton_enter");
         }
 
         private void AddButton_MouseDown(object sender, MouseButtonEventArgs e)
@@ -82,7 +91,6 @@ namespace WpfApp1
             canvas.Children.Add(newTable);
             ChangeZIndex(newTable, 3);
             newTable.CaptureMouse();
-            ChangeSelectedCricle(newTable);
 
             //add listener
             newTable.MouseMove += Table_MouseMove;
@@ -115,7 +123,7 @@ namespace WpfApp1
                 {
                     ((SolidColorBrush)((Circle)sender).circleUI.Fill).Color = Colors.Red;
                 }
-                //
+        
             }
 
             e.Handled = true;
@@ -124,14 +132,12 @@ namespace WpfApp1
 
         private void Table_MouseLeave(object sender, MouseEventArgs e)
         {
-            ChangeSelectedCricle(null);
             objectLock = null;
         }
 
         private async void Table_MouseDownAsync(object sender, MouseButtonEventArgs e)
         {
             Circle circle = (Circle)sender;
-            selectedCircle = circle;
             objectLock = new object();
             Object objectLock2 = objectLock;
 
@@ -158,6 +164,8 @@ namespace WpfApp1
                 circle.Opacity = 0.5;
                 ((SolidColorBrush)circle.circleUI.Fill).Color = Colors.Green;
 
+                
+
                 circle.CaptureMouse();  
 
             }
@@ -175,7 +183,7 @@ namespace WpfApp1
                 {
                     canvas.Children.Remove(circle);
                 }
-                else
+                else 
                 {
                     AddNewCoordinate(circle);
                     SolidYellowCircle(circle);
@@ -195,17 +203,24 @@ namespace WpfApp1
                 }
                 else if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Green)
                 {
+                    double x = e.GetPosition(canvas).X;
+                    double y = e.GetPosition(canvas).Y;
+                    
                     AddNewCoordinate(circle);
                     SolidYellowCircle(circle);
               
                     //Console.WriteLine("MouseUp with successfully move a circle");
                 }
+                else //if yellow do nothing
+                {
+                   
+                }
             }
             
             circle.ReleaseMouseCapture();
-            ChangeSelectedCricle(null);
             objectLock = null;
-            //Console.WriteLine("Table_MouseUp");
+            Console.WriteLine("Table_MouseUp");
+
         }
 
           
@@ -216,8 +231,21 @@ namespace WpfApp1
             //Console.WriteLine(parent2);
         }
 
+        /*
+         * circle is the moving circle object
+         * point is the center point of moving cirlce
+         * 
+         * AllowRelease composed of 2 parts
+         * Part1) check if circle move out of boundry
+         * Part2) check if overlap with other circles
+         */
         public bool AllowRelease(Circle circle, Point point)
         {
+            if (point.X < radius || point.X > canvas.Width - radius || point.Y < radius || point.Y > canvas.Height - radius)
+            {
+                return true;
+            }
+
             if (!circle.Added)
             {
                 pointList.Add(deleteButton.Center);
@@ -235,6 +263,7 @@ namespace WpfApp1
                 }
             }
 
+            // will remove deleteButton center if exist. Will do nothing if deleteButton not exist
             pointList.Remove(deleteButton.Center);
            
             return false;
@@ -270,9 +299,6 @@ namespace WpfApp1
             await Task.Delay(1000);         
         }
 
-        private void ChangeSelectedCricle(Circle circle)
-        {
-            selectedCircle = circle;
-        }
+        
     }
 }

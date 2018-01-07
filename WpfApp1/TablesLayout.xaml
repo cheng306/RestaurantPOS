@@ -25,6 +25,8 @@
             x:Name="deleteButton" 
             Canvas.Left="0" 
             Canvas.Bottom="0"
+            MouseUp="DeleteButton_MouseUp"
+            
             Panel.ZIndex="2"/>
 
 
