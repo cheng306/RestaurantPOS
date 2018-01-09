@@ -164,8 +164,6 @@ namespace WpfApp1
                 circle.Opacity = 0.5;
                 ((SolidColorBrush)circle.circleUI.Fill).Color = Colors.Green;
 
-                
-
                 circle.CaptureMouse();  
 
             }
@@ -203,11 +201,35 @@ namespace WpfApp1
                 }
                 else if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Green)
                 {
-                    double x = e.GetPosition(canvas).X;
-                    double y = e.GetPosition(canvas).Y;
+                    Double x = (Double)circle.GetValue(Canvas.LeftProperty) + radius;
+                    Double y = (Double)circle.GetValue(Canvas.TopProperty) + radius;
+
+                    if (x - deleteButton.Center.X < diameter && y - deleteButton.Center.Y < diameter)
+                    {
+                        MessageBoxResult mResult = MessageBox.Show("Do You want to DELETE this Table", "Delete the table", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.No);
+                        switch (mResult)
+                        {
+                            case MessageBoxResult.Yes:
+                                canvas.Children.Remove(circle);
+                                break;
+                            case MessageBoxResult.No:
+                                restoreOriginalCoordinate(circle);
+                                SolidYellowCircle(circle);
+                                break;
+                            case MessageBoxResult.Cancel:
+                                restoreOriginalCoordinate(circle);
+                                SolidYellowCircle(circle);
+                                break;
+
+                        }
+                    }
+                    else
+                    {
+                        AddNewCoordinate(circle);
+                        SolidYellowCircle(circle);
+                    }
+
                     
-                    AddNewCoordinate(circle);
-                    SolidYellowCircle(circle);
               
                     //Console.WriteLine("MouseUp with successfully move a circle");
                 }
@@ -299,6 +321,17 @@ namespace WpfApp1
             await Task.Delay(1000);         
         }
 
-        
+        /*
+         * 1) restore circle to its original coordinate
+         * 2) add the coordinate of the circle to pointList
+         */
+        private void restoreOriginalCoordinate(Circle circle)
+        {
+            circle.SetValue(Canvas.LeftProperty, previousPt.X);
+            circle.SetValue(Canvas.TopProperty, previousPt.Y);
+            pointList.Add(circle.Center);
+        }
+
+
     }
 }
