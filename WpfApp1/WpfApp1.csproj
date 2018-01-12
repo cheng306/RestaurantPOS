@@ -57,6 +57,7 @@
     <Compile Include="Circle.xaml.cs">
       <DependentUpon>Circle.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Table.cs" />
     <Compile Include="TablesLayout.xaml.cs">
       <DependentUpon>TablesLayout.xaml</DependentUpon>

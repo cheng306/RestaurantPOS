@@ -29,6 +29,10 @@
             
             Panel.ZIndex="2"/>
 
+        <TextBlock x:Name="tb" Text="abc">
+            
+        </TextBlock>
+
 
 
 

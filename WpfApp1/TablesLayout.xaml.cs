@@ -36,7 +36,7 @@ namespace WpfApp1
         //a list of all centers of circles. Used for Overlap detection
         List<Point> pointList;
 
-        Object objectLock;
+        Object auxObject;
         
         public TablesLayout()
         {
@@ -57,6 +57,13 @@ namespace WpfApp1
 
             deleteButton.MouseEnter += DeleteButton_MouseEnter;
 
+           
+
+
+            var a = LogicalTreeHelper.GetParent(canvas);
+            var b = LogicalTreeHelper.GetParent(a);
+            Console.WriteLine(a);
+            Console.WriteLine(b);
         }
 
         private void DeleteButton_MouseUp(object sender, MouseButtonEventArgs e)
@@ -132,19 +139,19 @@ namespace WpfApp1
 
         private void Table_MouseLeave(object sender, MouseEventArgs e)
         {
-            objectLock = null;
+            auxObject = null;
         }
 
         private async void Table_MouseDownAsync(object sender, MouseButtonEventArgs e)
         {
             Circle circle = (Circle)sender;
-            objectLock = new object();
-            Object objectLock2 = objectLock;
+            auxObject = new object();
+            Object auxObject2 = auxObject;
 
             //hold for 1 second, if mouse le
             await HoldDelay();
 
-            if (circle.IsMouseOver && e.LeftButton == MouseButtonState.Pressed && objectLock==objectLock2)
+            if (circle.IsMouseOver && e.LeftButton == MouseButtonState.Pressed && auxObject == auxObject2)
             {
                 ChangeZIndex(circle, 3);
 
@@ -193,10 +200,7 @@ namespace WpfApp1
             {
                 if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Red)
                 {
-                    circle.SetValue(Canvas.LeftProperty, previousPt.X );
-                    circle.SetValue(Canvas.TopProperty, previousPt.Y);
-                    pointList.Add(circle.Center);
-                    
+                    restoreOriginalCoordinate(circle);
                     SolidYellowCircle(circle);
                 }
                 else if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Green)
@@ -228,19 +232,15 @@ namespace WpfApp1
                         AddNewCoordinate(circle);
                         SolidYellowCircle(circle);
                     }
-
-                    
-              
-                    //Console.WriteLine("MouseUp with successfully move a circle");
                 }
-                else //if yellow do nothing
+                else //if yellow color
                 {
-                   
+                   //do nothing
                 }
             }
             
             circle.ReleaseMouseCapture();
-            objectLock = null;
+            auxObject = null;
             Console.WriteLine("Table_MouseUp");
 
         }
