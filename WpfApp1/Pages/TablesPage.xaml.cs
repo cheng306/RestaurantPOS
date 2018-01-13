@@ -12,13 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1;
 
-namespace WpfApp1
+namespace WpfApp1.Pages
 {
     /// <summary>
     /// Interaction logic for Table.xaml
     /// </summary>
-    public partial class TablesLayout: UserControl
+    public partial class TablesPage: UserControl
     {
         Circle newTable;  
         Point previousPt;
@@ -38,7 +39,7 @@ namespace WpfApp1
 
         Object auxObject;
         
-        public TablesLayout()
+        public TablesPage()
         {
             InitializeComponent();
 

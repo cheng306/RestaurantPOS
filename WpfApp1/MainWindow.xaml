@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
+        xmlns:page="clr-namespace:WpfApp1.Pages"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="600">
     <Grid AllowDrop="True">
@@ -13,7 +14,7 @@
             </TabItem>
             <TabItem 
                 Header="Table">
-                <local:TablesLayout/>
+                <page:TablesPage/>
 
             </TabItem>
             <TabItem Header="Edit">
