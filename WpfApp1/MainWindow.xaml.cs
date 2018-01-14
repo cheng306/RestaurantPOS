@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1.Models;
 
 namespace WpfApp1
 {
@@ -23,6 +25,11 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
+            Console.WriteLine("================start==================");
+            String path = System.IO.Directory.GetCurrentDirectory();
+            Console.WriteLine(System.IO.Directory.GetParent(path));
+            Console.WriteLine(Directory.GetCurrentDirectory());
+
         }
 
 
