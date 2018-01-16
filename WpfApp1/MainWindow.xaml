@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:WpfApp1"
         xmlns:page="clr-namespace:WpfApp1.Pages"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="600">
+        Title="MainWindow" 
+        Height="600" 
+        Width="600"
+        Closing="Window_Closing">
     <Grid AllowDrop="True">
         <TabControl>
             <TabItem Header="Main">

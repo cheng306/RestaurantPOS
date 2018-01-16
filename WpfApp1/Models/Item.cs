@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace WpfApp1.Models
 {
-    class Item
+    public class Item
     {
         public string Name{ get;set;}
 
-        public string category { get; set; }
+        public string Category { get; set; }
 
         public double Price { get; set; }
     }
