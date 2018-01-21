@@ -5,21 +5,37 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfApp1.Pages"
+             xmlns:converter="clr-namespace:WpfApp1.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="300" 
              d:DesignWidth="300">
-    <Grid >
-        <ListView>
+    <UserControl.Resources>
+        <converter:OneFourth x:Key="OneFourth"/>
+    </UserControl.Resources>
+    <Grid x:Name="grid" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <ListView x:Name="itemListView" Width="Auto " Grid.Row="0">
             <ListView.View>
                 <GridView>
+                    <GridViewColumn 
+                        Width="{Binding ElementName=editPage, Path=Width}"
+                        Header="Name"  
+                        DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn  
+                        Header="Cetegory"  
+                        DisplayMemberBinding="{Binding Category}" />
+                    <GridViewColumn  
+                        Header="Price"  
+                        DisplayMemberBinding="{Binding Price}" />
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button 
-            x:Name="btn" 
-            Click="Button_Click">
-            Button
-        </Button>
+        <WrapPanel HorizontalAlignment="Center" Grid.Row="1">
+            <TextBlock x:Name="tb1" Text="{Binding ElementName=grid, Path=Width }" />
+        </WrapPanel>
 
 
     </Grid>

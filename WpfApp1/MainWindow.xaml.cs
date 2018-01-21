@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -23,16 +24,25 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        //database directory
-        DirectoryInfo dbDirectory;
+  
+        //path of the itemlist.xml
         String itemListXmlPath;
+
+
+
+        XmlSerializer listSerializer;
 
         public MainWindow()
         {
             InitializeComponent();
-            Console.WriteLine("================start==================");
+
+            Console.WriteLine("================Window start==================");
+            
+
             DirectoryInfo dbDirectory = new DirectoryInfo("db");
             itemListXmlPath = @"db\itemlist.xml";
+
+            listSerializer = new XmlSerializer(typeof(ObservableCollection<Item>));
 
             if (!dbDirectory.Exists)
             {
@@ -41,23 +51,25 @@ namespace WpfApp1
 
             if (File.Exists(itemListXmlPath))
             {
-                XmlSerializer reader = new XmlSerializer(typeof(List<Item>));
+                
+                StreamReader streamReader = new StreamReader(itemListXmlPath);
+                editPage.itemList2 = (ObservableCollection<Item>)listSerializer.Deserialize(streamReader);
+                streamReader.Close();
 
+                Console.WriteLine("itemList loaded");
             }
             else
             {
+                
+                editPage.itemList2 = new ObservableCollection<Item>();
+
                 Console.WriteLine("itemList created");
-                editPage.itemList = new List<Item>();
             }
 
-            
 
 
-            //DirectoryInfo di2 = di.Parent;
-
-
-            //Console.WriteLine(di2.Name);
-            //Console.WriteLine(di2.FullName);
+            editPage.itemList2.Add(new Item { Name = "asd", Category="asds", Price = 12.6 });
+            editPage.itemListView.ItemsSource = editPage.itemList2;
 
         }
 
@@ -67,14 +79,14 @@ namespace WpfApp1
 
 
 
-            XmlSerializer writer = new XmlSerializer(typeof(List<Item>));
+            //XmlSerializer writer = new XmlSerializer(typeof(List<Item>));
 
             
-            Console.WriteLine(itemListXmlPath);
+            
             FileStream fs = File.Create(itemListXmlPath);
-            List<Item> list = editPage.ItemList;
+            ObservableCollection<Item> list = editPage.itemList2;
 
-            writer.Serialize(fs, list);
+            listSerializer.Serialize(fs, list);
             fs.Close();
         }
     }

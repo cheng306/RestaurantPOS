@@ -28,13 +28,15 @@ namespace WpfApp1.Pages
         public EditPage()
         {
             InitializeComponent();
-            
+            //tb1.DataContext = Application.Current.MainWindow;
+            Console.WriteLine("=========================in editpage=============");
+
+      
+
+
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            itemList.Add(new Item { Name = "sdf", Category = "sdf", Price = 12.2 });
-        }
+       
 
         public List<Item> ItemList
         {

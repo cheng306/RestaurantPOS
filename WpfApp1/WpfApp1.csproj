@@ -57,6 +57,7 @@
     <Compile Include="Circle.xaml.cs">
       <DependentUpon>Circle.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\OneFourth.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Table.cs" />
     <Compile Include="Pages\EditPage.xaml.cs">
@@ -117,7 +118,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Database\" />
+    <Folder Include="Windows\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
