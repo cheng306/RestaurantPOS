@@ -28,8 +28,7 @@ namespace WpfApp1
         //path of the itemlist.xml
         String itemListXmlPath;
 
-
-
+        //Serializer used to serialize and deserialize ObservableCollection<Item>
         XmlSerializer listSerializer;
 
         public MainWindow()
@@ -38,22 +37,23 @@ namespace WpfApp1
 
             Console.WriteLine("================Window start==================");
             
-
+            //open or create the directory
             DirectoryInfo dbDirectory = new DirectoryInfo("db");
-            itemListXmlPath = @"db\itemlist.xml";
-
-            listSerializer = new XmlSerializer(typeof(ObservableCollection<Item>));
-
             if (!dbDirectory.Exists)
             {
                 dbDirectory.Create();
             }
 
+            //locate the path and initialize the serializer
+            itemListXmlPath = @"db\itemlist.xml";
+            listSerializer = new XmlSerializer(typeof(ObservableCollection<Item>));
+
+
             if (File.Exists(itemListXmlPath))
             {
                 
                 StreamReader streamReader = new StreamReader(itemListXmlPath);
-                editPage.itemList2 = (ObservableCollection<Item>)listSerializer.Deserialize(streamReader);
+                editPage.itemList = (ObservableCollection<Item>)listSerializer.Deserialize(streamReader);
                 streamReader.Close();
 
                 Console.WriteLine("itemList loaded");
@@ -61,30 +61,25 @@ namespace WpfApp1
             else
             {
                 
-                editPage.itemList2 = new ObservableCollection<Item>();
+                editPage.itemList = new ObservableCollection<Item>();
 
                 Console.WriteLine("itemList created");
             }
 
 
 
-            editPage.itemList2.Add(new Item { Name = "asd", Category="asds", Price = 12.6 });
-            editPage.itemListView.ItemsSource = editPage.itemList2;
+            editPage.itemList.Add(new Item { Name = "asd", Category="asds", Price = 12.6 });
+            editPage.itemList.Add(new Item { Name = "asd", Category = "asfdgds", Price = 12.6 });
+            editPage.itemList.Add(new Item { Name = "asd", Category = "asdfgds", Price = 12.6 });
+
+            editPage.itemListView.ItemsSource = editPage.itemList;
 
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-
-
-
-
-            //XmlSerializer writer = new XmlSerializer(typeof(List<Item>));
-
-            
-            
+        {     
             FileStream fs = File.Create(itemListXmlPath);
-            ObservableCollection<Item> list = editPage.itemList2;
+            ObservableCollection<Item> list = editPage.itemList;
 
             listSerializer.Serialize(fs, list);
             fs.Close();

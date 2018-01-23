@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -23,34 +24,42 @@ namespace WpfApp1.Pages
     public partial class EditPage : UserControl
     {
 
-        internal List<Item> itemList;
-        internal ObservableCollection<Item> itemList2;
+        //internal List<Item> itemList;
+        internal ObservableCollection<Item> itemList;
         public EditPage()
         {
             InitializeComponent();
             //tb1.DataContext = Application.Current.MainWindow;
             Console.WriteLine("=========================in editpage=============");
 
-      
 
+            Console.WriteLine(grid.ActualWidth);
 
         }
 
-       
-
-        public List<Item> ItemList
+        private void deleteButton_Click(object sender, RoutedEventArgs e)   
         {
-            get
-            {
-                return itemList;
-            }
-            set
-            {
-                this.itemList = value;
-            }
-        }
 
-        
+            IList removeItemsList = itemListView.SelectedItems;
+            Item[] removeItemsArray = new Item[removeItemsList.Count];
+
+            for (int i =0; i< removeItemsList.Count; i++)
+            {
+                removeItemsArray[i] = (Item)removeItemsList[i];
+            }
+
+            for (int i=0; i< removeItemsArray.Length; i++)
+            {
+                itemList.Remove(removeItemsArray[i]);
+            }
+
+
+
+            //foreach (Item i in ilist)
+            //{
+            //    itemList.Remove(i);
+            //}
+        }
     }
 
     

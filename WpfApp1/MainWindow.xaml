@@ -1,4 +1,4 @@
-﻿<Window x:Name="mainWindow" x:Class="WpfApp1.MainWindow"
+﻿ <Window x:Name="mainWindow" x:Class="WpfApp1.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -11,18 +11,30 @@
         Closing="Window_Closing">
     <Grid AllowDrop="True">
         <TabControl>
-            <TabItem Header="Main">
-                
-            </TabItem>
             <TabItem 
+                FontSize="20" 
+                Header="Main" />
+
+
+            <TabItem 
+                FontSize="20"
                 Header="Table">
                 <page:TablesPage/>
 
             </TabItem>
-            <TabItem Header="Edit">
-                <page:EditPage x:Name="editPage" />
+                   
+            <TabItem 
+                FontSize="20"
+                Header="Edit">
+                <ScrollViewer 
+                    HorizontalScrollBarVisibility="Auto">
+                    <page:EditPage x:Name="editPage" />
+                </ScrollViewer>
             </TabItem>
-            <TabItem Header="Sales">
+            
+            <TabItem 
+                FontSize="20"
+                Header="Sales">
 
             </TabItem>
         </TabControl>

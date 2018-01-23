@@ -8,7 +8,8 @@
              xmlns:converter="clr-namespace:WpfApp1.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="300" 
-             d:DesignWidth="300">
+             d:DesignWidth="300"
+             MinWidth="600">
     <UserControl.Resources>
         <converter:OneFourth x:Key="OneFourth"/>
     </UserControl.Resources>
@@ -17,24 +18,37 @@
             <RowDefinition Height="4*" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <ListView x:Name="itemListView" Width="Auto " Grid.Row="0">
+        <ListView x:Name="itemListView"  Grid.Row="0">
             <ListView.View>
                 <GridView>
                     <GridViewColumn 
-                        Width="{Binding ElementName=editPage, Path=Width}"
+                        Width="{Binding ElementName=itemListView, Path=ActualWidth, Converter={StaticResource OneFourth}}"
+                        
                         Header="Name"  
                         DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn  
+                    <GridViewColumn 
+                        Width="{Binding ElementName=itemListView, Path=ActualWidth, Converter={StaticResource OneFourth}}" 
                         Header="Cetegory"  
                         DisplayMemberBinding="{Binding Category}" />
-                    <GridViewColumn  
+                    <GridViewColumn 
+                        Width="{Binding ElementName=itemListView, Path=ActualWidth, Converter={StaticResource OneFourth}}" 
                         Header="Price"  
                         DisplayMemberBinding="{Binding Price}" />
                 </GridView>
             </ListView.View>
         </ListView>
-        <WrapPanel HorizontalAlignment="Center" Grid.Row="1">
-            <TextBlock x:Name="tb1" Text="{Binding ElementName=grid, Path=Width }" />
+        <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1">
+            <Button x:Name="AddButton" Margin="10">
+                Add
+            </Button>
+            <Button 
+                x:Name="deleteButton"
+                Margin="10"
+                Click="deleteButton_Click">
+                Remove
+            </Button>
+            
+            
         </WrapPanel>
 
 
