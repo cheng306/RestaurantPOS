@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         xmlns:page="clr-namespace:WpfApp1.Pages"
+      
         mc:Ignorable="d"
         Title="MainWindow" 
         WindowState="Maximized"
@@ -13,13 +14,17 @@
         <TabControl>
             <TabItem 
                 FontSize="20" 
-                Header="Main" />
-
+                Header="Main">
+                <ScrollViewer 
+                    HorizontalScrollBarVisibility="Auto">
+                    <page:TablesPage/>
+                </ScrollViewer>
+            </TabItem>
 
             <TabItem 
                 FontSize="20"
                 Header="Table">
-                <page:TablesPage/>
+                
 
             </TabItem>
                    
