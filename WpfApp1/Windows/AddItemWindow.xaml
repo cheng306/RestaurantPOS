@@ -5,8 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Windows"
         mc:Ignorable="d"
-        Title="AddItemWindow" Height="300" Width="300">
-    <Grid>
-        
-    </Grid>
+        Title="AddItemWindow"
+        Height="300"
+        Width="300">
+  <Window.Resources>
+    <Style TargetType="Label">
+      <Setter Property="Margin"
+              Value="5" />
+
+    </Style>
+    
+  </Window.Resources>
+  <StackPanel>
+    <Label />
+    <TextBox />
+    <Label />
+    <TextBox />
+    <Label />
+    <TextBox />
+    <WrapPanel>
+      <Button />
+      <Button />
+
+    </WrapPanel>
+
+
+
+  </StackPanel>
 </Window>
