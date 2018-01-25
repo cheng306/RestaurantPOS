@@ -23,8 +23,14 @@
       <ListView.View>
         <GridView>
           <GridViewColumn Width="{Binding ElementName=itemListView, Path=ActualWidth, Converter={StaticResource OneFourth}}"
-                          Header="Name"
-                          DisplayMemberBinding="{Binding Name}" />
+                          DisplayMemberBinding="{Binding Name}">
+            <GridViewColumn.Header>
+              <GridViewColumnHeader Tag="Name"
+                                    Click="GridViewColumnHeader_Click">
+                Name
+              </GridViewColumnHeader>
+            </GridViewColumn.Header>
+          </GridViewColumn>
           <GridViewColumn Width="{Binding ElementName=itemListView, Path=ActualWidth, Converter={StaticResource OneFourth}}"
                           Header="Cetegory"
                           DisplayMemberBinding="{Binding Category}" />
