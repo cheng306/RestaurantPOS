@@ -18,25 +18,36 @@
       <RowDefinition Height="4*" />
       <RowDefinition Height="1*" />
     </Grid.RowDefinitions>
-    <ListView x:Name="itemListView"
+    <ListView x:Name="itemsListView"
               Grid.Row="0">
       <ListView.View>
         <GridView>
-          <GridViewColumn Width="{Binding ElementName=itemListView, Path=ActualWidth, Converter={StaticResource OneFourth}}"
+          <GridViewColumn Width="{Binding ElementName=itemsListView, Path=ActualWidth, Converter={StaticResource OneFourth}}"
                           DisplayMemberBinding="{Binding Name}">
             <GridViewColumn.Header>
-              <GridViewColumnHeader Tag="Name"
+              <GridViewColumnHeader x:Name="nameHeader"
                                     Click="GridViewColumnHeader_Click">
                 Name
               </GridViewColumnHeader>
             </GridViewColumn.Header>
           </GridViewColumn>
-          <GridViewColumn Width="{Binding ElementName=itemListView, Path=ActualWidth, Converter={StaticResource OneFourth}}"
-                          Header="Cetegory"
-                          DisplayMemberBinding="{Binding Category}" />
-          <GridViewColumn Width="{Binding ElementName=itemListView, Path=ActualWidth, Converter={StaticResource OneFourth}}"
-                          Header="Price"
-                          DisplayMemberBinding="{Binding Price}" />
+          <GridViewColumn Width="{Binding ElementName=itemsListView, Path=ActualWidth, Converter={StaticResource OneFourth}}"
+                          DisplayMemberBinding="{Binding Category}">
+            <GridViewColumnHeader x:Name="categoryHeader"
+                                  Click="GridViewColumnHeader_Click">
+              Category
+            </GridViewColumnHeader>
+          </GridViewColumn>
+          <GridViewColumn Width="{Binding ElementName=itemsListView, Path=ActualWidth, Converter={StaticResource OneFourth}}"
+                          DisplayMemberBinding="{Binding Price}">
+            <GridViewColumn.Header>
+              <GridViewColumnHeader x:Name="priceHeader"
+                                    Click="GridViewColumnHeader_Click">
+                Price
+              </GridViewColumnHeader>
+              
+            </GridViewColumn.Header>
+          </GridViewColumn>
         </GridView>
       </ListView.View>
     </ListView>
@@ -47,9 +58,9 @@
               Margin="10">
         Add
       </Button>
-      <Button x:Name="deleteButton"
+      <Button x:Name="DeleteButton"
               Margin="10"
-              Click="deleteButton_Click">
+              Click="DeleteButton_Click">
         Remove
       </Button>
 

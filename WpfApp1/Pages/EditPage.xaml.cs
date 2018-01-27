@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,18 +30,24 @@ namespace WpfApp1.Pages
         public EditPage()
         {
             InitializeComponent();
-            //tb1.DataContext = Application.Current.MainWindow;
+
             Console.WriteLine("=========================in editpage=============");
 
+            nameHeader.Tag = new NameAsec { Name = "Name", Asec = true };
+            categoryHeader.Tag = new NameAsec { Name = "Category", Asec = true };
+            priceHeader.Tag = new NameAsec { Name = "Price", Asec = true };
 
-            Console.WriteLine(grid.ActualWidth);
+            itemsListView.Items.SortDescriptions.Add(new SortDescription("Category", ListSortDirection.Ascending));
+            itemsListView.Items.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+            //itemsListView.Items.SortDescriptions.Clear();
+            
+
 
         }
 
-        private void deleteButton_Click(object sender, RoutedEventArgs e)   
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)   
         {
-
-            IList removeItemsList = itemListView.SelectedItems;
+            IList removeItemsList = itemsListView.SelectedItems;
             Item[] removeItemsArray = new Item[removeItemsList.Count];
 
             for (int i =0; i< removeItemsList.Count; i++)
@@ -52,31 +59,21 @@ namespace WpfApp1.Pages
             {
                 itemList.Remove(removeItemsArray[i]);
             }
-
-
-
  
         }
 
         private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
         {
-            GridViewColumnHeader column = (sender as GridViewColumnHeader);
-            string sortBy = column.Tag.ToString();
-            if (listViewSortCol != null)
-            {
-                AdornerLayer.GetAdornerLayer(listViewSortCol).Remove(listViewSortAdorner);
-                lvUsers.Items.SortDescriptions.Clear();
-            }
+            GridViewColumnHeader header = (GridViewColumnHeader)sender;
 
-            ListSortDirection newDir = ListSortDirection.Ascending;
-            if (listViewSortCol == column && listViewSortAdorner.Direction == newDir)
-                newDir = ListSortDirection.Descending;
-
-            listViewSortCol = column;
-            listViewSortAdorner = new SortAdorner(listViewSortCol, newDir);
-            AdornerLayer.GetAdornerLayer(listViewSortCol).Add(listViewSortAdorner);
-            lvUsers.Items.SortDescriptions.Add(new SortDescription(sortBy, newDir));
+            //itemsListView.Items.SortDescriptions.Add( new SortDescription("Content", ListSortDirection.Descending));
         }
+    }
+
+    internal class NameAsec
+    {
+        internal string Name { get; set; }
+        internal bool Asec { get; set; }
     }
 
     
