@@ -12,7 +12,7 @@ namespace WpfApp1.Converters
     {
         object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Console.WriteLine("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
+            Console.WriteLine(value);
             double multiplier = Convert.ToDouble(parameter);   
             return (double)value * multiplier;
             

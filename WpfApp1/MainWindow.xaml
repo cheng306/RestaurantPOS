@@ -9,7 +9,9 @@
         mc:Ignorable="d"
         Title="MainWindow" 
         WindowState="Maximized"
-        Closing="Window_Closing">
+        Closing="Window_Closing"
+         MinHeight="600"
+         MinWidth="800">
     <Grid AllowDrop="True">
         <TabControl>
             <TabItem 
@@ -31,10 +33,9 @@
             <TabItem 
                 FontSize="20"
                 Header="Edit">
-                <ScrollViewer 
-                    HorizontalScrollBarVisibility="Auto">
-                    <page:EditPage x:Name="editPage" />
-                </ScrollViewer>
+                
+                   <page:EditPage x:Name="editPage" />
+               
             </TabItem>
             
             <TabItem 
