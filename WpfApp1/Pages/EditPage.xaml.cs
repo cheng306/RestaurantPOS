@@ -33,17 +33,18 @@ namespace WpfApp1.Pages
 
             Console.WriteLine("=========================in editpage=============");
 
-            nameHeader.Tag = new NameAsec { Name = "Name", Asec = true };
-            categoryHeader.Tag = new NameAsec { Name = "Category", Asec = true };
-            priceHeader.Tag = new NameAsec { Name = "Price", Asec = true };
+            InitializeHeadersTag();
+            BuildSortDescriptions();
 
-            itemsListView.Items.SortDescriptions.Add(new SortDescription("Category", ListSortDirection.Ascending));
-            itemsListView.Items.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
-            //itemsListView.Items.SortDescriptions.Clear();
+
             
+            //itemsListView.Items.SortDescriptions.Clear();
+
 
 
         }
+
+        
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)   
         {
@@ -68,12 +69,28 @@ namespace WpfApp1.Pages
 
             //itemsListView.Items.SortDescriptions.Add( new SortDescription("Content", ListSortDirection.Descending));
         }
+
+        private void InitializeHeadersTag()
+        {
+            nameHeader.Tag = new NameSortDir { Name = "Name", SortDirection = ListSortDirection.Descending };
+            categoryHeader.Tag = new NameSortDir { Name = "Category", SortDirection = ListSortDirection.Descending };
+            priceHeader.Tag = new NameSortDir { Name = "Price", SortDirection = ListSortDirection.Descending };
+            addTimeHeader.Tag = new NameSortDir { Name = "AddTime", SortDirection = ListSortDirection.Ascending };
+        }
+
+        private void BuildSortDescriptions()
+        {
+            itemsListView.Items.SortDescriptions.Add(new SortDescription("AddTime", ListSortDirection.Ascending));
+            itemsListView.Items.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+            itemsListView.Items.SortDescriptions.Add(new SortDescription("Category", ListSortDirection.Ascending));
+            itemsListView.Items.SortDescriptions.Add(new SortDescription("Price", ListSortDirection.Ascending));
+        }
     }
 
-    internal class NameAsec
+    internal class NameSortDir
     {
         internal string Name { get; set; }
-        internal bool Asec { get; set; }
+        internal ListSortDirection SortDirection { get; set; }
     }
 
     

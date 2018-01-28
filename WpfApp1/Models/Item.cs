@@ -15,5 +15,7 @@ namespace WpfApp1.Models
         public string Category { get; set; }
 
         public double Price { get; set; }
+
+        public DateTime AddTime { get; set; }
     }
 }

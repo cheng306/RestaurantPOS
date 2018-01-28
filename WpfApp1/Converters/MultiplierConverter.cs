@@ -8,16 +8,20 @@ using System.Windows.Data;
 
 namespace WpfApp1.Converters
 {
-    class OneFourth : IValueConverter
+    class MultiplierConverter : IValueConverter
     {
         object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (double)value / 4;
+            Console.WriteLine("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
+            double multiplier = Convert.ToDouble(parameter);   
+            return (double)value * multiplier;
+            
         }
 
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (double)value * 4;
+            double multiplier = Convert.ToDouble(parameter);
+            return (double)value / multiplier;
         }
     }
 }

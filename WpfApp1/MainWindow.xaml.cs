@@ -68,15 +68,15 @@ namespace WpfApp1
 
 
 
-            //editPage.itemList.Add(new Item { Name = "bbb", Category = "aaa", Price = 12.6 });
-            //editPage.itemList.Add(new Item { Name = "www", Category = "aaa", Price = 12.6 });
-            //editPage.itemList.Add(new Item { Name = "ggg", Category = "aaa", Price = 12.6 });
-            //editPage.itemList.Add(new Item { Name = "bbb", Category = "kkk", Price = 12.6 });
-            //editPage.itemList.Add(new Item { Name = "bbb", Category = "bbb", Price = 12.6 });
-            //editPage.itemList.Add(new Item { Name = "bbb", Category = "zzz", Price = 12.6 });
-            //editPage.itemList.Add(new Item { Name = "qqq", Category = "www", Price = 12.6 });
-            //editPage.itemList.Add(new Item { Name = "eee", Category = "rrr", Price = 12.6 });
-            //editPage.itemList.Add(new Item { Name = "ttt", Category = "yyy", Price = 12.6 });
+            editPage.itemList.Add(new Item { Name = "bbb", Category = "aaa", Price = 12.6, AddTime = DateTime.Now });
+            editPage.itemList.Add(new Item { Name = "www", Category = "aaa", Price = 12.6, AddTime = DateTime.Now });
+            editPage.itemList.Add(new Item { Name = "ggg", Category = "aaa", Price = 12.6, AddTime = DateTime.Now });
+            editPage.itemList.Add(new Item { Name = "bbb", Category = "kkk", Price = 12.6, AddTime = DateTime.Now });
+            editPage.itemList.Add(new Item { Name = "bbb", Category = "bbb", Price = 12.6, AddTime = DateTime.Now });
+            editPage.itemList.Add(new Item { Name = "bbb", Category = "zzz", Price = 12.6, AddTime = DateTime.Now });
+            editPage.itemList.Add(new Item { Name = "qqq", Category = "www", Price = 12.6, AddTime = DateTime.Now });
+            editPage.itemList.Add(new Item { Name = "eee", Category = "rrr", Price = 12.6, AddTime = DateTime.Now });
+            editPage.itemList.Add(new Item { Name = "ttt", Category = "yyy", Price = 12.6, AddTime = DateTime.Now });
 
             editPage.itemsListView.ItemsSource = editPage.itemList;
 
