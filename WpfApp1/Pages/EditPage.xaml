@@ -65,9 +65,13 @@
     <WrapPanel VerticalAlignment="Center"
                HorizontalAlignment="Center"
                Height="{Binding ElementName=stackpanel, Path=ActualHeight, Converter={StaticResource Multiplier}, ConverterParameter=0.1}">
-      <Button x:Name="AddButton"
+      <Button x:Name="AddItemButton"
               Margin="10">
-        Add
+        Add Item
+      </Button>
+      <Button x:Name="AddCategoryButton"
+              Margin="10">
+        Add Category
       </Button>
       <Button x:Name="DeleteButton"
               Margin="10"

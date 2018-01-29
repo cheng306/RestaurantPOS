@@ -27,6 +27,8 @@ namespace WpfApp1.Pages
 
         //internal List<Item> itemList;
         internal ObservableCollection<Item> itemList;
+        internal List<string> categoriesList;
+
         public EditPage()
         {
             InitializeComponent();
