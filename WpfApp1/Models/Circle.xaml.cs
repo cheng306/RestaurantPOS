@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfApp1
+namespace WpfApp1.Models
 {
     /// <summary>
     /// Interaction logic for Circle.xaml

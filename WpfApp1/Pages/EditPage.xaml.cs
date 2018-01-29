@@ -36,12 +36,6 @@ namespace WpfApp1.Pages
             InitializeHeadersTag();
             BuildSortDescriptions();
 
-
-            
-            //itemsListView.Items.SortDescriptions.Clear();
-
-
-
         }
 
         
@@ -66,6 +60,33 @@ namespace WpfApp1.Pages
         private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
         {
             GridViewColumnHeader header = (GridViewColumnHeader)sender;
+            SortDescriptionCollection sortDescriptionCollection = itemsListView.Items.SortDescriptions;
+            for (int i=0; i< sortDescriptionCollection.Count; i++)
+            {
+                if (((NameSortDir)header.Tag).Name.Equals(sortDescriptionCollection[i].PropertyName))
+                {
+                    SortDescription oldSortDescription = sortDescriptionCollection[i];
+                    SortDescription newSortDescription; 
+                    for (int j =i; j>0; j--)
+                    {
+                        sortDescriptionCollection[j] = sortDescriptionCollection[j - 1];
+                    }
+
+                    if (oldSortDescription.Direction == ListSortDirection.Ascending)
+                    {
+                        newSortDescription = new SortDescription(oldSortDescription.PropertyName,ListSortDirection.Descending);
+                    }
+                    else
+                    {
+                        newSortDescription = new SortDescription(oldSortDescription.PropertyName, ListSortDirection.Ascending);
+                    }
+
+                    sortDescriptionCollection[0] = newSortDescription;
+                    
+                    break;
+                }
+            }
+
 
             //itemsListView.Items.SortDescriptions.Add( new SortDescription("Content", ListSortDirection.Descending));
         }
@@ -85,6 +106,8 @@ namespace WpfApp1.Pages
             itemsListView.Items.SortDescriptions.Add(new SortDescription("Category", ListSortDirection.Ascending));
             itemsListView.Items.SortDescriptions.Add(new SortDescription("Price", ListSortDirection.Ascending));
         }
+
+       
     }
 
     internal class NameSortDir

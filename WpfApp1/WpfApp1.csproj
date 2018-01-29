@@ -54,7 +54,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Circle.xaml.cs">
+    <Compile Include="Models\Circle.xaml.cs">
       <DependentUpon>Circle.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\MultiplierConverter.cs" />
@@ -69,7 +69,7 @@
     <Compile Include="Windows\AddItemWindow.xaml.cs">
       <DependentUpon>AddItemWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="Circle.xaml">
+    <Page Include="Models\Circle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
