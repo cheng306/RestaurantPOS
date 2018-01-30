@@ -31,7 +31,7 @@ namespace WpfApp1
         XmlSerializer listSerializer;
 
         string categoriesListXmlPath;
-        XmlSerializer CategoriesListSerializer;
+        XmlSerializer categoriesListSerializer;
 
         public MainWindow()
         {
@@ -44,6 +44,10 @@ namespace WpfApp1
 
             //locate the path and initialize the serializer
             ItemsList();
+
+            CategoresList();
+
+            Console.WriteLine(editPage.categoriesList.Count);
 
 
             //editPage.itemList.Add(new Item { Name = "bbb", Category = "aaa", Price = 12.6, AddTime = DateTime.Now });
@@ -96,12 +100,40 @@ namespace WpfApp1
             editPage.itemsListView.ItemsSource = editPage.itemList;
         }
 
+        private void CategoresList()
+        {
+            //locate the path
+            categoriesListXmlPath = @"db\categoreslist.xml";
+
+            //initilize serizlizer
+            categoriesListSerializer = new XmlSerializer(typeof(ObservableCollection<string>));
+
+            if (File.Exists(categoriesListXmlPath))
+            {
+                StreamReader streamReader = new StreamReader(categoriesListXmlPath);
+                editPage.categoriesList = (ObservableCollection<string>)categoriesListSerializer.Deserialize(streamReader);
+                streamReader.Close();
+                Console.WriteLine("categoriesList loaded");
+            }
+            else
+            {
+                editPage.categoriesList = new ObservableCollection<string>();
+                Console.WriteLine("categoriesList created");
+            }
+
+            //editPage.itemsListView.ItemsSource = editPage.itemList;
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {     
             FileStream fs = File.Create(itemListXmlPath);
             ObservableCollection<Item> list = editPage.itemList;
-
             listSerializer.Serialize(fs, list);
+            fs.Close();
+
+            fs = File.Create(categoriesListXmlPath);
+            ObservableCollection<string> categoriesList = editPage.categoriesList;
+            categoriesListSerializer.Serialize(fs, categoriesList);
             fs.Close();
         }
     }

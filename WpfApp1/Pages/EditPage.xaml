@@ -15,59 +15,67 @@
   </UserControl.Resources>
   <StackPanel x:Name="stackpanel">
 
-    
-    <ListView x:Name="itemsListView"
-              Height="{Binding ElementName=stackpanel, Path=ActualHeight, Converter={StaticResource Multiplier}, ConverterParameter=0.8}">
-      <ListView.View>
-        <GridView>
-          <GridViewColumn Width="{Binding ElementName=itemsListView, Path=ActualWidth, Converter={StaticResource Multiplier}, ConverterParameter=0.2}"
-                          DisplayMemberBinding="{Binding Name}">
-            <GridViewColumn.Header>
-              <GridViewColumnHeader x:Name="nameHeader"
-                                    Click="GridViewColumnHeader_Click">
-                Name
-              </GridViewColumnHeader>
-            </GridViewColumn.Header>
-          </GridViewColumn>
-          <GridViewColumn Width="{Binding ElementName=itemsListView, Path=ActualWidth, Converter={StaticResource Multiplier}, ConverterParameter=0.2}"
-                          DisplayMemberBinding="{Binding Category}">
-            <GridViewColumn.Header>
-              <GridViewColumnHeader x:Name="categoryHeader"
-                                    Click="GridViewColumnHeader_Click">
-                Category
-              </GridViewColumnHeader>
-            </GridViewColumn.Header>
-          </GridViewColumn>
-          <GridViewColumn Width="{Binding ElementName=itemsListView, Path=ActualWidth, Converter={StaticResource Multiplier}, ConverterParameter=0.2}"
-                          DisplayMemberBinding="{Binding Price}">
-            <GridViewColumn.Header>
-              <GridViewColumnHeader x:Name="priceHeader"
-                                    Click="GridViewColumnHeader_Click">
-                Price
-              </GridViewColumnHeader>
-            </GridViewColumn.Header>
-          </GridViewColumn>
-          <GridViewColumn Width="{Binding ElementName=itemsListView, Path=ActualWidth, Converter={StaticResource Multiplier}, ConverterParameter=0.2}"
-                          DisplayMemberBinding="{Binding AddTime}">
-            <GridViewColumn.Header>
-              <GridViewColumnHeader x:Name="addTimeHeader"
-                                    Click="GridViewColumnHeader_Click">
-                Added Time
-              </GridViewColumnHeader>
+    <Grid x:Name="upperWrapPanel"
+          Height="{Binding ElementName=stackpanel, Path=ActualHeight, Converter={StaticResource Multiplier}, ConverterParameter=0.8}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="5*"/>
+        <ColumnDefinition Width="1*"/>
+      </Grid.ColumnDefinitions>
+      <ListView x:Name="itemsListView"
+                Grid.Column="0"
+                >
+        <ListView.View>
+          <GridView>
+            <GridViewColumn Width="{Binding ElementName=itemsListView, Path=ActualWidth, Converter={StaticResource Multiplier}, ConverterParameter=0.2}"
+                            DisplayMemberBinding="{Binding Name}">
+              <GridViewColumn.Header>
+                <GridViewColumnHeader x:Name="nameHeader"
+                                      Click="GridViewColumnHeader_Click">
+                  Name
+                </GridViewColumnHeader>
+              </GridViewColumn.Header>
+            </GridViewColumn>
+            <GridViewColumn Width="{Binding ElementName=itemsListView, Path=ActualWidth, Converter={StaticResource Multiplier}, ConverterParameter=0.2}"
+                            DisplayMemberBinding="{Binding Category}">
+              <GridViewColumn.Header>
+                <GridViewColumnHeader x:Name="categoryHeader"
+                                      Click="GridViewColumnHeader_Click">
+                  Category
+                </GridViewColumnHeader>
+              </GridViewColumn.Header>
+            </GridViewColumn>
+            <GridViewColumn Width="{Binding ElementName=itemsListView, Path=ActualWidth, Converter={StaticResource Multiplier}, ConverterParameter=0.2}"
+                            DisplayMemberBinding="{Binding Price}">
+              <GridViewColumn.Header>
+                <GridViewColumnHeader x:Name="priceHeader"
+                                      Click="GridViewColumnHeader_Click">
+                  Price
+                </GridViewColumnHeader>
+              </GridViewColumn.Header>
+            </GridViewColumn>
+            <GridViewColumn Width="{Binding ElementName=itemsListView, Path=ActualWidth, Converter={StaticResource Multiplier}, ConverterParameter=0.2}"
+                            DisplayMemberBinding="{Binding AddTime}">
+              <GridViewColumn.Header>
+                <GridViewColumnHeader x:Name="addTimeHeader"
+                                      Click="GridViewColumnHeader_Click">
+                  Added Time
+                </GridViewColumnHeader>
 
-            </GridViewColumn.Header>
+              </GridViewColumn.Header>
 
-          </GridViewColumn>
-        </GridView>
-      </ListView.View>
-    </ListView>
-
+            </GridViewColumn>
+          </GridView>
+        </ListView.View>
+      </ListView>
+      <ListBox Grid.Column="1"
+               />
+    </Grid>
     <WrapPanel VerticalAlignment="Center"
                HorizontalAlignment="Center"
                Height="{Binding ElementName=stackpanel, Path=ActualHeight, Converter={StaticResource Multiplier}, ConverterParameter=0.1}">
       
       <Button x:Name="AddItemButton"
-              Margin="10"
+              Margin="10,10,10,0"
               Padding="5">
         Add Item
       </Button>

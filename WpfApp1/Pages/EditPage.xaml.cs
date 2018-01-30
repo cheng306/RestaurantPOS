@@ -36,8 +36,13 @@ namespace WpfApp1.Pages
 
             Console.WriteLine("=========================in editpage=============");
 
+
+
             InitializeHeadersTag();
+
             BuildSortDescriptions();
+
+           
 
         }
 
@@ -110,7 +115,10 @@ namespace WpfApp1.Pages
         private void AddCategoryButton_Click(object sender, RoutedEventArgs e)
         {
             AddCategoryWindow addCategoryWindow = new AddCategoryWindow();
-            //if (addCategoryWindow)
+            if (addCategoryWindow.ShowDialog() == true)
+            {
+                categoriesList.Add(addCategoryWindow.Input);
+            }
 
         }
     }
