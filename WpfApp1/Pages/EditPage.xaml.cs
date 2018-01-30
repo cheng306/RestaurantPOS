@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApp1.Models;
+using WpfApp1.Windows;
 
 namespace WpfApp1.Pages
 {
@@ -27,7 +28,7 @@ namespace WpfApp1.Pages
 
         //internal List<Item> itemList;
         internal ObservableCollection<Item> itemList;
-        internal List<string> categoriesList;
+        internal ObservableCollection<string> categoriesList;
 
         public EditPage()
         {
@@ -42,7 +43,7 @@ namespace WpfApp1.Pages
 
         
 
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)   
+        private void DeleteItemButton_Click(object sender, RoutedEventArgs e)   
         {
             IList removeItemsList = itemsListView.SelectedItems;
             Item[] removeItemsArray = new Item[removeItemsList.Count];
@@ -88,9 +89,6 @@ namespace WpfApp1.Pages
                     break;
                 }
             }
-
-
-            //itemsListView.Items.SortDescriptions.Add( new SortDescription("Content", ListSortDirection.Descending));
         }
 
         private void InitializeHeadersTag()
@@ -109,7 +107,12 @@ namespace WpfApp1.Pages
             itemsListView.Items.SortDescriptions.Add(new SortDescription("Price", ListSortDirection.Ascending));
         }
 
-       
+        private void AddCategoryButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddCategoryWindow addCategoryWindow = new AddCategoryWindow();
+            //if (addCategoryWindow)
+
+        }
     }
 
     internal class NameSortDir

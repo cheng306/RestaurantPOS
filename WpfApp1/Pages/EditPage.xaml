@@ -65,18 +65,31 @@
     <WrapPanel VerticalAlignment="Center"
                HorizontalAlignment="Center"
                Height="{Binding ElementName=stackpanel, Path=ActualHeight, Converter={StaticResource Multiplier}, ConverterParameter=0.1}">
+      
       <Button x:Name="AddItemButton"
-              Margin="10">
+              Margin="10"
+              Padding="5">
         Add Item
       </Button>
-      <Button x:Name="AddCategoryButton"
-              Margin="10">
-        Add Category
-      </Button>
+      
       <Button x:Name="DeleteButton"
               Margin="10"
-              Click="DeleteButton_Click">
-        Remove
+              Padding="5"
+              Click="DeleteItemButton_Click">
+        Remove Item
+      </Button>
+
+      <Button x:Name="AddCategoryButton"
+              Margin="10"
+              Padding="5"
+              Click="AddCategoryButton_Click">
+        Add Category
+      </Button>
+
+      <Button x:Name="DeleteCategoryButton"
+              Margin="10"
+              Padding="5">
+         Remove Category
       </Button>
 
 

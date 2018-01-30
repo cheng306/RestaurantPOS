@@ -24,48 +24,26 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-  
-        //path of the itemlist.xml
-        String itemListXmlPath;
+        //path of xml file that store itemsList in Edit Page
+        string itemListXmlPath;
 
         //Serializer used to serialize and deserialize ObservableCollection<Item>
         XmlSerializer listSerializer;
+
+        string categoriesListXmlPath;
+        XmlSerializer CategoriesListSerializer;
 
         public MainWindow()
         {
             InitializeComponent();
 
             Console.WriteLine("================Window start==================");
-            
-            //open or create the directory
-            DirectoryInfo dbDirectory = new DirectoryInfo("db");
-            if (!dbDirectory.Exists)
-            {
-                dbDirectory.Create();
-            }
+
+            //Create the directory for database if not exist
+            CreateDbDirectory();
 
             //locate the path and initialize the serializer
-            itemListXmlPath = @"db\itemlist.xml";
-            listSerializer = new XmlSerializer(typeof(ObservableCollection<Item>));
-
-
-            if (File.Exists(itemListXmlPath))
-            {
-                
-                StreamReader streamReader = new StreamReader(itemListXmlPath);
-                editPage.itemList = (ObservableCollection<Item>)listSerializer.Deserialize(streamReader);
-                streamReader.Close();
-
-                Console.WriteLine("itemList loaded");
-            }
-            else
-            {
-                
-                editPage.itemList = new ObservableCollection<Item>();
-
-                Console.WriteLine("itemList created");
-            }
-
+            ItemsList();
 
 
             //editPage.itemList.Add(new Item { Name = "bbb", Category = "aaa", Price = 12.6, AddTime = DateTime.Now });
@@ -81,8 +59,41 @@ namespace WpfApp1
             //editPage.itemList.Add(new Item { Name = "ccc", Category = "bbb", Price = 12.6, AddTime = DateTime.Now });
             //editPage.itemList.Add(new Item { Name = "ccc", Category = "ccc", Price = 12.6, AddTime = DateTime.Now });
 
-            editPage.itemsListView.ItemsSource = editPage.itemList;
 
+
+        }
+
+        private void CreateDbDirectory()
+        {
+            DirectoryInfo dbDirectory = new DirectoryInfo("db");
+            if (!dbDirectory.Exists)
+            {
+                dbDirectory.Create();
+            }
+        }
+
+        private void ItemsList()
+        {
+            //locate the path
+            itemListXmlPath = @"db\itemlist.xml";
+
+            //initilize serizlizer
+            listSerializer = new XmlSerializer(typeof(ObservableCollection<Item>));
+
+            if (File.Exists(itemListXmlPath))
+            {
+                StreamReader streamReader = new StreamReader(itemListXmlPath);
+                editPage.itemList = (ObservableCollection<Item>)listSerializer.Deserialize(streamReader);
+                streamReader.Close();
+                Console.WriteLine("itemList loaded");
+            }
+            else
+            {
+                editPage.itemList = new ObservableCollection<Item>();
+                Console.WriteLine("itemList created");
+            }
+
+            editPage.itemsListView.ItemsSource = editPage.itemList;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

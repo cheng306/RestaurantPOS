@@ -1,0 +1,35 @@
+﻿<Window x:Class="WpfApp1.Windows.AddCategoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.Windows"
+        mc:Ignorable="d"
+        Title="AddCategoryWindow" 
+        ContentRendered="Window_ContentRendered"
+        Height="250" 
+        Width="400">
+  <StackPanel>
+    <Label Margin="10"
+           FontSize="25"
+           Content="Enter Category Name:" />
+    <TextBox x:Name="inputTextBox"
+             FontSize="25"
+             Margin="10" />
+    <WrapPanel Margin="10"
+               HorizontalAlignment="Center">
+      <Button Content="Add"
+              FontSize="25"
+              Margin="5,5,30,5"
+              Padding="5"
+              HorizontalAlignment="Left"
+              Click="AddButton_Click"/>
+      <Button Content="Cancel"
+              FontSize="25"
+              Padding="5"
+              Margin="30,5,5,5"
+              HorizontalContentAlignment="Right"
+              IsCancel="True"/>
+    </WrapPanel>
+  </StackPanel>
+</Window>
