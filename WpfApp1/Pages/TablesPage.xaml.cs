@@ -115,7 +115,7 @@ namespace WpfApp1.Pages
                 Point point = e.GetPosition(canvas);
                 //Circle newTable = (Circle)sender;
  
-                circle.SetValue(Canvas.LeftProperty, point.X - (radius + xDistance));
+                circle.SetValue(Canvas.LeftProperty, point.X - (radius + xDistance));//Canvas.LeftProperty
                 circle.SetValue(Canvas.TopProperty, point.Y - (radius + yDistance));
 
               
@@ -225,7 +225,6 @@ namespace WpfApp1.Pages
                                 restoreOriginalCoordinate(circle);
                                 SolidYellowCircle(circle);
                                 break;
-
                         }
                     }
                     else

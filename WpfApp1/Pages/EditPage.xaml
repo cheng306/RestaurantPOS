@@ -9,21 +9,34 @@
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
-             MinWidth="800">
+             MinWidth="800"
+             Loaded="EditPage_Loaded">
   <UserControl.Resources>
     <converter:MultiplierConverter x:Key="Multiplier" />
+    <Style TargetType="Button"
+           x:Key="buttonStyle">
+      <Setter Property="Margin"
+              Value="10,10,10,0" />
+      <Setter Property="Padding"
+              Value="5" />
+    </Style>
+           
   </UserControl.Resources>
-  <StackPanel x:Name="stackpanel">
-
+  <Grid x:Name="stackpanel">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="5*" />
+      <RowDefinition Height="1*" />
+    </Grid.RowDefinitions>
     <Grid x:Name="upperWrapPanel"
-          Height="{Binding ElementName=stackpanel, Path=ActualHeight, Converter={StaticResource Multiplier}, ConverterParameter=0.8}">
+          Grid.Row="0">
+      <!--Height="{Binding ElementName=stackpanel, Path=ActualHeight, Converter={StaticResource Multiplier}, ConverterParameter=0.8}"-->
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="5*"/>
         <ColumnDefinition Width="1*"/>
       </Grid.ColumnDefinitions>
       <ListView x:Name="itemsListView"
                 Grid.Column="0"
-                >
+                GotFocus="ItemsListView_GotFocus">
         <ListView.View>
           <GridView>
             <GridViewColumn Width="{Binding ElementName=itemsListView, Path=ActualWidth, Converter={StaticResource Multiplier}, ConverterParameter=0.2}"
@@ -67,42 +80,42 @@
           </GridView>
         </ListView.View>
       </ListView>
-      <ListBox Grid.Column="1"
-               />
+      <ListBox x:Name="categoriesListBox"
+               Grid.Column="1"
+               GotFocus="CategoriesListBox_GotFocus"/>
     </Grid>
     <WrapPanel VerticalAlignment="Center"
                HorizontalAlignment="Center"
-               Height="{Binding ElementName=stackpanel, Path=ActualHeight, Converter={StaticResource Multiplier}, ConverterParameter=0.1}">
-      
-      <Button x:Name="AddItemButton"
-              Margin="10,10,10,0"
-              Padding="5">
+               Grid.Row="1">
+      <!--Height="{Binding ElementName=stackpanel, Path=ActualHeight, Converter={StaticResource Multiplier}, ConverterParameter=0.1}"-->
+      <Button x:Name="addItemButton"
+              Style="{StaticResource buttonStyle}">
         Add Item
       </Button>
       
-      <Button x:Name="DeleteButton"
-              Margin="10"
-              Padding="5"
+      <Button x:Name="deleteItemButton"
+              Style="{StaticResource buttonStyle}"
               Click="DeleteItemButton_Click">
         Remove Item
       </Button>
 
-      <Button x:Name="AddCategoryButton"
-              Margin="10"
-              Padding="5"
-              Click="AddCategoryButton_Click">
-        Add Category
+      <Button x:Name="addCategoryButton"
+              Style="{StaticResource buttonStyle}"
+              Click="AddCategoryButton_Click"
+              Content="Add Category">
+
+
       </Button>
 
-      <Button x:Name="DeleteCategoryButton"
-              Margin="10"
-              Padding="5">
+      <Button x:Name="deleteCategoryButton"
+              Style="{StaticResource buttonStyle}"
+              Click="DeleteCategoryButton_Click">
          Remove Category
       </Button>
 
 
     </WrapPanel>
 
-  </StackPanel>
+  </Grid>
 
 </UserControl>

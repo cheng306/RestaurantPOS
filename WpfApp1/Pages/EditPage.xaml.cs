@@ -37,7 +37,7 @@ namespace WpfApp1.Pages
             Console.WriteLine("=========================in editpage=============");
 
 
-
+            
             InitializeHeadersTag();
 
             BuildSortDescriptions();
@@ -50,18 +50,27 @@ namespace WpfApp1.Pages
 
         private void DeleteItemButton_Click(object sender, RoutedEventArgs e)   
         {
-            IList removeItemsList = itemsListView.SelectedItems;
-            Item[] removeItemsArray = new Item[removeItemsList.Count];
 
-            for (int i =0; i< removeItemsList.Count; i++)
-            {
-                removeItemsArray[i] = (Item)removeItemsList[i];
-            }
+            //Get the selected Items List
+            IList selectedItemsList = itemsListView.SelectedItems;
+            int selectedItemsCount = selectedItemsList.Count;
+            string removeItemsMessage = "Do you want to delete " + selectedItemsCount + " items";
 
-            for (int i=0; i< removeItemsArray.Length; i++)
+            MessageBoxResult mResult = MessageBox.Show(removeItemsMessage, "Delete Items", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.No);
+            if (mResult == MessageBoxResult.Yes)
             {
-                itemList.Remove(removeItemsArray[i]);
+                Item[] removeItemsArray = new Item[selectedItemsCount];
+                for (int i = 0; i < selectedItemsCount; i++)
+                {
+                    removeItemsArray[i] = (Item)selectedItemsList[i];
+                }
+
+                for (int i = 0; i < removeItemsArray.Length; i++)
+                {
+                    itemList.Remove(removeItemsArray[i]);
+                }
             }
+            
  
         }
 
@@ -121,6 +130,41 @@ namespace WpfApp1.Pages
             }
 
         }
+
+        private void DeleteCategoryButton_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine(itemsListView.IsKeyboardFocused);
+            Console.WriteLine(categoriesListBox.IsKeyboardFocused);
+        }
+
+        private void ItemsListView_GotFocus(object sender, RoutedEventArgs e)
+        {
+            deleteItemButton.IsEnabled = true;
+            deleteCategoryButton.IsEnabled = false;
+            Console.WriteLine("ItemsListView gain focus");
+        }
+
+        private void CategoriesListBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            deleteCategoryButton.IsEnabled = true;
+            deleteItemButton.IsEnabled = false; 
+            Console.WriteLine("CategoriesListBox gain focus");
+        }
+
+
+
+
+
+
+        private void EditPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            deleteCategoryButton.IsEnabled = false;
+            deleteItemButton.IsEnabled = false;
+
+            Console.WriteLine("editPage Loaded");
+        }
+
+        
     }
 
     internal class NameSortDir
