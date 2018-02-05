@@ -35,43 +35,26 @@ namespace WpfApp1.Pages
             InitializeComponent();
 
             Console.WriteLine("=========================in editpage=============");
-
-
-            
+   
             InitializeHeadersTag();
 
             BuildSortDescriptions();
-
-           
-
         }
 
-        
-
-        private void DeleteItemButton_Click(object sender, RoutedEventArgs e)   
+        private void InitializeHeadersTag()
         {
+            nameHeader.Tag = new NameSortDir { Name = "Name", SortDirection = ListSortDirection.Descending };
+            categoryHeader.Tag = new NameSortDir { Name = "Category", SortDirection = ListSortDirection.Descending };
+            priceHeader.Tag = new NameSortDir { Name = "Price", SortDirection = ListSortDirection.Descending };
+            addTimeHeader.Tag = new NameSortDir { Name = "AddTime", SortDirection = ListSortDirection.Ascending };
+        }
 
-            //Get the selected Items List
-            IList selectedItemsList = itemsListView.SelectedItems;
-            int selectedItemsCount = selectedItemsList.Count;
-            string removeItemsMessage = "Do you want to delete " + selectedItemsCount + " items";
-
-            MessageBoxResult mResult = MessageBox.Show(removeItemsMessage, "Delete Items", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.No);
-            if (mResult == MessageBoxResult.Yes)
-            {
-                Item[] removeItemsArray = new Item[selectedItemsCount];
-                for (int i = 0; i < selectedItemsCount; i++)
-                {
-                    removeItemsArray[i] = (Item)selectedItemsList[i];
-                }
-
-                for (int i = 0; i < removeItemsArray.Length; i++)
-                {
-                    itemList.Remove(removeItemsArray[i]);
-                }
-            }
-            
- 
+        private void BuildSortDescriptions()
+        {
+            itemsListView.Items.SortDescriptions.Add(new SortDescription("AddTime", ListSortDirection.Ascending));
+            itemsListView.Items.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+            itemsListView.Items.SortDescriptions.Add(new SortDescription("Category", ListSortDirection.Ascending));
+            itemsListView.Items.SortDescriptions.Add(new SortDescription("Price", ListSortDirection.Ascending));
         }
 
         private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
@@ -105,22 +88,6 @@ namespace WpfApp1.Pages
             }
         }
 
-        private void InitializeHeadersTag()
-        {
-            nameHeader.Tag = new NameSortDir { Name = "Name", SortDirection = ListSortDirection.Descending };
-            categoryHeader.Tag = new NameSortDir { Name = "Category", SortDirection = ListSortDirection.Descending };
-            priceHeader.Tag = new NameSortDir { Name = "Price", SortDirection = ListSortDirection.Descending };
-            addTimeHeader.Tag = new NameSortDir { Name = "AddTime", SortDirection = ListSortDirection.Ascending };
-        }
-
-        private void BuildSortDescriptions()
-        {
-            itemsListView.Items.SortDescriptions.Add(new SortDescription("AddTime", ListSortDirection.Ascending));
-            itemsListView.Items.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
-            itemsListView.Items.SortDescriptions.Add(new SortDescription("Category", ListSortDirection.Ascending));
-            itemsListView.Items.SortDescriptions.Add(new SortDescription("Price", ListSortDirection.Ascending));
-        }
-
         private void AddCategoryButton_Click(object sender, RoutedEventArgs e)
         {
             AddCategoryWindow addCategoryWindow = new AddCategoryWindow();
@@ -128,13 +95,52 @@ namespace WpfApp1.Pages
             {
                 categoriesList.Add(addCategoryWindow.Input);
             }
+        }
 
+        private void DeleteItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Get the selected Items List
+            IList selectedItemsList = itemsListView.SelectedItems;
+            int selectedItemsCount = selectedItemsList.Count;
+            string removeItemsMessage = "Do you want to delete " + selectedItemsCount + " items";
+
+            MessageBoxResult mResult = MessageBox.Show(removeItemsMessage, "Delete Items", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.No);
+            if (mResult == MessageBoxResult.Yes)
+            {
+                Item[] removeItemsArray = new Item[selectedItemsCount];
+                for (int i = 0; i < selectedItemsCount; i++)
+                {
+                    removeItemsArray[i] = (Item)selectedItemsList[i];
+                }
+
+                for (int i = 0; i < removeItemsArray.Length; i++)
+                {
+                    itemList.Remove(removeItemsArray[i]);
+                }
+            }
         }
 
         private void DeleteCategoryButton_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine(itemsListView.IsKeyboardFocused);
-            Console.WriteLine(categoriesListBox.IsKeyboardFocused);
+            //Get the selected Items List
+            IList selectedCategoriesList = categoriesListBox.SelectedItems;
+            int selectedCategoriesCount = selectedCategoriesList.Count;
+            string removeCategoriesMessage = "Do you want to delete " + selectedCategoriesCount + " items";
+
+            MessageBoxResult mResult = MessageBox.Show(removeCategoriesMessage, "Delete Categories", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.No);
+            if (mResult == MessageBoxResult.Yes)
+            {
+                string[] removeCategoriesArray = new string[selectedCategoriesCount];
+                for (int i = 0; i < selectedCategoriesCount; i++)
+                {
+                    removeCategoriesArray[i] = (string)selectedCategoriesList[i];
+                }
+
+                for (int i = 0; i < removeCategoriesArray.Length; i++)
+                {
+                    categoriesList.Remove(removeCategoriesArray[i]);
+                }
+            }
         }
 
         private void ItemsListView_GotFocus(object sender, RoutedEventArgs e)
@@ -151,22 +157,17 @@ namespace WpfApp1.Pages
             Console.WriteLine("CategoriesListBox gain focus");
         }
 
-
-
-
-
-
         private void EditPage_Loaded(object sender, RoutedEventArgs e)
         {
             deleteCategoryButton.IsEnabled = false;
             deleteItemButton.IsEnabled = false;
-
             Console.WriteLine("editPage Loaded");
         }
-
-        
+      
     }
 
+
+    //NameSortDir class is for Tag properrty of GridViewColumnHeader
     internal class NameSortDir
     {
         internal string Name { get; set; }

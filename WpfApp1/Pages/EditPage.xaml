@@ -80,9 +80,16 @@
           </GridView>
         </ListView.View>
       </ListView>
-      <ListBox x:Name="categoriesListBox"
-               Grid.Column="1"
-               GotFocus="CategoriesListBox_GotFocus"/>
+      <StackPanel Grid.Column="1"
+                  Margin="5,0,5,0">
+        
+
+        <GridViewColumnHeader Content="Category"/>
+        <ListBox x:Name="categoriesListBox"
+                 SelectionMode="Extended"
+                 GotFocus="CategoriesListBox_GotFocus" />
+      </StackPanel>
+      
     </Grid>
     <WrapPanel VerticalAlignment="Center"
                HorizontalAlignment="Center"
@@ -103,8 +110,6 @@
               Style="{StaticResource buttonStyle}"
               Click="AddCategoryButton_Click"
               Content="Add Category">
-
-
       </Button>
 
       <Button x:Name="deleteCategoryButton"
