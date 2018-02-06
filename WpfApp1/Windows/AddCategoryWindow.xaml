@@ -7,8 +7,10 @@
         mc:Ignorable="d"
         Title="AddCategoryWindow" 
         ContentRendered="Window_ContentRendered"
-        Height="250" 
-        Width="400">
+        Height="300"
+        Width="480"
+        MinHeight="250" 
+        MinWidth="400">
   <StackPanel>
     <Label Margin="10"
            FontSize="25"

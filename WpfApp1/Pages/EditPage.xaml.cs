@@ -88,6 +88,11 @@ namespace WpfApp1.Pages
             }
         }
 
+        private void AddItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddItemWindow addItmWindow = new AddItemWindow();
+        }
+
         private void AddCategoryButton_Click(object sender, RoutedEventArgs e)
         {
             AddCategoryWindow addCategoryWindow = new AddCategoryWindow();
@@ -163,7 +168,8 @@ namespace WpfApp1.Pages
             deleteItemButton.IsEnabled = false;
             Console.WriteLine("editPage Loaded");
         }
-      
+
+        
     }
 
 

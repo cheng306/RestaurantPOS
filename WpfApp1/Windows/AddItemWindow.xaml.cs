@@ -22,6 +22,26 @@ namespace WpfApp1.Windows
         public AddItemWindow()
         {
             InitializeComponent();
+            OtherInitializeSetup();
         }
+
+        private void OtherInitializeSetup()
+        {
+            addButton.IsEnabled = false;     
+        }
+
+        internal String ItemName
+        {
+            get { return nameTextBox.Text; }
+        }
+
+        internal String ItemCategory
+        {
+            get { return nameTextBox.Text; }
+        }
+
+
+
+
     }
 }
