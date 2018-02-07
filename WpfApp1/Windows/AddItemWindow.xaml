@@ -40,10 +40,13 @@
         </Grid.ColumnDefinitions>
         <TextBlock Text="Name" />
         <TextBox x:Name="nameTextBox"
-                 Grid.Column="1" />
-        <TextBlock Grid.Column="2"
+                 Grid.Column="1"
+                 TextChanged="NameTextBox_TextChanged"/>
+        <TextBlock x:Name="nameWarningTextBlock"
+                   Grid.Column="2"
                    Margin="5,0,0,0"
-                   Text="Name cannot be Blank" />
+                   Text="Name cannot be Blank"
+                   Foreground="Red" />
       </Grid>
 
       <Grid Margin="5,10,5,10">
@@ -53,10 +56,14 @@
           <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
         <TextBlock Text="Price" />
-        <TextBox Grid.Column="1" />
-        <TextBlock Grid.Column="2"
+        <TextBox x:Name="priceTextBox"
+                 Grid.Column="1"
+                 TextChanged="PriceTextBox_TextChanged"/>
+        <TextBlock x:Name="priceWarningTextBlock"
+                   Grid.Column="2"
                    Margin="5,0,0,0"
-                   Text="Price need be Numeric" />
+                   Text="Price need be Numeric"
+                   Foreground="Red"/>
       </Grid>
 
       <Grid Margin="5,10,5,10">
@@ -67,10 +74,13 @@
         </Grid.ColumnDefinitions>
         <TextBlock Text="Category" />
         <ComboBox x:Name="categoriesComboBox"
-                  Grid.Column="1" />
-        <TextBlock Grid.Column="2"
+                  Grid.Column="1"
+                  SelectionChanged="CategoriesComboBox_SelectionChanged"/>
+        <TextBlock x:Name="categoryWarningTextBlock"
+                   Grid.Column="2"
                    Margin="5,0,0,0"
-                   Text="Category Cannot be blank" />
+                   Text="Category Cannot be blank" 
+                   Foreground="Red"/>
       </Grid>
 
     </StackPanel>
@@ -81,7 +91,8 @@
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
       <Button x:Name="addButton"
-              Content="Add"/>
+              Content="Add"
+              Click="AddButton_Click"/>
       <Button Content="Cancel"
               IsCancel="True"
               Grid.Column="1" />

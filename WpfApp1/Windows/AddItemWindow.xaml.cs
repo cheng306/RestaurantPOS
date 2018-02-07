@@ -19,6 +19,10 @@ namespace WpfApp1.Windows
     /// </summary>
     public partial class AddItemWindow : Window
     {
+        bool validName;
+        bool validPrice;
+        bool validCategory;
+
         public AddItemWindow()
         {
             InitializeComponent();
@@ -27,7 +31,15 @@ namespace WpfApp1.Windows
 
         private void OtherInitializeSetup()
         {
-            addButton.IsEnabled = false;     
+            addButton.IsEnabled = false;
+
+            nameWarningTextBlock.Visibility = Visibility.Hidden;
+            priceWarningTextBlock.Visibility = Visibility.Hidden;
+            categoryWarningTextBlock.Visibility = Visibility.Hidden;
+
+            validName = false;
+            validPrice = false;
+            validCategory = false;
         }
 
         internal String ItemName
@@ -37,11 +49,69 @@ namespace WpfApp1.Windows
 
         internal String ItemCategory
         {
-            get { return nameTextBox.Text; }
+            get { return (string)categoriesComboBox.SelectedItem; }
         }
 
+        internal double ItemPrice
+        {
+            get { return Double.Parse(priceTextBox.Text); }
+        }
 
+        private void NameTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!nameTextBox.Text.Equals(""))
+            {
+                validName = true;
+                nameWarningTextBlock.Visibility = Visibility.Hidden;
+                UpdateAddButton();
+            }
+            else
+            {
+                validName = false;
+                nameWarningTextBlock.Visibility = Visibility.Visible;
+                UpdateAddButton();
+            }
+        }
 
+        private void PriceTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (Double.TryParse(priceTextBox.Text, out double dump))
+            {
+                validPrice = true;
+                priceWarningTextBlock.Visibility = Visibility.Hidden;
+                UpdateAddButton();
+            }
+            else
+            {
+                validPrice = false;
+                priceWarningTextBlock.Visibility = Visibility.Visible;
+                UpdateAddButton();
+            }
+        }
 
+        private void CategoriesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            validCategory = true;
+            UpdateAddButton();
+        }
+
+        private void UpdateAddButton()
+        {
+            if (validName && validPrice && validCategory)
+            {
+                addButton.IsEnabled = true;
+            }
+            else
+            {
+                addButton.IsEnabled = false;
+            }
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
+        }
+
+        
     }
 }

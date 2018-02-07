@@ -50,19 +50,18 @@ namespace WpfApp1
             Console.WriteLine(editPage.categoriesList.Count);
 
 
-            //editPage.itemList.Add(new Item { Name = "bbb", Category = "aaa", Price = 12.6, AddTime = DateTime.Now });
-            //editPage.itemList.Add(new Item { Name = "www", Category = "aaa", Price = 12.6, AddTime = DateTime.Now });
-            //editPage.itemList.Add(new Item { Name = "ggg", Category = "aaa", Price = 12.6, AddTime = DateTime.Now });
-            //editPage.itemList.Add(new Item { Name = "bbb", Category = "kkk", Price = 12.6, AddTime = DateTime.Now });
-            //editPage.itemList.Add(new Item { Name = "qqq", Category = "lll", Price = 12.6, AddTime = DateTime.Now });
-            //editPage.itemList.Add(new Item { Name = "sss", Category = "lll", Price = 12.6, AddTime = DateTime.Now });
-            //editPage.itemList.Add(new Item { Name = "qqq", Category = "lll", Price = 12.6, AddTime = DateTime.Now });
-            //editPage.itemList.Add(new Item { Name = "eee", Category = "lll", Price = 12.6, AddTime = DateTime.Now });
-            //editPage.itemList.Add(new Item { Name = "ttt", Category = "yyy", Price = 12.6, AddTime = DateTime.Now });
-            //editPage.itemList.Add(new Item { Name = "ccc", Category = "aaa", Price = 12.6, AddTime = DateTime.Now });
-            //editPage.itemList.Add(new Item { Name = "ccc", Category = "bbb", Price = 12.6, AddTime = DateTime.Now });
-            //editPage.itemList.Add(new Item { Name = "ccc", Category = "ccc", Price = 12.6, AddTime = DateTime.Now });
-
+            //editPage.itemsList.Add(new Item { Name = "bbb", Category = "aaa", Price = 12.6, AddTime = DateTime.Now });
+            //editPage.itemsList.Add(new Item { Name = "www", Category = "aaa", Price = 12.6, AddTime = DateTime.Now });
+            //editPage.itemsList.Add(new Item { Name = "ggg", Category = "aaa", Price = 12.6, AddTime = DateTime.Now });
+            //editPage.itemsList.Add(new Item { Name = "bbb", Category = "kkk", Price = 12.6, AddTime = DateTime.Now });
+            //editPage.itemsList.Add(new Item { Name = "qqq", Category = "lll", Price = 12.6, AddTime = DateTime.Now });
+            //editPage.itemsList.Add(new Item { Name = "sss", Category = "lll", Price = 12.6, AddTime = DateTime.Now });
+            //editPage.itemsList.Add(new Item { Name = "qqq", Category = "lll", Price = 12.6, AddTime = DateTime.Now });
+            //editPage.itemsList.Add(new Item { Name = "eee", Category = "lll", Price = 12.6, AddTime = DateTime.Now });
+            //editPage.itemsList.Add(new Item { Name = "ttt", Category = "yyy", Price = 12.6, AddTime = DateTime.Now });
+            //editPage.itemsList.Add(new Item { Name = "ccc", Category = "aaa", Price = 12.6, AddTime = DateTime.Now });
+            //editPage.itemsList.Add(new Item { Name = "ccc", Category = "bbb", Price = 12.6, AddTime = DateTime.Now });
+            
         }
 
         private void CreateDbDirectory()
@@ -85,17 +84,17 @@ namespace WpfApp1
             if (File.Exists(itemListXmlPath))
             {
                 StreamReader streamReader = new StreamReader(itemListXmlPath);
-                editPage.itemList = (ObservableCollection<Item>)listSerializer.Deserialize(streamReader);
+                editPage.itemsList = (ObservableCollection<Item>)listSerializer.Deserialize(streamReader);
                 streamReader.Close();
                 Console.WriteLine("itemList loaded");
             }
             else
             {
-                editPage.itemList = new ObservableCollection<Item>();
+                editPage.itemsList = new ObservableCollection<Item>();
                 Console.WriteLine("itemList created");
             }
 
-            editPage.itemsListView.ItemsSource = editPage.itemList;
+            editPage.itemsListView.ItemsSource = editPage.itemsList;
         }
 
         private void CategoresList()
@@ -125,7 +124,7 @@ namespace WpfApp1
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {     
             FileStream fs = File.Create(itemListXmlPath);
-            ObservableCollection<Item> list = editPage.itemList;
+            ObservableCollection<Item> list = editPage.itemsList;
             listSerializer.Serialize(fs, list);
             fs.Close();
 

@@ -8,30 +8,40 @@
         Title="AddCategoryWindow" 
         ContentRendered="Window_ContentRendered"
         Height="300"
-        Width="480"
-        MinHeight="250" 
+        Width="400"
+        MinHeight="300" 
         MinWidth="400">
   <StackPanel>
-    <Label Margin="10"
+    <TextBlock Margin="10"
            FontSize="25"
-           Content="Enter Category Name:" />
+           Text="Enter Category Name:" />
     <TextBox x:Name="inputTextBox"
              FontSize="25"
-             Margin="10" />
-    <WrapPanel Margin="10"
-               HorizontalAlignment="Center">
-      <Button Content="Add"
+             Margin="10"
+             TextChanged="InputTextBox_TextChanged"/>
+    <TextBlock x:Name="categoryWarningTextBlock"
+               Margin="10"
+               FontSize="25"
+               Text="Category Cannot be Blank"
+               Foreground="Red"/>
+    <Grid Margin="10">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Button x:Name="addButton"
+              Content="Add"
+              Grid.Column="0"
               FontSize="25"
-              Margin="5,5,30,5"
-              Padding="5"
-              HorizontalAlignment="Left"
+              Margin="10"
+              Padding="5" 
               Click="AddButton_Click"/>
       <Button Content="Cancel"
+              Grid.Column="1"
               FontSize="25"
               Padding="5"
-              Margin="30,5,5,5"
-              HorizontalContentAlignment="Right"
+              Margin="10"  
               IsCancel="True"/>
-    </WrapPanel>
+    </Grid>
   </StackPanel>
 </Window>

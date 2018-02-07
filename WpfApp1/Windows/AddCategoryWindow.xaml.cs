@@ -22,11 +22,13 @@ namespace WpfApp1.Windows
         public AddCategoryWindow()
         {
             InitializeComponent();
+            InitializeOther();
         }
 
-        private void AddButton_Click(object sender, RoutedEventArgs e)
+        private void InitializeOther()
         {
-            this.DialogResult = true;
+            addButton.IsEnabled = false;
+            categoryWarningTextBlock.Visibility = Visibility.Hidden;
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)
@@ -34,9 +36,31 @@ namespace WpfApp1.Windows
             inputTextBox.Focus();
         }
 
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
+        }
+
+        private void InputTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (inputTextBox.Text.Equals(""))
+            {
+                addButton.IsEnabled = false;
+                categoryWarningTextBlock.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                addButton.IsEnabled = true;
+                categoryWarningTextBlock.Visibility = Visibility.Hidden;
+            }
+            
+        }
+
+       
+
         public string Input
         {
             get { return inputTextBox.Text; }
-        }   
+        }
     }
 }

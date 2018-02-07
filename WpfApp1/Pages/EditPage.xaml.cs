@@ -27,7 +27,7 @@ namespace WpfApp1.Pages
     {
 
         //internal List<Item> itemList;
-        internal ObservableCollection<Item> itemList;
+        internal ObservableCollection<Item> itemsList;
         internal ObservableCollection<string> categoriesList;
 
         public EditPage()
@@ -90,7 +90,15 @@ namespace WpfApp1.Pages
 
         private void AddItemButton_Click(object sender, RoutedEventArgs e)
         {
-            AddItemWindow addItmWindow = new AddItemWindow();
+            AddItemWindow addItemWindow = new AddItemWindow();
+            addItemWindow.categoriesComboBox.ItemsSource = categoriesList;
+            if (addItemWindow.ShowDialog() == true)
+            {
+                itemsList.Add(
+                    new Item { Name = addItemWindow.ItemName
+                    ,Category = addItemWindow.ItemCategory
+                    ,Price = addItemWindow.ItemPrice, AddTime = DateTime.Now });
+            }
         }
 
         private void AddCategoryButton_Click(object sender, RoutedEventArgs e)
@@ -120,7 +128,7 @@ namespace WpfApp1.Pages
 
                 for (int i = 0; i < removeItemsArray.Length; i++)
                 {
-                    itemList.Remove(removeItemsArray[i]);
+                    itemsList.Remove(removeItemsArray[i]);
                 }
             }
         }
