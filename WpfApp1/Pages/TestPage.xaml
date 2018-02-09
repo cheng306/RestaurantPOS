@@ -7,17 +7,10 @@
              xmlns:local="clr-namespace:WpfApp1.Pages"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid x:Name="sp">
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition x:Name="gd1"
-                        Width="2*" />
-      <ColumnDefinition x:Name="gd2"
-                        Width="1*" />
+  <Grid x:Name="sp">
+    <Button Click="Button_Click">
       
-    </Grid.ColumnDefinitions>
-    
-      <TextBlock VerticalAlignment="Center" Grid.Column="0" Text="{Binding ElementName=sp, Path=ActualWidth}"></TextBlock>
-    <TextBlock Grid.Column="1" Text="{Binding ElementName=gd2, Path=ActualWidth}"></TextBlock>
+    </Button>
   </Grid>
 </UserControl>
   

@@ -133,5 +133,7 @@ namespace WpfApp1
             categoriesListSerializer.Serialize(fs, categoriesList);
             fs.Close();
         }
+
+        
     }
 }

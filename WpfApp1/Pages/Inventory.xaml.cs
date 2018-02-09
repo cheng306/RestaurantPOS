@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,19 +17,15 @@ using System.Windows.Shapes;
 namespace WpfApp1.Pages
 {
     /// <summary>
-    /// Interaction logic for TestPage.xaml
+    /// Interaction logic for Inventory.xaml
     /// </summary>
-    public partial class TestPage : UserControl
+    public partial class Inventory : UserControl
     {
-        public TestPage()
+        ObservableCollection<Inventory> inventoryList;
+
+        public Inventory()
         {
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            TabControl tc = mainWindow.tabb();
         }
     }
 }

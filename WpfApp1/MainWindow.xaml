@@ -13,7 +13,9 @@
         MinHeight="600"
         MinWidth="800">
   <Grid AllowDrop="True">
-    <TabControl>
+    <TabControl x:Name="tabControl"
+                HorizontalContentAlignment="Center"
+                >
       <TabItem FontSize="20"
                Header="Main">
         <ScrollViewer HorizontalScrollBarVisibility="Auto">
@@ -27,17 +29,23 @@
 
       </TabItem>
 
-      <TabItem FontSize="20"
-               Header="Edit">
-
+      <TabItem FontSize="20">
+        <TabItem.Header>
+          <TextBlock Text="Edit"
+                     FontSize="24"
+                     Margin="10"/>
+        </TabItem.Header>
         <page:EditPage x:Name="editPage" />
 
       </TabItem>
 
       <TabItem FontSize="20"
-               Header="Sales">
+               Header="Sales" />
 
-      </TabItem>
+      <TabItem FontSize="20"
+               Header="Inventory" />
+
+
     </TabControl>
 
 
