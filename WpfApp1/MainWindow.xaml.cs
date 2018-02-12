@@ -25,13 +25,19 @@ namespace WpfApp1
     public partial class MainWindow : Window
     {
         //path of xml file that store itemsList in Edit Page
-        string itemListXmlPath;
-
         //Serializer used to serialize and deserialize ObservableCollection<Item>
+        string itemListXmlPath; 
         XmlSerializer listSerializer;
 
+        //path of xml file that store categoriesList in Edit Page
+        //Serializer used to serialize and deserialize ObservableCollection<String>
         string categoriesListXmlPath;
         XmlSerializer categoriesListSerializer;
+
+        //path of xml file that store inventoryList in Inventory Page
+        //Serializer used to serialize and deserialize ObservableCollection<Inventory>
+        string inventoryListXmlPath;
+        XmlSerializer inventoryListSerializer;
 
         public MainWindow()
         {
@@ -43,9 +49,11 @@ namespace WpfApp1
             CreateDbDirectory();
 
             //locate the path and initialize the serializer
-            ItemsList();
+            LoadItemsList();
 
-            CategoresList();
+            LoadCategoriesList();
+
+            LoadInventoryList();
 
             Console.WriteLine(editPage.categoriesList.Count);
 
@@ -73,7 +81,7 @@ namespace WpfApp1
             }
         }
 
-        private void ItemsList()
+        private void LoadItemsList()
         {
             //locate the path
             itemListXmlPath = @"db\itemlist.xml";
@@ -95,9 +103,10 @@ namespace WpfApp1
             }
 
             editPage.itemsListView.ItemsSource = editPage.itemsList;
+            inventoryPage.itemsListView.ItemsSource = editPage.itemsList;
         }
 
-        private void CategoresList()
+        private void LoadCategoriesList()
         {
             //locate the path
             categoriesListXmlPath = @"db\categoreslist.xml";
@@ -121,6 +130,30 @@ namespace WpfApp1
             editPage.categoriesListBox.ItemsSource = editPage.categoriesList;
         }
 
+        private void LoadInventoryList()
+        {
+            //locate the path
+            inventoryListXmlPath = @"db\inventorylist.xml";
+
+            //initilize serizlizer
+            inventoryListSerializer = new XmlSerializer(typeof(ObservableCollection<Inventory>));
+
+            if (File.Exists(inventoryListXmlPath))
+            {
+                StreamReader streamReader = new StreamReader(inventoryListXmlPath);
+                inventoryPage.inventoryList = (ObservableCollection<Inventory>)inventoryListSerializer.Deserialize(streamReader);
+                streamReader.Close();
+                Console.WriteLine("=============inventoryList in inventoryPage loaded");
+            }
+            else
+            {
+                inventoryPage.inventoryList = new ObservableCollection<Inventory>();
+                Console.WriteLine("=============inventoryList in inventoryPage created");
+            }
+
+            inventoryPage.inventoryListView.ItemsSource = inventoryPage.inventoryList;
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {     
             FileStream fs = File.Create(itemListXmlPath);
@@ -131,6 +164,11 @@ namespace WpfApp1
             fs = File.Create(categoriesListXmlPath);
             ObservableCollection<string> categoriesList = editPage.categoriesList;
             categoriesListSerializer.Serialize(fs, categoriesList);
+            fs.Close();
+
+            fs = File.Create(inventoryListXmlPath);
+            ObservableCollection<Inventory> inventoryList = inventoryPage.inventoryList;
+            inventoryListSerializer.Serialize(fs, inventoryList);
             fs.Close();
         }
 

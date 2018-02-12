@@ -6,7 +6,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfApp1.Pages"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             Loaded="uc_Loaded"
+             Unloaded="uc_Unloaded"
+             Initialized="uc_Initialized">
   <Grid x:Name="sp">
     <Button Click="Button_Click">
       

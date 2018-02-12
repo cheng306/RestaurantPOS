@@ -28,7 +28,22 @@ namespace WpfApp1.Pages
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            TabControl tc = mainWindow.tabb();
+          
+        }
+
+        private void uc_Loaded(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("TestPage loaded");                             
+        }
+
+        private void uc_Unloaded(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("TestPage unloaded");
+        }
+
+        private void uc_Initialized(object sender, EventArgs e)
+        {
+            Console.WriteLine("TestPage initialized");
         }
     }
 }

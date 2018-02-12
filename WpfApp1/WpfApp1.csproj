@@ -64,8 +64,8 @@
     <Compile Include="Pages\EditPage.xaml.cs">
       <DependentUpon>EditPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Inventory.xaml.cs">
-      <DependentUpon>Inventory.xaml</DependentUpon>
+    <Compile Include="Pages\InventoryPage.xaml.cs">
+      <DependentUpon>InventoryPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\TablesPage.xaml.cs">
       <DependentUpon>TablesPage.xaml</DependentUpon>
@@ -75,6 +75,9 @@
     </Compile>
     <Compile Include="Windows\AddCategoryWindow.xaml.cs">
       <DependentUpon>AddCategoryWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\AddInventoryWindow.xaml.cs">
+      <DependentUpon>AddInventoryWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\AddItemWindow.xaml.cs">
       <DependentUpon>AddItemWindow.xaml</DependentUpon>
@@ -99,7 +102,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Inventory.xaml">
+    <Page Include="Pages\InventoryPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -112,6 +115,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\AddCategoryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AddInventoryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

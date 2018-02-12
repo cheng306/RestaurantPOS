@@ -43,7 +43,9 @@
                Header="Sales" />
 
       <TabItem FontSize="20"
-               Header="Inventory" />
+               Header="Inventory">
+        <page:InventoryPage x:Name="inventoryPage" />
+      </TabItem>
 
 
     </TabControl>

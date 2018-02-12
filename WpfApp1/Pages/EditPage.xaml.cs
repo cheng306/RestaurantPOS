@@ -34,7 +34,7 @@ namespace WpfApp1.Pages
         {
             InitializeComponent();
 
-            Console.WriteLine("=========================in editpage=============");
+            Console.WriteLine("=========================editPage start=============");
    
             InitializeHeadersTag();
 
@@ -160,21 +160,21 @@ namespace WpfApp1.Pages
         {
             deleteItemButton.IsEnabled = true;
             deleteCategoryButton.IsEnabled = false;
-            Console.WriteLine("ItemsListView gain focus");
+            Console.WriteLine("===========ItemsListView gain focus");
         }
 
         private void CategoriesListBox_GotFocus(object sender, RoutedEventArgs e)
         {
             deleteCategoryButton.IsEnabled = true;
             deleteItemButton.IsEnabled = false; 
-            Console.WriteLine("CategoriesListBox gain focus");
+            Console.WriteLine("==========CategoriesListBox gain focus");
         }
 
         private void EditPage_Loaded(object sender, RoutedEventArgs e)
         {
             deleteCategoryButton.IsEnabled = false;
             deleteItemButton.IsEnabled = false;
-            Console.WriteLine("editPage Loaded");
+            Console.WriteLine("==============editPage Loaded");
         }
 
         
