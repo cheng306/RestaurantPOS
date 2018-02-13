@@ -166,10 +166,15 @@ namespace WpfApp1.Pages
         {
             DisableModifyAndDeleteItemButton();
         }
+       
 
-        private void itemsListView_GotFocus(object sender, RoutedEventArgs e)
+        private void ItemsListView_GotFocus(object sender, RoutedEventArgs e)
         {
-            EnableModifyAndDeleteItemButton();
+            if (itemsListView.Items.Count > 0)
+            {
+                EnableModifyAndDeleteItemButton();
+            }
+            
         }
 
         private void CategoriesListBox_GotFocus(object sender, RoutedEventArgs e)
@@ -210,7 +215,7 @@ namespace WpfApp1.Pages
             deleteItemButton.IsEnabled = true;
         }
         //above are about focus and buttons ability
-        
+
     }
 
 

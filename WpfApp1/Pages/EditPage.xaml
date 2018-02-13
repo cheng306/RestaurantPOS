@@ -36,7 +36,7 @@
         <ListView x:Name="itemsListView"
                   BorderBrush="Aquamarine"
                   BorderThickness="5"
-                  GotFocus="itemsListView_GotFocus">
+                  GotFocus="ItemsListView_GotFocus">
         <ListView.View>
           <GridView>
             <GridViewColumn Width="{Binding ElementName=itemsListView, Path=ActualWidth, Converter={StaticResource Multiplier}, ConverterParameter=0.22}"

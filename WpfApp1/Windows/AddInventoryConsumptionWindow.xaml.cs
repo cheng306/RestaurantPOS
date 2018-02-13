@@ -19,7 +19,7 @@ namespace WpfApp1.Windows
     /// </summary>
     public partial class AddInventoryConsumptionWindow : Window
     {
-        public AddInventoryConsumption()
+        public AddInventoryConsumptionWindow()
         {
             InitializeComponent();
         }
