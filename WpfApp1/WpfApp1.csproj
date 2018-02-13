@@ -76,6 +76,9 @@
     <Compile Include="Windows\AddCategoryWindow.xaml.cs">
       <DependentUpon>AddCategoryWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\AddInventoryConsumptionWindow.xaml.cs">
+      <DependentUpon>AddInventoryConsumptionWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\AddInventoryWindow.xaml.cs">
       <DependentUpon>AddInventoryWindow.xaml</DependentUpon>
     </Compile>
@@ -115,6 +118,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\AddCategoryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AddInventoryConsumptionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

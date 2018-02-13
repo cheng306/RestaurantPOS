@@ -156,27 +156,60 @@ namespace WpfApp1.Pages
             }
         }
 
-        private void ItemsListView_GotFocus(object sender, RoutedEventArgs e)
+        //below are about focus and buttons ability
+        private void LeftGrid_GotFocus(object sender, RoutedEventArgs e)
         {
-            deleteItemButton.IsEnabled = true;
-            deleteCategoryButton.IsEnabled = false;
-            Console.WriteLine("===========ItemsListView gain focus");
+            DisableModifyAndDeleteCategoryButton();
+        }
+
+        private void RightGrid_GotFocus(object sender, RoutedEventArgs e)
+        {
+            DisableModifyAndDeleteItemButton();
+        }
+
+        private void itemsListView_GotFocus(object sender, RoutedEventArgs e)
+        {
+            EnableModifyAndDeleteItemButton();
         }
 
         private void CategoriesListBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            deleteCategoryButton.IsEnabled = true;
-            deleteItemButton.IsEnabled = false; 
-            Console.WriteLine("==========CategoriesListBox gain focus");
+            EnableModifyAndDeleteCategoryButton();
         }
 
+    
         private void EditPage_Loaded(object sender, RoutedEventArgs e)
         {
-            deleteCategoryButton.IsEnabled = false;
-            deleteItemButton.IsEnabled = false;
+            DisableModifyAndDeleteItemButton();
+            DisableModifyAndDeleteCategoryButton();
+         
             Console.WriteLine("==============editPage Loaded");
         }
 
+        private void DisableModifyAndDeleteCategoryButton()
+        {
+            modifyCategoryButton.IsEnabled = false;
+            deleteCategoryButton.IsEnabled = false;
+        }
+
+        private void EnableModifyAndDeleteCategoryButton()
+        {
+            modifyCategoryButton.IsEnabled = true;
+            deleteCategoryButton.IsEnabled = true;
+        }
+
+        private void DisableModifyAndDeleteItemButton()
+        {
+            modifyItemButton.IsEnabled = false;
+            deleteItemButton.IsEnabled = false;
+        }
+
+        private void EnableModifyAndDeleteItemButton()
+        {
+            modifyItemButton.IsEnabled = true;
+            deleteItemButton.IsEnabled = true;
+        }
+        //above are about focus and buttons ability
         
     }
 

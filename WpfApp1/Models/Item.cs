@@ -17,5 +17,7 @@ namespace WpfApp1.Models
         public double Price { get; set; }
 
         public DateTime AddTime { get; set; }
+
+        public List<Inventory> InventoryCosumption { get; set; }
     }
 }
