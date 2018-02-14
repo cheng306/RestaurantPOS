@@ -23,5 +23,16 @@ namespace WpfApp1.Windows
         {
             InitializeComponent();
         }
+
+        private void AddDependencyButton_Click(object sender, RoutedEventArgs e)
+        {
+            WrapPanel denpendencyWrapPanel = new WrapPanel();
+            denpendencyWrapPanel.Children.Add(new TextBlock { Text="Inventory"});
+            denpendencyWrapPanel.Children.Add(new ComboBox());
+            denpendencyWrapPanel.Children.Add(new TextBlock { Text = "Consume Quantity" });
+            denpendencyWrapPanel.Children.Add(new TextBox());
+
+            dependenciesStackpanel.Children.Add(denpendencyWrapPanel);
+        }
     }
 }

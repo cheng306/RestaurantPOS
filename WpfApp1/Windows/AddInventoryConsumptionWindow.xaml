@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:WpfApp1.Windows"
         mc:Ignorable="d"
         Title="AddInventoryConsumption"
-        Width="400"
+        Width="800"
         MinHeight="300"
-        MinWidth="400">
+        MinWidth="800">
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="5*"/>
@@ -25,15 +25,18 @@
         </Grid.RowDefinitions>
         <TextBlock x:Name="itemNameTextBlock"
                    FontSize="25"/>
-        <StackPanel />
+        <StackPanel x:Name="dependenciesStackpanel"
+                    Grid.Row="1" />
         <Grid Grid.Row="2">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
           </Grid.ColumnDefinitions>
-          <Button Grid.Column="0" 
+          <Button x:Name="addDependencyButton"
+                  Grid.Column="0" 
                   Content="+"
-                  FontSize="30"/>
+                  FontSize="30"
+                  Click="AddDependencyButton_Click"/>
           <Button Grid.Column="1"
                   Content="-"
                   FontSize="30"/>

@@ -83,10 +83,6 @@ namespace WpfApp1.Pages
             //removeInventoryButton.IsEnabled = false;
         }
 
-        
-
-        
-
         private void InventoryListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             modifyInventoryButton.IsEnabled = true;
@@ -109,6 +105,12 @@ namespace WpfApp1.Pages
         {
             modifyInventoryButton.IsEnabled = false;
             removeInventoryButton.IsEnabled = false;
+        }
+
+        private void EditItemConsumptionButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddInventoryConsumptionWindow addInventoryConsumptionWindow = new AddInventoryConsumptionWindow();
+            addInventoryConsumptionWindow.ShowDialog();
         }
     }
 }
