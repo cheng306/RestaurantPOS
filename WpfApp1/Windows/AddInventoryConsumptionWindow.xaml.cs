@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp1.Pages;
 
 namespace WpfApp1.Windows
 {
@@ -23,14 +24,40 @@ namespace WpfApp1.Windows
         {
             InitializeComponent();
         }
-
+        UserControl uc = ((MainWindow)Application.Current.MainWindow).inventoryPage;
         private void AddDependencyButton_Click(object sender, RoutedEventArgs e)
         {
             WrapPanel denpendencyWrapPanel = new WrapPanel();
-            denpendencyWrapPanel.Children.Add(new TextBlock { Text="Inventory"});
-            denpendencyWrapPanel.Children.Add(new ComboBox());
-            denpendencyWrapPanel.Children.Add(new TextBlock { Text = "Consume Quantity" });
-            denpendencyWrapPanel.Children.Add(new TextBox());
+            denpendencyWrapPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+            denpendencyWrapPanel.Children.Add(new TextBlock {
+                Text ="Inventory",
+                FontSize =25.0,
+                Margin = new Thickness(5.0)
+            });
+
+            denpendencyWrapPanel.Children.Add(new ComboBox()
+            {
+                ItemsSource = ((MainWindow)Application.Current.MainWindow).inventoryPage.inventoryList,
+                DisplayMemberPath = "Name",
+                FontSize = 25.0,
+                Width = 150.0,
+                Margin = new Thickness(5.0)
+            });
+
+            denpendencyWrapPanel.Children.Add(new TextBlock()
+            {
+                Text = "Consume Quantity:  ",
+                FontSize = 25.0,
+                Margin = new Thickness(5.0)
+            });
+
+            denpendencyWrapPanel.Children.Add(new TextBox()
+            {
+                FontSize = 25.0,
+                Width = 150.0,
+                Margin = new Thickness(5.0)
+            });
 
             dependenciesStackpanel.Children.Add(denpendencyWrapPanel);
         }
