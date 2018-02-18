@@ -16,13 +16,19 @@ using System.Windows.Shapes;
 namespace WpfApp1.Dialogs.Templates
 {
     /// <summary>
-    /// Interaction logic for DenpendencyRow.xaml
+    /// Interaction logic for DependencyRow.xaml
     /// </summary>
     public partial class DependencyRow : UserControl
     {
         public DependencyRow()
         {
             InitializeComponent();
+            inventoryComboBox.ItemsSource = ((MainWindow)Application.Current.MainWindow).inventoryPage.inventoryList;
+        }
+
+        private void InventoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
