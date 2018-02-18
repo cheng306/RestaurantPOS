@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApp1.Models;
-using WpfApp1.Windows;
+using WpfApp1.Dialogs;
 
 namespace WpfApp1.Pages
 {
@@ -30,10 +30,10 @@ namespace WpfApp1.Pages
             InitializeComponent();
         }
 
-        private void InventoryPage_Loaded(object sender, RoutedEventArgs e)
+        private void EditItemConsumptionButton_Click(object sender, RoutedEventArgs e)
         {
-            modifyInventoryButton.IsEnabled = false;
-            removeInventoryButton.IsEnabled = false;
+            AddInventoryConsumptionDialog addInventoryConsumptionWindow = new AddInventoryConsumptionDialog();
+            addInventoryConsumptionWindow.ShowDialog();
         }
 
         private void CreateInventoryButton_Click(object sender, RoutedEventArgs e)
@@ -57,15 +57,11 @@ namespace WpfApp1.Pages
             addInventoryWindow.quantityTextBox.Text = selectedInventory.Quantity.ToString();
             if (addInventoryWindow.ShowDialog() == true)
             {
-                Console.WriteLine("=============reach");
-                selectedInventory.Name = addInventoryWindow.InventoryName;
-            
+                selectedInventory.Name = addInventoryWindow.InventoryName;      
                 selectedInventory.Quantity = addInventoryWindow.InventoryQuantity;
-                Console.WriteLine(addInventoryWindow.InventoryQuantity);
             }
 
-            //DisableRightGridButtons();
-
+            inventoryListView.Focus();
         }
 
         private void RemoveInventoryButton_Click(object sender, RoutedEventArgs e)
@@ -75,24 +71,33 @@ namespace WpfApp1.Pages
             DisableRightGridButtons();
         }
 
-        
-
-        private void RightGrid_LostFocus(object sender, RoutedEventArgs e)
+        //below is the logic of the button ability
+        private void InventoryPage_Loaded(object sender, RoutedEventArgs e)
         {
-            //modifyInventoryButton.IsEnabled = false;
-            //removeInventoryButton.IsEnabled = false;
-        }
-
-        private void InventoryListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            modifyInventoryButton.IsEnabled = true;
-            removeInventoryButton.IsEnabled = true;
-            Console.WriteLine("Selection Changed");
+            itemsListView.SelectedItem = null;
+            inventoryListView.SelectedItem = null;
+            editItemConsumptionButton.IsEnabled = false;
+            DisableRightGridButtons();
         }
 
         private void LeftGrid_GotFocus(object sender, RoutedEventArgs e)
         {
             DisableRightGridButtons();
+        }
+
+        private void RightGrid_GotFocus(object sender, RoutedEventArgs e)
+        {
+            editItemConsumptionButton.IsEnabled = false;
+        }
+
+        private void InventoryListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            EnableRightGridButtons();
+        }
+
+        private void ItemsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            editItemConsumptionButton.IsEnabled = true;
         }
 
         private void EnableRightGridButtons()
@@ -106,11 +111,13 @@ namespace WpfApp1.Pages
             modifyInventoryButton.IsEnabled = false;
             removeInventoryButton.IsEnabled = false;
         }
+        //above is about button ability
 
-        private void EditItemConsumptionButton_Click(object sender, RoutedEventArgs e)
+        public void Nothing()
         {
-            AddInventoryConsumptionWindow addInventoryConsumptionWindow = new AddInventoryConsumptionWindow();
-            addInventoryConsumptionWindow.ShowDialog();
+
         }
+
+        
     }
 }

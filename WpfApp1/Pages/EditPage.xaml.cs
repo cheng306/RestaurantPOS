@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApp1.Models;
-using WpfApp1.Windows;
+using WpfApp1.Dialogs;
 
 namespace WpfApp1.Pages
 {
@@ -92,12 +92,29 @@ namespace WpfApp1.Pages
         {
             AddItemWindow addItemWindow = new AddItemWindow();
             addItemWindow.categoriesComboBox.ItemsSource = categoriesList;
+
             if (addItemWindow.ShowDialog() == true)
             {
-                itemsList.Add(
-                    new Item { Name = addItemWindow.ItemName
-                    ,Category = addItemWindow.ItemCategory
-                    ,Price = addItemWindow.ItemPrice, AddTime = DateTime.Now });
+                Item newItem = new Item
+                {
+                    Name = addItemWindow.ItemName,
+                    Category = addItemWindow.ItemCategory,
+                    Price = addItemWindow.ItemPrice,
+                    AddTime = DateTime.Now
+                };
+
+                itemsList.Add(newItem);
+
+                itemsListView.SelectedItem = newItem;
+                itemsListView.Focus();
+            }
+            else
+            {
+                if (itemsListView.SelectedItem != null)
+                {
+                    itemsListView.Focus();
+                    EnableModifyAndDeleteItemButton();
+                }
             }
         }
 
@@ -107,7 +124,18 @@ namespace WpfApp1.Pages
             if (addCategoryWindow.ShowDialog() == true)
             {
                 categoriesList.Add(addCategoryWindow.Input);
+                categoriesListBox.SelectedItem = addCategoryWindow.Input;
             }
+            else
+            {
+                if (categoriesListBox.SelectedItem != null)
+                {
+                    EnableModifyAndDeleteCategoryButton();
+                }
+            }
+            
+            categoriesListBox.SelectedItem = addCategoryWindow.Input;
+            categoriesListBox.Focus();
         }
 
         private void DeleteItemButton_Click(object sender, RoutedEventArgs e)
@@ -131,6 +159,8 @@ namespace WpfApp1.Pages
                     itemsList.Remove(removeItemsArray[i]);
                 }
             }
+
+            DisableModifyAndDeleteItemButton();
         }
 
         private void DeleteCategoryButton_Click(object sender, RoutedEventArgs e)
@@ -154,9 +184,20 @@ namespace WpfApp1.Pages
                     categoriesList.Remove(removeCategoriesArray[i]);
                 }
             }
+
+            DisableModifyAndDeleteCategoryButton();
         }
 
         //below are about focus and buttons ability
+        private void EditPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            DisableModifyAndDeleteItemButton();
+            DisableModifyAndDeleteCategoryButton();
+            itemsListView.SelectedItem = null;
+            categoriesListBox.SelectedItem = null;
+            Console.WriteLine("==============editPage Loaded");
+        }
+
         private void LeftGrid_GotFocus(object sender, RoutedEventArgs e)
         {
             DisableModifyAndDeleteCategoryButton();
@@ -167,28 +208,14 @@ namespace WpfApp1.Pages
             DisableModifyAndDeleteItemButton();
         }
        
-
-        private void ItemsListView_GotFocus(object sender, RoutedEventArgs e)
+        private void ItemsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (itemsListView.Items.Count > 0)
-            {
-                EnableModifyAndDeleteItemButton();
-            }
-            
+            EnableModifyAndDeleteItemButton();
         }
 
-        private void CategoriesListBox_GotFocus(object sender, RoutedEventArgs e)
+        private void CategoriesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             EnableModifyAndDeleteCategoryButton();
-        }
-
-    
-        private void EditPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            DisableModifyAndDeleteItemButton();
-            DisableModifyAndDeleteCategoryButton();
-         
-            Console.WriteLine("==============editPage Loaded");
         }
 
         private void DisableModifyAndDeleteCategoryButton()
@@ -216,6 +243,12 @@ namespace WpfApp1.Pages
         }
         //above are about focus and buttons ability
 
+        public void Nothing()
+        {
+
+        }
+
+   
     }
 
 

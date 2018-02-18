@@ -36,7 +36,7 @@
         <ListView x:Name="itemsListView"
                   BorderBrush="Aquamarine"
                   BorderThickness="5"
-                  GotFocus="ItemsListView_GotFocus">
+                  SelectionChanged="ItemsListView_SelectionChanged">
         <ListView.View>
           <GridView>
             <GridViewColumn Width="{Binding ElementName=itemsListView, Path=ActualWidth, Converter={StaticResource Multiplier}, ConverterParameter=0.22}"
@@ -94,7 +94,7 @@
                  SelectionMode="Extended"
                  BorderBrush="AntiqueWhite"
                  BorderThickness="5"
-                 GotFocus="CategoriesListBox_GotFocus"/>
+                 SelectionChanged="CategoriesListBox_SelectionChanged"/>
       </StackPanel>
       
     </Grid>
@@ -118,7 +118,7 @@
       <Button x:Name="modifyItemButton"
               Background="Aquamarine"
               Grid.Column="1"
-              Content="Remove Item" />
+              Content="Modify Item" />
 
       <Button x:Name="deleteItemButton"
               Background="Aquamarine"

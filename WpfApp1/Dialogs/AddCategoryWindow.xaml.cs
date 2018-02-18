@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace WpfApp1.Windows
+namespace WpfApp1.Dialogs
 {
     /// <summary>
     /// Interaction logic for AddCategoryWindow.xaml

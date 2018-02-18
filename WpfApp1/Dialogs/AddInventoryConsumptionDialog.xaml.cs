@@ -12,15 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Pages;
+using WpfApp1.Dialogs.Templates;
 
-namespace WpfApp1.Windows
+namespace WpfApp1.Dialogs
 {
     /// <summary>
     /// Interaction logic for AddInventoryConsumption.xaml
     /// </summary>
-    public partial class AddInventoryConsumptionWindow : Window
+    public partial class AddInventoryConsumptionDialog : Window
     {
-        public AddInventoryConsumptionWindow()
+        public AddInventoryConsumptionDialog()
         {
             InitializeComponent();
         }
@@ -47,7 +48,7 @@ namespace WpfApp1.Windows
 
             denpendencyWrapPanel.Children.Add(new TextBlock()
             {
-                Text = "Consume Quantity:  ",
+                Text = "Consume Quantity:",
                 FontSize = 25.0,
                 Margin = new Thickness(5.0)
             });
@@ -59,7 +60,9 @@ namespace WpfApp1.Windows
                 Margin = new Thickness(5.0)
             });
 
-            dependenciesStackpanel.Children.Add(denpendencyWrapPanel);
+            DependencyRow dr = new DependencyRow();
+
+            dependenciesStackpanel.Children.Add(dr);
         }
     }
 }

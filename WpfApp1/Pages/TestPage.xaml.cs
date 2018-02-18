@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,14 +24,16 @@ namespace WpfApp1.Pages
         public TestPage()
         {
             InitializeComponent();
+            ObservableCollection<string> oc = new ObservableCollection<string>();
+            oc.Add("abc");
+            oc.Add("abc");
+            oc.Add("abc");
+
+            lb1.ItemsSource = oc;
+            lb2.ItemsSource = oc;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-          
-        }
-
+       
         private void uc_Loaded(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("TestPage loaded");                             

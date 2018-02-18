@@ -54,6 +54,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Dialogs\Templates\DependencyRow.xaml.cs">
+      <DependentUpon>DependencyRow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\Circle.xaml.cs">
       <DependentUpon>Circle.xaml</DependentUpon>
     </Compile>
@@ -73,18 +76,22 @@
     <Compile Include="Pages\TestPage.xaml.cs">
       <DependentUpon>TestPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\AddCategoryWindow.xaml.cs">
+    <Compile Include="Dialogs\AddCategoryWindow.xaml.cs">
       <DependentUpon>AddCategoryWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\AddInventoryConsumptionWindow.xaml.cs">
-      <DependentUpon>AddInventoryConsumptionWindow.xaml</DependentUpon>
+    <Compile Include="Dialogs\AddInventoryConsumptionDialog.xaml.cs">
+      <DependentUpon>AddInventoryConsumptionDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\AddInventoryWindow.xaml.cs">
+    <Compile Include="Dialogs\AddInventoryWindow.xaml.cs">
       <DependentUpon>AddInventoryWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\AddItemWindow.xaml.cs">
+    <Compile Include="Dialogs\AddItemWindow.xaml.cs">
       <DependentUpon>AddItemWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Dialogs\Templates\DependencyRow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Models\Circle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -117,19 +124,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\AddCategoryWindow.xaml">
+    <Page Include="Dialogs\AddCategoryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\AddInventoryConsumptionWindow.xaml">
+    <Page Include="Dialogs\AddInventoryConsumptionDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\AddInventoryWindow.xaml">
+    <Page Include="Dialogs\AddInventoryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\AddItemWindow.xaml">
+    <Page Include="Dialogs\AddItemWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -160,6 +167,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Templates\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

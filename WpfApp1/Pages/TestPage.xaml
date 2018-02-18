@@ -12,9 +12,13 @@
              Unloaded="uc_Unloaded"
              Initialized="uc_Initialized">
   <Grid x:Name="sp">
-    <Button Click="Button_Click">
-      
-    </Button>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition />
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
+    <ListBox x:Name="lb1" />
+    <ListBox x:Name="lb2"
+             Grid.Column="1"/>
   </Grid>
 </UserControl>
   
