@@ -79,8 +79,8 @@
     <Compile Include="Dialogs\AddCategoryWindow.xaml.cs">
       <DependentUpon>AddCategoryWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\AddInventoryConsumptionDialog.xaml.cs">
-      <DependentUpon>AddInventoryConsumptionDialog.xaml</DependentUpon>
+    <Compile Include="Dialogs\EditItemInventoryDialog.xaml.cs">
+      <DependentUpon>EditItemInventoryDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\AddInventoryWindow.xaml.cs">
       <DependentUpon>AddInventoryWindow.xaml</DependentUpon>
@@ -128,7 +128,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\AddInventoryConsumptionDialog.xaml">
+    <Page Include="Dialogs\EditItemInventoryDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

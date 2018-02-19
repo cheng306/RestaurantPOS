@@ -32,8 +32,8 @@ namespace WpfApp1.Pages
 
         private void EditItemConsumptionButton_Click(object sender, RoutedEventArgs e)
         {
-            AddInventoryConsumptionDialog addInventoryConsumptionWindow = new AddInventoryConsumptionDialog();
-            addInventoryConsumptionWindow.ShowDialog();
+            EditItemInventoryDialog editItemInventoryDialog = new EditItemInventoryDialog();
+            editItemInventoryDialog.ShowDialog();
         }
 
         private void CreateInventoryButton_Click(object sender, RoutedEventArgs e)

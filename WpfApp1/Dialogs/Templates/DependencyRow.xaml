@@ -13,12 +13,12 @@
     <ComboBox x:Name="inventoryComboBox"
               FontSize="25.0"
               Margin="5,5,10,5"
-              Width="150"
-              SelectionChanged="InventoryComboBox_SelectionChanged"/>
+              Width="150"/>
     <TextBlock FontSize="25.0"
                Text="Consumption Quantity"
                Margin="10,5,5,5"/>
-    <TextBox FontSize="25.0"
+    <TextBox x:Name="quantityTextBox"
+             FontSize="25.0"
              Margin="5"
              Width="150"/>
   </WrapPanel>
