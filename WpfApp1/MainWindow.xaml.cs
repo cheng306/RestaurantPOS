@@ -55,8 +55,6 @@ namespace WpfApp1
 
             LoadInventoryList();
 
-            Console.WriteLine(editPage.categoriesList.Count);
-
 
             //editPage.itemsList.Add(new Item { Name = "bbb", Category = "aaa", Price = 12.6, AddTime = DateTime.Now });
             //editPage.itemsList.Add(new Item { Name = "www", Category = "aaa", Price = 12.6, AddTime = DateTime.Now });
@@ -69,6 +67,13 @@ namespace WpfApp1
             //editPage.itemsList.Add(new Item { Name = "ttt", Category = "yyy", Price = 12.6, AddTime = DateTime.Now });
             //editPage.itemsList.Add(new Item { Name = "ccc", Category = "aaa", Price = 12.6, AddTime = DateTime.Now });
             //editPage.itemsList.Add(new Item { Name = "ccc", Category = "bbb", Price = 12.6, AddTime = DateTime.Now });
+            //InventoryConsumption ic = new InventoryConsumption { InventoryName = "abc", ConsumptionQUantity = 12 };
+            //InventoryConsumption ic2 = new InventoryConsumption { InventoryName = "abc2", ConsumptionQUantity = 14 };
+            //List<InventoryConsumption> list = new List<InventoryConsumption>();
+            //list.Add(ic);
+            //list.Add(ic2);
+            //editPage.itemsList.Add(new Item { Name = "test", Category = "bbb", Price = 12.6, AddTime = DateTime.Now,InventoryConsumptionList=list });
+            
             
         }
 

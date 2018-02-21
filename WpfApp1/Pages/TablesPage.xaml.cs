@@ -58,13 +58,6 @@ namespace WpfApp1.Pages
 
             deleteButton.MouseEnter += DeleteButton_MouseEnter;
 
-           
-
-
-            var a = LogicalTreeHelper.GetParent(canvas);
-            var b = LogicalTreeHelper.GetParent(a);
-            Console.WriteLine(a);
-            Console.WriteLine(b);
         }
 
         private void DeleteButton_MouseUp(object sender, MouseButtonEventArgs e)
@@ -176,7 +169,6 @@ namespace WpfApp1.Pages
 
             }
             
-            //Console.WriteLine("Table_MouseDown");
         }
 
         private void Table_MouseUp(object sender, MouseButtonEventArgs e)
@@ -241,7 +233,6 @@ namespace WpfApp1.Pages
             
             circle.ReleaseMouseCapture();
             auxObject = null;
-            Console.WriteLine("Table_MouseUp");
 
         }
 
@@ -250,7 +241,6 @@ namespace WpfApp1.Pages
         {
             ContentPresenter parent = (ContentPresenter)VisualTreeHelper.GetParent((Canvas)sender);
             var parent2 = VisualTreeHelper.GetParent(VisualTreeHelper.GetParent(parent));
-            //Console.WriteLine(parent2);
         }
 
         /*
@@ -271,7 +261,6 @@ namespace WpfApp1.Pages
             if (!circle.Added)
             {
                 pointList.Add(deleteButton.Center);
-                //Console.WriteLine(pointList.Count);
             }
 
             foreach (Point otherPoint in pointList)

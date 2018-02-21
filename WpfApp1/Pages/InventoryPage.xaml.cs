@@ -32,7 +32,9 @@ namespace WpfApp1.Pages
 
         private void EditItemConsumptionButton_Click(object sender, RoutedEventArgs e)
         {
-            EditItemInventoryDialog editItemInventoryDialog = new EditItemInventoryDialog();
+            Item seletedItem = (Item)itemsListView.SelectedItem;
+            EditItemInventoryDialog editItemInventoryDialog = new EditItemInventoryDialog(seletedItem);
+
             editItemInventoryDialog.ShowDialog();
         }
 
