@@ -15,6 +15,7 @@ using WpfApp1.Pages;
 using WpfApp1.Dialogs.Templates;
 using WpfApp1.Models;
 using System.Collections.ObjectModel;
+using System.Collections;
 
 namespace WpfApp1.Dialogs
 {
@@ -24,10 +25,7 @@ namespace WpfApp1.Dialogs
     public partial class EditItemInventoryDialog : Window
     {
         public List<string> inventoryNameList;
-
-        string currentComboBoxOption;
-   
-
+        
         public EditItemInventoryDialog(Item selectedItem)
         {
             InitializeComponent();
@@ -59,7 +57,8 @@ namespace WpfApp1.Dialogs
         private void AddDependencyButton_Click(object sender, RoutedEventArgs e)
         {
             DependencyRow dependencyRow = new DependencyRow();
-            dependencyRow.inventoryComboBox.ItemsSource = inventoryNameList;
+            ObservableCollection<string> comboBoxInventoryList = new ObservableCollection<string>(inventoryNameList);
+            dependencyRow.inventoryComboBox.ItemsSource = comboBoxInventoryList;
 
             dependencyRow.removeDependencyRowButton.Click += RemoveDependencyRowButton_Click;
             dependencyRow.inventoryComboBox.SelectionChanged += InventoryComboBox_SelectionChanged;
@@ -68,7 +67,16 @@ namespace WpfApp1.Dialogs
 
         private void InventoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            IList removedInventoryList =  e.RemovedItems;
+            ComboBox comboBox = (ComboBox)sender; 
             
+            if (removedInventoryList.Count != 0)
+            {
+                string previousComboBoxOption = (string)removedInventoryList[0];
+                AddOptionsToAllComboBox(previousComboBoxOption);   
+            }
+
+            RemoveOptionsfromOtherComboBox(comboBox);
         }
 
         private void RemoveDependencyRowButton_Click(object sender, RoutedEventArgs e)
@@ -77,18 +85,37 @@ namespace WpfApp1.Dialogs
             //add the removed inventory into options of other combobox
             if (dependencyRow.inventoryComboBox.SelectedItem != null)
             {
-                string str = (string)dependencyRow.inventoryComboBox.SelectedItem;
-                inventoryNameList.Add((string)dependencyRow.inventoryComboBox.SelectedItem);
-                foreach (DependencyRow otherDependencyRow in dependenciesStackpanel.Children)
-                {
-                    ((ObservableCollection<string>)otherDependencyRow.inventoryComboBox.ItemsSource).Add(str);
-                }
-                inventoryNameList.Add(str);
+                string selectedOption = (string)dependencyRow.inventoryComboBox.SelectedItem;
+                AddOptionsToAllComboBox(selectedOption);
             } 
             //finally remove it
             dependenciesStackpanel.Children.Remove(dependencyRow);
         }
 
-        
+        private void AddOptionsToAllComboBox(string option)
+        {
+            foreach (DependencyRow otherDependencyRow in dependenciesStackpanel.Children)
+            {
+                ((ObservableCollection<string>)otherDependencyRow.inventoryComboBox.ItemsSource).Add(option);
+            }
+            inventoryNameList.Add(option);
+        }
+
+        private void RemoveOptionsfromOtherComboBox(ComboBox comboBox)
+        {
+            foreach (DependencyRow otherDependencyRow in dependenciesStackpanel.Children)
+            {
+                if (otherDependencyRow.inventoryComboBox!= comboBox)
+                {
+                    ((ObservableCollection<String>)otherDependencyRow.inventoryComboBox.ItemsSource).Remove((string)comboBox.SelectedItem);
+                    Console.WriteLine("======remove option");
+                }
+                
+            }
+            inventoryNameList.Remove((string)comboBox.SelectedItem);
+            
+        }
+
+
     }
 }
