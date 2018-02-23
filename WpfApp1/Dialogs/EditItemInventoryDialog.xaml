@@ -8,7 +8,7 @@
         Title="AddInventoryConsumption"
         Width="900"
         Height="600"
-        MinHeight="300"
+        MinHeight="600"
         MinWidth="900">
   <Grid>
     <Grid.RowDefinitions>
@@ -21,8 +21,7 @@
       <Grid>
         <Grid.RowDefinitions>
           <RowDefinition Height="*" />
-          <RowDefinition Height="3*" />
-          <RowDefinition Height="*" />
+          <RowDefinition Height="4*" />
           <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Border Background="Aquamarine"
@@ -35,17 +34,7 @@
         <ScrollViewer Grid.Row="1">
           <StackPanel x:Name="dependenciesStackpanel" />
         </ScrollViewer>
-        <Grid Grid.Row="2">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-          </Grid.ColumnDefinitions>
-          <TextBlock x:Name="inventoryWarningTextBlock"
-                     FontSize="25"
-                     Text=""/>
-          <TextBlock x:Name="quantityWarningTextBlock"
-                     FontSize="25"/>
-        </Grid>
+        
 
         <Button x:Name="addDependencyButton"
                 Grid.Row="3"
@@ -61,7 +50,8 @@
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
-      <Button Grid.Column="0"
+      <Button x:Name="confrimButton"
+              Grid.Column="0"
               Content="Confrim"
               IsEnabled="false"
               FontSize="25" />

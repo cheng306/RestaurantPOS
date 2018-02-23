@@ -51,6 +51,7 @@ namespace WpfApp1.Dialogs
                 //add event handler to newly added dependencyRow
                 dependencyRow.removeDependencyRowButton.Click += RemoveDependencyRowButton_Click;
                 dependencyRow.inventoryComboBox.SelectionChanged += InventoryComboBox_SelectionChanged;
+                dependencyRow.quantityTextBox.TextChanged += QuantityTextBox_TextChanged;
                 dependenciesStackpanel.Children.Add(dependencyRow);
             }
         }
@@ -64,7 +65,25 @@ namespace WpfApp1.Dialogs
             //add event handler to newly added dependencyRow
             dependencyRow.removeDependencyRowButton.Click += RemoveDependencyRowButton_Click;
             dependencyRow.inventoryComboBox.SelectionChanged += InventoryComboBox_SelectionChanged;
+            dependencyRow.quantityTextBox.TextChanged += QuantityTextBox_TextChanged;
             dependenciesStackpanel.Children.Add(dependencyRow);
+
+            ValidationCheck();
+        }
+
+        private void RemoveDependencyRowButton_Click(object sender, RoutedEventArgs e)
+        {
+            DependencyRow dependencyRow = (DependencyRow)LogicalTreeHelper.GetParent(LogicalTreeHelper.GetParent(LogicalTreeHelper.GetParent((DependencyObject)sender)));
+            //add the removed inventory into options of other combobox
+            if (dependencyRow.inventoryComboBox.SelectedItem != null)
+            {
+                string selectedOption = (string)dependencyRow.inventoryComboBox.SelectedItem;
+                AddOptionsToAllComboBox(selectedOption);
+            }
+            //finally remove it
+            dependenciesStackpanel.Children.Remove(dependencyRow);
+
+            ValidationCheck();
         }
 
         private void InventoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -79,22 +98,16 @@ namespace WpfApp1.Dialogs
             }
 
             RemoveOptionsfromOtherComboBox(comboBox);
+
             ValidationCheck();
-
         }
 
-        private void RemoveDependencyRowButton_Click(object sender, RoutedEventArgs e)
+        private void QuantityTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            DependencyRow dependencyRow = (DependencyRow)LogicalTreeHelper.GetParent(LogicalTreeHelper.GetParent(LogicalTreeHelper.GetParent((DependencyObject)sender)));
-            //add the removed inventory into options of other combobox
-            if (dependencyRow.inventoryComboBox.SelectedItem != null)
-            {
-                string selectedOption = (string)dependencyRow.inventoryComboBox.SelectedItem;
-                AddOptionsToAllComboBox(selectedOption);
-            } 
-            //finally remove it
-            dependenciesStackpanel.Children.Remove(dependencyRow);
+            ValidationCheck();
         }
+
+
 
         private void AddOptionsToAllComboBox(string option)
         {
@@ -119,17 +132,26 @@ namespace WpfApp1.Dialogs
             
         }
 
-        private bool ValidComboboxs()
-        {
-            return false;
-        }
-            
-
+       
         private void ValidationCheck()
         {
-            
+            bool flag = true;
+            foreach (DependencyRow dependencyRow in dependenciesStackpanel.Children)
+            {
+                if (!dependencyRow.ValidDependencyRow)
+                {
+                    flag = false;
+                    Console.WriteLine("==========not okay");
+                    break;
+                }
+            }
+            if (flag)
+            {
+                confrimButton.IsEnabled = true;
+            }
+            else{
+                confrimButton.IsEnabled = false;
+            }
         }
-
-
     }
 }

@@ -38,7 +38,7 @@ namespace WpfApp1.Dialogs.Templates
             get { return Double.TryParse(quantityTextBox.Text, out double dump); }
         }
 
-        public bool Valid
+        public bool ValidDependencyRow
         {
             get { return this.ValidQuantityTextBox && this.ValidInventoryComboBox; }
         }
@@ -54,7 +54,10 @@ namespace WpfApp1.Dialogs.Templates
                 quantityTextBox.BorderBrush = new SolidColorBrush(Colors.Black);
             }
         }
-        ///
 
+        private void InventoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            inventoryComboBoxBorder.BorderBrush = new SolidColorBrush(Colors.Black);
+        }
     }
 }

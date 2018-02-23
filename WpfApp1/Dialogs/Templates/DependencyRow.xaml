@@ -1,34 +1,42 @@
 ﻿<UserControl x:Class="WpfApp1.Dialogs.Templates.DependencyRow"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:WpfApp1.Dialogs.Templates"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300">
   <Border BorderBrush="AntiqueWhite"
           BorderThickness="5">
     <WrapPanel x:Name="denpendencyWrapPanel">
-    <TextBlock Text="Inventory"
+      <TextBlock Text="Inventory"
+                 FontSize="25.0"
+                 Margin="5" />
+      <Border x:Name="inventoryComboBoxBorder"
+              BorderBrush="Red"
+              BorderThickness="1">
+        <ComboBox x:Name="inventoryComboBox"
+                  FontSize="25.0"
+                  Margin="5,5,10,5"
+                  Width="150"
+                  SelectionChanged="InventoryComboBox_SelectionChanged" />
+      </Border>
+      
+      <TextBlock FontSize="25.0"
+                 Text="Consumption Quantity"
+                 Margin="10,5,5,5" />
+      <TextBox x:Name="quantityTextBox"
+               BorderBrush="Red"
                FontSize="25.0"
-               Margin="5"/>
-    <ComboBox x:Name="inventoryComboBox"
-              FontSize="25.0"
-              Margin="5,5,10,5"
-              Width="150"/>
-    <TextBlock FontSize="25.0"
-               Text="Consumption Quantity"
-               Margin="10,5,5,5"/>
-    <TextBox x:Name="quantityTextBox"
-             FontSize="25.0"
-             Margin="5,5,10,5"
-             Width="150"
-             TextChanged="QuantityTextBox_TextChanged"/>
-    <Button x:Name="removeDependencyRowButton"
+               Margin="5,5,10,5"
+               Width="150"
+               TextChanged="QuantityTextBox_TextChanged" />
+      <Button x:Name="removeDependencyRowButton"
               FontSize="25"
-            Content="-"
-            Width="40"
-            Margin="10,5,5,5" />
-  </WrapPanel>
+              Content="-"
+              Width="40"
+              Margin="10,5,5,5" />
+    </WrapPanel>
   </Border>
 </UserControl>
