@@ -28,8 +28,32 @@ namespace WpfApp1.Dialogs.Templates
             inventoryComboBox.ItemsSource = ((MainWindow)Application.Current.MainWindow).inventoryPage.inventoryList;
         }
 
+        public bool ValidInventoryComboBox
+        {
+            get { return inventoryComboBox.SelectedItem != null; }
+        }
 
+        public bool ValidQuantityTextBox
+        {
+            get { return Double.TryParse(quantityTextBox.Text, out double dump); }
+        }
 
-        
+        public bool Valid
+        {
+            get { return this.ValidQuantityTextBox && this.ValidInventoryComboBox; }
+        }
+
+        private void QuantityTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!this.ValidQuantityTextBox)
+            {
+                quantityTextBox.BorderBrush = new SolidColorBrush(Colors.Red);
+            }
+            else
+            {
+                quantityTextBox.BorderBrush = new SolidColorBrush(Colors.Black);
+            }
+        }
+
     }
 }

@@ -22,7 +22,8 @@
     <TextBox x:Name="quantityTextBox"
              FontSize="25.0"
              Margin="5,5,10,5"
-             Width="150"/>
+             Width="150"
+             TextChanged="QuantityTextBox_TextChanged"/>
     <Button x:Name="removeDependencyRowButton"
               FontSize="25"
             Content="-"

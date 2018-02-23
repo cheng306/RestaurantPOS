@@ -38,6 +38,7 @@ namespace WpfApp1.Dialogs
                 inventoryNameList.Add(inventory.Name);
             }
 
+            //for existing inventoryConsumption, create depedencyRow for each consumption
             foreach (InventoryConsumption inventoryConsumption in selectedItem.InventoryConsumptionList)
             {
                 ObservableCollection<string> comboBoxInventoryList = new ObservableCollection<string>(inventoryNameList);
@@ -60,6 +61,7 @@ namespace WpfApp1.Dialogs
             ObservableCollection<string> comboBoxInventoryList = new ObservableCollection<string>(inventoryNameList);
             dependencyRow.inventoryComboBox.ItemsSource = comboBoxInventoryList;
 
+            //add event handler to newly added dependencyRow
             dependencyRow.removeDependencyRowButton.Click += RemoveDependencyRowButton_Click;
             dependencyRow.inventoryComboBox.SelectionChanged += InventoryComboBox_SelectionChanged;
             dependenciesStackpanel.Children.Add(dependencyRow);
@@ -77,6 +79,8 @@ namespace WpfApp1.Dialogs
             }
 
             RemoveOptionsfromOtherComboBox(comboBox);
+            ValidationCheck();
+
         }
 
         private void RemoveDependencyRowButton_Click(object sender, RoutedEventArgs e)
@@ -109,10 +113,20 @@ namespace WpfApp1.Dialogs
                 {
                     ((ObservableCollection<String>)otherDependencyRow.inventoryComboBox.ItemsSource).Remove((string)comboBox.SelectedItem);
                     Console.WriteLine("======remove option");
-                }
-                
+                }     
             }
             inventoryNameList.Remove((string)comboBox.SelectedItem);
+            
+        }
+
+        private bool ValidComboboxs()
+        {
+            return false;
+        }
+            
+
+        private void ValidationCheck()
+        {
             
         }
 
