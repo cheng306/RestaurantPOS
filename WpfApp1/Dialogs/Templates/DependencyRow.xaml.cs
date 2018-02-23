@@ -54,6 +54,7 @@ namespace WpfApp1.Dialogs.Templates
                 quantityTextBox.BorderBrush = new SolidColorBrush(Colors.Black);
             }
         }
+        ///
 
     }
 }
