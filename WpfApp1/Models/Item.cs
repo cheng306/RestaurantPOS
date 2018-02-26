@@ -51,7 +51,7 @@ namespace WpfApp1.Models
         {
             get; set;
         }
-        public double ConsumptionQUantity
+        public double ConsumptionQuantity
         {
             get; set;
         }

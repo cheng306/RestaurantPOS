@@ -28,6 +28,16 @@ namespace WpfApp1.Dialogs.Templates
             inventoryComboBox.ItemsSource = ((MainWindow)Application.Current.MainWindow).inventoryPage.inventoryList;
         }
 
+        public string InventoryName
+        {
+            get { return (String)inventoryComboBox.SelectedItem; }
+        }
+
+        public double ConsumptionQuantity
+        {
+            get { return Double.Parse(quantityTextBox.Text); }
+        }
+
         public bool ValidInventoryComboBox
         {
             get { return inventoryComboBox.SelectedItem != null; }

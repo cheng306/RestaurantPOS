@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApp1.Models;
 using WpfApp1.Dialogs;
+using WpfApp1.Dialogs.Templates;
 
 namespace WpfApp1.Pages
 {
@@ -25,17 +26,46 @@ namespace WpfApp1.Pages
     {
         internal ObservableCollection<Inventory> inventoryList;
 
+        bool leftEnabled;
+        bool rightEnabled;
+
         public InventoryPage()
         {
             InitializeComponent();
+        }
+
+        private void InventoryPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            itemsListView.SelectedItem = null;
+            inventoryListView.SelectedItem = null;
+            editItemConsumptionButton.IsEnabled = false;
+            DisableRightGridButtons();
+            leftEnabled = false;
+            rightEnabled = false;
         }
 
         private void EditItemConsumptionButton_Click(object sender, RoutedEventArgs e)
         {
             Item seletedItem = (Item)itemsListView.SelectedItem;
             EditItemInventoryDialog editItemInventoryDialog = new EditItemInventoryDialog(seletedItem);
+            
+            
+            if (editItemInventoryDialog.ShowDialog() == true)//when user click confrim button
+            {
+                List<InventoryConsumption> inventoryConsumptionList = new List<InventoryConsumption>();
+                foreach (DependencyRow dependencyRow in editItemInventoryDialog.dependenciesStackpanel.Children)
+                {
+                    InventoryConsumption inventoryConsumption = new InventoryConsumption{
+                        InventoryName = dependencyRow.InventoryName,
+                        ConsumptionQuantity = dependencyRow.ConsumptionQuantity
+                    };
+                    inventoryConsumptionList.Add(inventoryConsumption);
+                    Console.WriteLine(dependencyRow.inventoryComboBox.SelectedValue + " " + dependencyRow.quantityTextBox.Text);
+                }
+                seletedItem.InventoryConsumptionList = inventoryConsumptionList;
+            }
 
-            editItemInventoryDialog.ShowDialog();
+
         }
 
         private void CreateInventoryButton_Click(object sender, RoutedEventArgs e)
@@ -44,7 +74,20 @@ namespace WpfApp1.Pages
             if (addInventoryWindow.ShowDialog() == true)
             {
                 Console.WriteLine("===========new inventory created");
-                inventoryList.Add(new Inventory {Name=addInventoryWindow.InventoryName, Quantity=addInventoryWindow.InventoryQuantity});
+                Inventory addedInventory = new Inventory { Name = addInventoryWindow.InventoryName, Quantity = addInventoryWindow.InventoryQuantity };
+                inventoryList.Add(addedInventory);
+
+                inventoryListView.SelectedItem = addedInventory;
+                inventoryListView.Focus();
+                rightEnabled = true;
+            }
+            else
+            {
+                if (rightEnabled)
+                {
+                    inventoryListView.Focus();
+                }
+
             }
         }
 
@@ -71,35 +114,32 @@ namespace WpfApp1.Pages
             inventoryList.Remove((Inventory)inventoryListView.SelectedItem);
 
             DisableRightGridButtons();
+            rightEnabled = false;
         }
-
-        //below is the logic of the button ability
-        private void InventoryPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            itemsListView.SelectedItem = null;
-            inventoryListView.SelectedItem = null;
-            editItemConsumptionButton.IsEnabled = false;
-            DisableRightGridButtons();
-        }
+        
 
         private void LeftGrid_GotFocus(object sender, RoutedEventArgs e)
         {
             DisableRightGridButtons();
+            rightEnabled = false;
         }
 
         private void RightGrid_GotFocus(object sender, RoutedEventArgs e)
         {
             editItemConsumptionButton.IsEnabled = false;
+            leftEnabled = false;
         }
 
         private void InventoryListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             EnableRightGridButtons();
+            rightEnabled = true;
         }
 
         private void ItemsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             editItemConsumptionButton.IsEnabled = true;
+            leftEnabled = true;
         }
 
         private void EnableRightGridButtons()
@@ -113,12 +153,7 @@ namespace WpfApp1.Pages
             modifyInventoryButton.IsEnabled = false;
             removeInventoryButton.IsEnabled = false;
         }
-        //above is about button ability
-
-        public void Nothing()
-        {
-
-        }
+ 
 
         
     }

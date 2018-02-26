@@ -54,7 +54,8 @@
               Grid.Column="0"
               Content="Confrim"
               IsEnabled="false"
-              FontSize="25" />
+              FontSize="25"
+              Click="ConfrimButton_Click"/>
       <Button Grid.Column="1"
               Content="Canel"
               IsCancel="True"

@@ -17,6 +17,7 @@ using WpfApp1.Models;
 using System.Collections.ObjectModel;
 using System.Collections;
 
+
 namespace WpfApp1.Dialogs
 {
     /// <summary>
@@ -46,7 +47,7 @@ namespace WpfApp1.Dialogs
                 DependencyRow dependencyRow = new DependencyRow();
                 dependencyRow.inventoryComboBox.ItemsSource = comboBoxInventoryList;
                 dependencyRow.inventoryComboBox.SelectedItem = inventoryConsumption.InventoryName;
-                dependencyRow.quantityTextBox.Text = inventoryConsumption.ConsumptionQUantity.ToString();
+                dependencyRow.quantityTextBox.Text = inventoryConsumption.ConsumptionQuantity.ToString();
 
                 //add event handler to newly added dependencyRow
                 dependencyRow.removeDependencyRowButton.Click += RemoveDependencyRowButton_Click;
@@ -152,6 +153,11 @@ namespace WpfApp1.Dialogs
             else{
                 confrimButton.IsEnabled = false;
             }
+        }
+
+        private void ConfrimButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
         }
     }
 }
