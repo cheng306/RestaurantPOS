@@ -39,6 +39,11 @@ namespace WpfApp1
         string inventoryListXmlPath;
         XmlSerializer inventoryListSerializer;
 
+        //path of xml file that store tablesList in Main Page
+        //Serializer used to serialize and deserialize List<Circle>
+        string tablesListXmlPath;
+        XmlSerializer tablesListSerializer;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -49,11 +54,15 @@ namespace WpfApp1
             CreateDbDirectory();
 
             //locate the path and initialize the serializer
+            LoadTablesList();
+
             LoadItemsList();
 
             LoadCategoriesList();
 
             LoadInventoryList();
+
+
 
 
             //editPage.itemsList.Add(new Item { Name = "bbb", Category = "aaa", Price = 12.6, AddTime = DateTime.Now });
@@ -84,6 +93,31 @@ namespace WpfApp1
             {
                 dbDirectory.Create();
             }
+        }
+
+        private void LoadTablesList()
+        {
+            //locate the path
+            tablesListXmlPath = @"db\tableslist.xml";
+
+            //initilize serizlizer
+            tablesListSerializer = new XmlSerializer(typeof(List<Models.Table>));
+
+            if (File.Exists(tablesListXmlPath))
+            {
+                StreamReader streamReader = new StreamReader(tablesListXmlPath);
+                tablesPage.tablesList = (List<Models.Table>)tablesListSerializer.Deserialize(streamReader);
+                streamReader.Close();
+                Console.WriteLine("=============tablesList in tablesPage loaded");
+            }
+            else
+            {
+                tablesPage.tablesList = new List<Models.Table>();
+                Console.WriteLine("=============tablesList in tablesPage created");
+            }
+
+            Console.WriteLine("=============tablesList size" + tablesPage.tablesList.Count);
+            tablesPage.LoadTables();
         }
 
         private void LoadItemsList()
@@ -174,6 +208,11 @@ namespace WpfApp1
             fs = File.Create(inventoryListXmlPath);
             ObservableCollection<Inventory> inventoryList = inventoryPage.inventoryList;
             inventoryListSerializer.Serialize(fs, inventoryList);
+            fs.Close();
+
+            fs = File.Create(tablesListXmlPath);
+            List<Models.Table> tableList = tablesPage.tablesList;
+            tablesListSerializer.Serialize(fs, tableList);
             fs.Close();
         }
 

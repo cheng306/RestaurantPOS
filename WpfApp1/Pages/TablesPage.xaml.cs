@@ -37,14 +37,19 @@ namespace WpfApp1.Pages
         //a list of all centers of circles. Used for Overlap detection
         List<Point> pointList;
 
+        //a list of circles 
+        internal List<Models.Table> tablesList;
+
         Object auxObject;
         
         public TablesPage()
         {
             InitializeComponent();
 
+            Console.WriteLine("=================tablesPage Started");
+
             pointList = new List<Point>();
-            
+
             previousPt = new Point();
           
             diameter = addButton.circleUI.Width;
@@ -53,22 +58,12 @@ namespace WpfApp1.Pages
             addButton.Center = new Point(canvas.Width - radius, canvas.Height - radius);
             pointList.Add(addButton.Center);
 
+
             deleteButton.Center = new Point(radius, canvas.Height - radius);
             deleteButton.circleUI.Fill = new SolidColorBrush(Colors.Red);
-
-            deleteButton.MouseEnter += DeleteButton_MouseEnter;
-
         }
 
-        private void DeleteButton_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            Console.WriteLine("DeleteButton_up");
-        }
-
-        private void DeleteButton_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Console.WriteLine("DeleteButton_enter");
-        }
+ 
 
         private void AddButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -94,10 +89,8 @@ namespace WpfApp1.Pages
             newTable.CaptureMouse();
 
             //add listener
-            newTable.MouseMove += Table_MouseMove;
-            newTable.MouseUp += Table_MouseUp;
-            newTable.MouseDown += Table_MouseDownAsync;
-            newTable.MouseLeave += Table_MouseLeave;
+            AddListener(newTable);
+            
         }
 
         private void Table_MouseMove(object sender, MouseEventArgs e)
@@ -106,7 +99,6 @@ namespace WpfApp1.Pages
             if (circle.IsMouseCaptured && e.LeftButton == MouseButtonState.Pressed) 
             {
                 Point point = e.GetPosition(canvas);
-                //Circle newTable = (Circle)sender;
  
                 circle.SetValue(Canvas.LeftProperty, point.X - (radius + xDistance));//Canvas.LeftProperty
                 circle.SetValue(Canvas.TopProperty, point.Y - (radius + yDistance));
@@ -159,9 +151,6 @@ namespace WpfApp1.Pages
                 xDistance = e.GetPosition(canvas).X - circle.Center.X;
                 yDistance = e.GetPosition(canvas).Y - circle.Center.Y;
 
-                Console.WriteLine("left x: " + previousPt.X + " center x: " + circle.Center.X);
-                Console.WriteLine("left y: " + previousPt.Y + " center y: " + circle.Center.Y);
-
                 circle.Opacity = 0.5;
                 ((SolidColorBrush)circle.circleUI.Fill).Color = Colors.Green;
 
@@ -181,11 +170,16 @@ namespace WpfApp1.Pages
                 {
                     canvas.Children.Remove(circle);
                 }
-                else 
+                else //green color, then add the circle
                 {
                     AddNewCoordinate(circle);
                     SolidYellowCircle(circle);
-                    circle.Added = true;              
+                    circle.Added = true;
+
+                    //add the table affliated to this circle
+                    Models.Table table = new Models.Table(circle.Center);
+                    circle.Table = table;
+                    tablesList.Add(table);
                 }
                 
             }
@@ -193,7 +187,7 @@ namespace WpfApp1.Pages
             {
                 if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Red)
                 {
-                    restoreOriginalCoordinate(circle);
+                    RestoreOriginalCoordinate(circle);
                     SolidYellowCircle(circle);
                 }
                 else if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Green)
@@ -201,28 +195,31 @@ namespace WpfApp1.Pages
                     Double x = (Double)circle.GetValue(Canvas.LeftProperty) + radius;
                     Double y = (Double)circle.GetValue(Canvas.TopProperty) + radius;
 
-                    if (x - deleteButton.Center.X < diameter && y - deleteButton.Center.Y < diameter)
+                    if (x - deleteButton.Center.X < diameter && deleteButton.Center.Y - y < diameter)
                     {
+                        Console.WriteLine(x + "============================" + y);
                         MessageBoxResult mResult = MessageBox.Show("Do You want to DELETE this Table", "Delete the table", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.No);
                         switch (mResult)
                         {
                             case MessageBoxResult.Yes:
                                 canvas.Children.Remove(circle);
+                                tablesList.Remove(circle.Table);
                                 break;
                             case MessageBoxResult.No:
-                                restoreOriginalCoordinate(circle);
+                                RestoreOriginalCoordinate(circle);
                                 SolidYellowCircle(circle);
                                 break;
                             case MessageBoxResult.Cancel:
-                                restoreOriginalCoordinate(circle);
+                                RestoreOriginalCoordinate(circle);
                                 SolidYellowCircle(circle);
                                 break;
                         }
                     }
-                    else
+                    else //green successfuly move the circle
                     {
                         AddNewCoordinate(circle);
                         SolidYellowCircle(circle);
+                        ModifyTableCenter(circle);
                     }
                 }
                 else //if yellow color
@@ -236,7 +233,8 @@ namespace WpfApp1.Pages
 
         }
 
-          
+       
+
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             ContentPresenter parent = (ContentPresenter)VisualTreeHelper.GetParent((Canvas)sender);
@@ -286,10 +284,6 @@ namespace WpfApp1.Pages
             Double y = (Double)circle.GetValue(Canvas.TopProperty) + radius;
             Point newPoint = new Point(x, y);
             circle.Center = newPoint;
-
-            Console.WriteLine("In add: left x: " + (Double)circle.GetValue(Canvas.LeftProperty) + " center x: " + circle.Center.X);
-            Console.WriteLine("In add: left y: " + (Double)circle.GetValue(Canvas.TopProperty) + " center y: " + circle.Center.Y);
-
             pointList.Add(newPoint);
         }
 
@@ -314,11 +308,54 @@ namespace WpfApp1.Pages
          * 1) restore circle to its original coordinate
          * 2) add the coordinate of the circle to pointList
          */
-        private void restoreOriginalCoordinate(Circle circle)
+        private void RestoreOriginalCoordinate(Circle circle)
         {
             circle.SetValue(Canvas.LeftProperty, previousPt.X);
             circle.SetValue(Canvas.TopProperty, previousPt.Y);
             pointList.Add(circle.Center);
+        }
+
+        private void ModifyTableCenter(Circle circle)
+        {
+            circle.Table.Center = circle.Center;
+        }
+
+        private void AddListener(Circle tableUI)
+        {
+            tableUI.MouseMove += Table_MouseMove;
+            tableUI.MouseUp += Table_MouseUp;
+            tableUI.MouseDown += Table_MouseDownAsync;
+            tableUI.MouseLeave += Table_MouseLeave;
+        }
+
+        internal void LoadTables()
+        {
+            foreach (Models.Table table in tablesList)
+            {
+                //logic of tableUI
+                Circle tableUI = new Circle();
+                tableUI.Table = table;
+                tableUI.Added = true;
+
+                //apperance of the tableUI
+                SolidColorBrush myBrush = new SolidColorBrush()
+                {
+                    Color = Colors.Yellow
+                };
+                tableUI.circleUI.Fill = myBrush;
+                tableUI.Opacity = 1;
+
+                //add listeners to tableUI
+                AddListener(tableUI);
+
+                //show on canvas
+                tableUI.Center = table.Center;
+                tableUI.SetValue(Canvas.LeftProperty, tableUI.Center.X-radius);
+                tableUI.SetValue(Canvas.TopProperty, tableUI.Center.Y-radius);
+                canvas.Children.Add(tableUI);
+
+
+            }
         }
 
 

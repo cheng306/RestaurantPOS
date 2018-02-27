@@ -98,6 +98,7 @@ namespace WpfApp1.Pages
             AddInventoryWindow addInventoryWindow = new AddInventoryWindow();
             addInventoryWindow.addButton.IsEnabled = true;
             addInventoryWindow.Title = "Modify Inventory";
+            addInventoryWindow.addButton.Content = "Modify";
             addInventoryWindow.nameTextBox.Text = selectedInventory.Name;
             addInventoryWindow.quantityTextBox.Text = selectedInventory.Quantity.ToString();
             if (addInventoryWindow.ShowDialog() == true)

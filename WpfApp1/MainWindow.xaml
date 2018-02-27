@@ -19,7 +19,7 @@
       <TabItem FontSize="20"
                Header="Main">
         <ScrollViewer HorizontalScrollBarVisibility="Auto">
-          <page:TablesPage />
+          <page:TablesPage x:Name="tablesPage" />
         </ScrollViewer>
       </TabItem>
 

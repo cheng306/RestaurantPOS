@@ -37,14 +37,9 @@ namespace WpfApp1.Models
 
         public bool Movable { get; set; }
 
-
         public Point Center{   get; set; }
-        
 
-
-
-
-      
+        public Table Table { get; set; }
 
     }
 }
