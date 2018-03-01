@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1.Models
+namespace RestaurantPOS.Models
 {
     public class Item : INotifyPropertyChanged
     {

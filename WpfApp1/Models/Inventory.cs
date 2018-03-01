@@ -6,12 +6,13 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1.Models
+namespace RestaurantPOS.Models
 {
     public class Inventory : INotifyPropertyChanged
     {
         private string name;
         private double quantity;
+        private string unit;
 
         public string Name {
             get { return this.name; }
@@ -24,6 +25,7 @@ namespace WpfApp1.Models
                 }
             }
         }
+
         public double Quantity
         {
             get { return this.quantity; }
@@ -31,6 +33,19 @@ namespace WpfApp1.Models
                 if (value != this.quantity)
                 {
                     this.quantity = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public string Unit
+        {
+            get { return this.unit; }
+            set
+            {
+                if (value != this.unit)
+                {
+                    this.unit = value;
                     NotifyPropertyChanged();
                 }
             }

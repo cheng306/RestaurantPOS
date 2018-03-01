@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfApp1.Dialogs.Templates
+namespace RestaurantPOS.Dialogs.Templates
 {
     /// <summary>
     /// Interaction logic for DependencyRow.xaml

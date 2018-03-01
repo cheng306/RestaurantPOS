@@ -6,15 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace RestaurantPOS.Converters
+namespace RestaurantPOS.Converter
 {
     class MultiplierConverter : IValueConverter
     {
         object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            double multiplier = Convert.ToDouble(parameter);   
+            double multiplier = Convert.ToDouble(parameter);
             return (double)value * multiplier;
-            
+
         }
 
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

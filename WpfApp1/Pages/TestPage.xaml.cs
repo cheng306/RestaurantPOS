@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfApp1.Pages
+namespace RestaurantPOS.Pages
 {
     /// <summary>
     /// Interaction logic for TestPage.xaml

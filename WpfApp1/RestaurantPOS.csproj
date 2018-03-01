@@ -54,6 +54,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converter\MultplierConverter.cs" />
     <Compile Include="Dialogs\Templates\DependencyRow.xaml.cs">
       <DependentUpon>DependencyRow.xaml</DependentUpon>
     </Compile>

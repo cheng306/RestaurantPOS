@@ -13,11 +13,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfApp1.Models;
-using WpfApp1.Dialogs;
-using WpfApp1.Dialogs.Templates;
+using RestaurantPOS.Models;
+using RestaurantPOS.Dialogs;
+using RestaurantPOS.Dialogs.Templates;
 
-namespace WpfApp1.Pages
+namespace RestaurantPOS.Pages
 {
     /// <summary>
     /// Interaction logic for Inventory.xaml
@@ -148,7 +148,7 @@ namespace WpfApp1.Pages
             }
         }
 
-        private void InventoryListView_LostFocus(object sender, RoutedEventArgs e)
+        private void InventoryListView_GotFocus(object sender, RoutedEventArgs e)
         {
             if (inventoryListView.SelectedItem != null)
             {

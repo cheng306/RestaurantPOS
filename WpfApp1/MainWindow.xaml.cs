@@ -15,9 +15,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Serialization;
-using WpfApp1.Models;
+using RestaurantPOS.Models;
 
-namespace WpfApp1
+namespace RestaurantPOS
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

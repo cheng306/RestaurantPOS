@@ -11,14 +11,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WpfApp1.Pages;
-using WpfApp1.Dialogs.Templates;
-using WpfApp1.Models;
+using RestaurantPOS.Pages;
+using RestaurantPOS.Dialogs.Templates;
+using RestaurantPOS.Models;
 using System.Collections.ObjectModel;
 using System.Collections;
 
 
-namespace WpfApp1.Dialogs
+namespace RestaurantPOS.Dialogs
 {
     /// <summary>
     /// Interaction logic for AddInventoryConsumption.xaml

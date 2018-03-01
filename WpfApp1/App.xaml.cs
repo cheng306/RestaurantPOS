@@ -5,8 +5,9 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using RestaurantPOS.Converters;
 
-namespace WpfApp1
+namespace RestaurantPOS
 {
   /// <summary>
   /// Interaction logic for App.xaml
