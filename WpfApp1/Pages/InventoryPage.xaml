@@ -30,6 +30,7 @@
                   BorderBrush="Aquamarine"
                   BorderThickness="5"
                   SelectionMode="Single"
+                  GotFocus="ItemsListView_GotFocus"
                   SelectionChanged="ItemsListView_SelectionChanged">
         <ListView.View>
           <GridView>
@@ -66,6 +67,7 @@
                   SelectionMode="Single"
                   BorderBrush="AntiqueWhite"
                   BorderThickness="5"
+                  GotFocus="InventoryListView_GotFocus"
                   SelectionChanged="InventoryListView_SelectionChanged">
       <ListView.View>
         <GridView>

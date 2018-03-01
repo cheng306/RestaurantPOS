@@ -40,21 +40,25 @@ namespace WpfApp1.Dialogs
             }
 
             //for existing inventoryConsumption, create depedencyRow for each consumption
-            foreach (InventoryConsumption inventoryConsumption in selectedItem.InventoryConsumptionList)
+            if (selectedItem.InventoryConsumptionList != null)
             {
-                ObservableCollection<string> comboBoxInventoryList = new ObservableCollection<string>(inventoryNameList);
-                inventoryNameList.Remove(inventoryConsumption.InventoryName);
-                DependencyRow dependencyRow = new DependencyRow();
-                dependencyRow.inventoryComboBox.ItemsSource = comboBoxInventoryList;
-                dependencyRow.inventoryComboBox.SelectedItem = inventoryConsumption.InventoryName;
-                dependencyRow.quantityTextBox.Text = inventoryConsumption.ConsumptionQuantity.ToString();
+                foreach (InventoryConsumption inventoryConsumption in selectedItem.InventoryConsumptionList)
+                {
+                    ObservableCollection<string> comboBoxInventoryList = new ObservableCollection<string>(inventoryNameList);
+                    inventoryNameList.Remove(inventoryConsumption.InventoryName);
+                    DependencyRow dependencyRow = new DependencyRow();
+                    dependencyRow.inventoryComboBox.ItemsSource = comboBoxInventoryList;
+                    dependencyRow.inventoryComboBox.SelectedItem = inventoryConsumption.InventoryName;
+                    dependencyRow.quantityTextBox.Text = inventoryConsumption.ConsumptionQuantity.ToString();
 
-                //add event handler to newly added dependencyRow
-                dependencyRow.removeDependencyRowButton.Click += RemoveDependencyRowButton_Click;
-                dependencyRow.inventoryComboBox.SelectionChanged += InventoryComboBox_SelectionChanged;
-                dependencyRow.quantityTextBox.TextChanged += QuantityTextBox_TextChanged;
-                dependenciesStackpanel.Children.Add(dependencyRow);
+                    //add event handler to newly added dependencyRow
+                    dependencyRow.removeDependencyRowButton.Click += RemoveDependencyRowButton_Click;
+                    dependencyRow.inventoryComboBox.SelectionChanged += InventoryComboBox_SelectionChanged;
+                    dependencyRow.quantityTextBox.TextChanged += QuantityTextBox_TextChanged;
+                    dependenciesStackpanel.Children.Add(dependencyRow);
+                }
             }
+            
         }
 
         private void AddDependencyButton_Click(object sender, RoutedEventArgs e)

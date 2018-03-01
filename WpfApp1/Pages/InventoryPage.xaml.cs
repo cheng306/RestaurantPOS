@@ -26,6 +26,7 @@ namespace WpfApp1.Pages
     {
         internal ObservableCollection<Inventory> inventoryList;
 
+        // indicators that if the listviewgot focus before 
         bool leftEnabled;
         bool rightEnabled;
 
@@ -48,8 +49,7 @@ namespace WpfApp1.Pages
         {
             Item seletedItem = (Item)itemsListView.SelectedItem;
             EditItemInventoryDialog editItemInventoryDialog = new EditItemInventoryDialog(seletedItem);
-            
-            
+                
             if (editItemInventoryDialog.ShowDialog() == true)//when user click confrim button
             {
                 List<InventoryConsumption> inventoryConsumptionList = new List<InventoryConsumption>();
@@ -64,8 +64,6 @@ namespace WpfApp1.Pages
                 }
                 seletedItem.InventoryConsumptionList = inventoryConsumptionList;
             }
-
-
         }
 
         private void CreateInventoryButton_Click(object sender, RoutedEventArgs e)
@@ -73,7 +71,6 @@ namespace WpfApp1.Pages
             AddInventoryWindow addInventoryWindow = new AddInventoryWindow();
             if (addInventoryWindow.ShowDialog() == true)
             {
-                Console.WriteLine("===========new inventory created");
                 Inventory addedInventory = new Inventory { Name = addInventoryWindow.InventoryName, Quantity = addInventoryWindow.InventoryQuantity };
                 inventoryList.Add(addedInventory);
 
@@ -118,7 +115,6 @@ namespace WpfApp1.Pages
             rightEnabled = false;
         }
         
-
         private void LeftGrid_GotFocus(object sender, RoutedEventArgs e)
         {
             DisableRightGridButtons();
@@ -143,6 +139,24 @@ namespace WpfApp1.Pages
             leftEnabled = true;
         }
 
+        private void ItemsListView_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (itemsListView.SelectedItem != null)
+            {
+                editItemConsumptionButton.IsEnabled = true;
+                leftEnabled = true;
+            }
+        }
+
+        private void InventoryListView_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (inventoryListView.SelectedItem != null)
+            {
+                EnableRightGridButtons();
+                rightEnabled = true;
+            }
+        }
+
         private void EnableRightGridButtons()
         {
             modifyInventoryButton.IsEnabled = true;
@@ -154,8 +168,6 @@ namespace WpfApp1.Pages
             modifyInventoryButton.IsEnabled = false;
             removeInventoryButton.IsEnabled = false;
         }
- 
 
-        
     }
 }

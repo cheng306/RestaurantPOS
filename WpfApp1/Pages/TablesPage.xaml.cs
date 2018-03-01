@@ -41,6 +41,8 @@ namespace WpfApp1.Pages
         internal List<Models.Table> tablesList;
 
         Object auxObject;
+
+        bool goToSelectionPage;
         
         public TablesPage()
         {
@@ -62,8 +64,6 @@ namespace WpfApp1.Pages
             deleteButton.Center = new Point(radius, canvas.Height - radius);
             deleteButton.circleUI.Fill = new SolidColorBrush(Colors.Red);
         }
-
- 
 
         private void AddButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -93,46 +93,12 @@ namespace WpfApp1.Pages
             
         }
 
-        private void Table_MouseMove(object sender, MouseEventArgs e)
-        {
-            Circle circle = (Circle)sender;
-            if (circle.IsMouseCaptured && e.LeftButton == MouseButtonState.Pressed) 
-            {
-                Point point = e.GetPosition(canvas);
- 
-                circle.SetValue(Canvas.LeftProperty, point.X - (radius + xDistance));//Canvas.LeftProperty
-                circle.SetValue(Canvas.TopProperty, point.Y - (radius + yDistance));
-
-              
-                point.X = point.X - xDistance;
-                point.Y = point.Y - yDistance;
-
-                if (!AllowRelease(circle,point))
-                {
-                    ((SolidColorBrush)((Circle)sender).circleUI.Fill).Color = Colors.Green;
-                    
-                }
-                else
-                {
-                    ((SolidColorBrush)((Circle)sender).circleUI.Fill).Color = Colors.Red;
-                }
-        
-            }
-
-            e.Handled = true;
-
-        }
-
-        private void Table_MouseLeave(object sender, MouseEventArgs e)
-        {
-            auxObject = null;
-        }
-
         private async void Table_MouseDownAsync(object sender, MouseButtonEventArgs e)
         {
             Circle circle = (Circle)sender;
             auxObject = new object();
             Object auxObject2 = auxObject;
+            goToSelectionPage = true;
 
             //hold for 1 second, if mouse le
             await HoldDelay();
@@ -144,7 +110,7 @@ namespace WpfApp1.Pages
                 previousPt.X = (Double)(circle.GetValue(Canvas.LeftProperty));
                 previousPt.Y = (Double)(circle.GetValue(Canvas.TopProperty));
 
-                
+
                 pointList.Remove(circle.Center);
 
 
@@ -154,11 +120,45 @@ namespace WpfApp1.Pages
                 circle.Opacity = 0.5;
                 ((SolidColorBrush)circle.circleUI.Fill).Color = Colors.Green;
 
-                circle.CaptureMouse();  
+                circle.CaptureMouse();
+            }
+        }
+
+        private void Table_MouseLeave(object sender, MouseEventArgs e)
+        {
+            auxObject = null;
+            goToSelectionPage = false;
+        }
+
+        private void Table_MouseMove(object sender, MouseEventArgs e)
+        {
+            Circle circle = (Circle)sender;
+            if (circle.IsMouseCaptured && e.LeftButton == MouseButtonState.Pressed)
+            {
+                Point point = e.GetPosition(canvas);
+
+                circle.SetValue(Canvas.LeftProperty, point.X - (radius + xDistance));//Canvas.LeftProperty
+                circle.SetValue(Canvas.TopProperty, point.Y - (radius + yDistance));
+
+
+                point.X = point.X - xDistance;
+                point.Y = point.Y - yDistance;
+
+                if (!AllowRelease(circle, point))
+                {
+                    ((SolidColorBrush)((Circle)sender).circleUI.Fill).Color = Colors.Green;
+
+                }
+                else
+                {
+                    ((SolidColorBrush)((Circle)sender).circleUI.Fill).Color = Colors.Red;
+                }
 
             }
-            
+            //e.Handled = true;
         }
+
+
 
         private void Table_MouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -326,6 +326,58 @@ namespace WpfApp1.Pages
             tableUI.MouseUp += Table_MouseUp;
             tableUI.MouseDown += Table_MouseDownAsync;
             tableUI.MouseLeave += Table_MouseLeave;
+
+            tableUI.TouchDown += TableUI_TouchDownAsync;
+            tableUI.TouchMove += TableUI_TouchMove;
+            tableUI.TouchLeave += TableUI_TouchLeave;
+            tableUI.TouchUp += TableUI_TouchUp;
+            
+        }
+
+        private void TableUI_TouchUp(object sender, TouchEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void TableUI_TouchLeave(object sender, TouchEventArgs e)
+        {
+            auxObject = null;
+        }
+
+        private void TableUI_TouchMove(object sender, TouchEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private async void TableUI_TouchDownAsync(object sender, TouchEventArgs e)
+        {
+            Circle circle = (Circle)sender;
+            auxObject = new object();
+            Object auxObject2 = auxObject;
+            goToSelectionPage = true;
+
+            //hold for 1 second, if mouse le
+            await HoldDelay();
+
+            if (circle.AreAnyTouchesDirectlyOver && auxObject == auxObject2)
+            {
+                ChangeZIndex(circle, 3);
+
+                previousPt.X = (Double)(circle.GetValue(Canvas.LeftProperty));
+                previousPt.Y = (Double)(circle.GetValue(Canvas.TopProperty));
+
+
+                pointList.Remove(circle.Center);
+
+
+                xDistance = e.GetTouchPoint(canvas).Position.X - circle.Center.X;
+                yDistance = e.GetTouchPoint(canvas).Position.Y - circle.Center.Y;
+
+                circle.Opacity = 0.5;
+                ((SolidColorBrush)circle.circleUI.Fill).Color = Colors.Green;
+
+                circle.CaptureTouch(e.TouchDevice);
+            }
         }
 
         internal void LoadTables()
