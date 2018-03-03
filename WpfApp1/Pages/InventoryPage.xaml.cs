@@ -68,7 +68,7 @@ namespace RestaurantPOS.Pages
 
         private void CreateInventoryButton_Click(object sender, RoutedEventArgs e)
         {
-            AddInventoryWindow addInventoryWindow = new AddInventoryWindow();
+            AddInventoryDialog addInventoryWindow = new AddInventoryDialog();
             if (addInventoryWindow.ShowDialog() == true)
             {
                 Inventory addedInventory = new Inventory { Name = addInventoryWindow.InventoryName, Quantity = addInventoryWindow.InventoryQuantity };
@@ -92,7 +92,7 @@ namespace RestaurantPOS.Pages
         {
             Inventory selectedInventory = (Inventory)inventoryListView.SelectedItem;
 
-            AddInventoryWindow addInventoryWindow = new AddInventoryWindow();
+            AddInventoryDialog addInventoryWindow = new AddInventoryDialog();
             addInventoryWindow.addButton.IsEnabled = true;
             addInventoryWindow.Title = "Modify Inventory";
             addInventoryWindow.addButton.Content = "Modify";

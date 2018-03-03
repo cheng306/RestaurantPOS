@@ -17,9 +17,9 @@ namespace RestaurantPOS.Dialogs
     /// <summary>
     /// Interaction logic for AddCategoryWindow.xaml
     /// </summary>
-    public partial class AddCategoryWindow : Window
+    public partial class AddCategoryDialog : Window
     {
-        public AddCategoryWindow()
+        public AddCategoryDialog()
         {
             InitializeComponent();
             InitializeOther();

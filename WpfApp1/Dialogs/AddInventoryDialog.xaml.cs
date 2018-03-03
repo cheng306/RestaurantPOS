@@ -17,12 +17,12 @@ namespace RestaurantPOS.Dialogs
     /// <summary>
     /// Interaction logic for AddInventoryWindow.xaml
     /// </summary>
-    public partial class AddInventoryWindow : Window
+    public partial class AddInventoryDialog : Window
     {
         bool validName;
         bool validQuantity;
 
-        public AddInventoryWindow()
+        public AddInventoryDialog()
         {
             InitializeComponent();
             OtherInitialSetup();

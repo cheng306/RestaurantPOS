@@ -23,7 +23,8 @@
         </ScrollViewer>
       </TabItem>
 
-      <TabItem FontSize="20"
+      <TabItem x:Name="selectionPageTab"
+               FontSize="20"
                Header="Table">
         <page:TestPage />
 

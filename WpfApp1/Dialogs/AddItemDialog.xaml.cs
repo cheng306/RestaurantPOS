@@ -17,13 +17,13 @@ namespace RestaurantPOS.Dialogs
     /// <summary>
     /// Interaction logic for AddItemWindow.xaml
     /// </summary>
-    public partial class AddItemWindow : Window
+    public partial class AddItemDialog : Window
     {
         bool validName;
         bool validPrice;
         bool validCategory;
 
-        public AddItemWindow()
+        public AddItemDialog()
         {
             InitializeComponent();
             OtherInitializeSetup();

@@ -90,7 +90,7 @@ namespace RestaurantPOS.Pages
 
         private void AddItemButton_Click(object sender, RoutedEventArgs e)
         {
-            AddItemWindow addItemWindow = new AddItemWindow();
+            AddItemDialog addItemWindow = new AddItemDialog();
             addItemWindow.categoriesComboBox.ItemsSource = categoriesList;
 
             if (addItemWindow.ShowDialog() == true)
@@ -120,7 +120,7 @@ namespace RestaurantPOS.Pages
 
         private void AddCategoryButton_Click(object sender, RoutedEventArgs e)
         {
-            AddCategoryWindow addCategoryWindow = new AddCategoryWindow();
+            AddCategoryDialog addCategoryWindow = new AddCategoryDialog();
             if (addCategoryWindow.ShowDialog() == true)
             {
                 categoriesList.Add(addCategoryWindow.Input);

@@ -74,20 +74,20 @@
     <Compile Include="Pages\TablesPage.xaml.cs">
       <DependentUpon>TablesPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\TestPage.xaml.cs">
-      <DependentUpon>TestPage.xaml</DependentUpon>
+    <Compile Include="Pages\SelectionPage.xaml.cs">
+      <DependentUpon>SelectionPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\AddCategoryWindow.xaml.cs">
-      <DependentUpon>AddCategoryWindow.xaml</DependentUpon>
+    <Compile Include="Dialogs\AddCategoryDialog.xaml.cs">
+      <DependentUpon>AddCategoryDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\EditItemInventoryDialog.xaml.cs">
       <DependentUpon>EditItemInventoryDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\AddInventoryWindow.xaml.cs">
-      <DependentUpon>AddInventoryWindow.xaml</DependentUpon>
+    <Compile Include="Dialogs\AddInventoryDialog.xaml.cs">
+      <DependentUpon>AddInventoryDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\AddItemWindow.xaml.cs">
-      <DependentUpon>AddItemWindow.xaml</DependentUpon>
+    <Compile Include="Dialogs\AddItemDialog.xaml.cs">
+      <DependentUpon>AddItemDialog.xaml</DependentUpon>
     </Compile>
     <Page Include="Dialogs\Templates\DependencyRow.xaml">
       <SubType>Designer</SubType>
@@ -121,11 +121,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\TestPage.xaml">
+    <Page Include="Pages\SelectionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\AddCategoryWindow.xaml">
+    <Page Include="Dialogs\AddCategoryDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -133,11 +133,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\AddInventoryWindow.xaml">
+    <Page Include="Dialogs\AddInventoryDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\AddItemWindow.xaml">
+    <Page Include="Dialogs\AddItemDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

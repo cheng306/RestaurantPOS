@@ -19,9 +19,9 @@ namespace RestaurantPOS.Pages
     /// <summary>
     /// Interaction logic for TestPage.xaml
     /// </summary>
-    public partial class TestPage : UserControl
+    public partial class SelectionPage : UserControl
     {
-        public TestPage()
+        public SelectionPage()
         {
             InitializeComponent();
             ObservableCollection<string> oc = new ObservableCollection<string>();
