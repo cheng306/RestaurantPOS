@@ -45,16 +45,5 @@ namespace RestaurantPOS.Models
         } 
     }
 
-    public class InventoryConsumption
-    {
-        public string InventoryName
-        {
-            get; set;
-        }
-        public double ConsumptionQuantity
-        {
-            get; set;
-        }
-
-    }
+    
 }

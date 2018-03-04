@@ -63,6 +63,7 @@
     </Compile>
     <Compile Include="Converters\MultiplierConverter.cs" />
     <Compile Include="Models\Inventory.cs" />
+    <Compile Include="Models\InventoryConsumption.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Table.cs" />
     <Compile Include="Pages\EditPage.xaml.cs">

@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         Title="Create Inventory"
         WindowStartupLocation="CenterScreen"
-        Height="500"
+        Height="700"
         Width="400"
-        MinHeight="500"
+        MinHeight="700"
         MinWidth="400">
   <Window.Resources>
     <Style TargetType="Button">
@@ -50,6 +50,15 @@
                  Foreground="Red"
                  Text="Quantity must be Numeric"
                  Margin="10"/>
+      <TextBlock Text="Quantity unit"
+                 Margin="10" />
+      <TextBox x:Name="unitTextBox"
+               Margin="10"
+               TextChanged="UnitTextBox_TextChanged" />
+      <TextBlock x:Name="unitWarningTextBlock"
+                 Foreground="Red"
+                 Text="Unit Cannot be Blank"
+                 Margin="10" />
     </StackPanel>
     <Grid Grid.Row="1">
       <Grid.ColumnDefinitions>

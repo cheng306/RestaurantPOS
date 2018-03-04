@@ -12,8 +12,8 @@
  
   <Grid>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="*" />
-      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="2*" />
+      <ColumnDefinition Width="3*" />
     </Grid.ColumnDefinitions>
     
     <Grid Grid.Column="0"
@@ -74,12 +74,15 @@
       <ListView.View>
         <GridView>
           <GridViewColumn Header="Name"
-                          Width="{Binding ElementName=inventoryListView, Path=ActualWidth, Converter={StaticResource Multiplier}, ConverterParameter=0.45}"
+                          Width="{Binding ElementName=inventoryListView, Path=ActualWidth, Converter={StaticResource Multiplier}, ConverterParameter=0.3}"
                           DisplayMemberBinding="{Binding Name}" />
           <GridViewColumn Header="Quantity"
-                          Width="{Binding ElementName=inventoryListView, Path=ActualWidth, Converter={StaticResource Multiplier}, ConverterParameter=0.45}"
+                          Width="{Binding ElementName=inventoryListView, Path=ActualWidth, Converter={StaticResource Multiplier}, ConverterParameter=0.3}"
                           DisplayMemberBinding="{Binding Quantity}" />
-        </GridView>
+              <GridViewColumn Header="Unit"
+                              Width="{Binding ElementName=inventoryListView, Path=ActualWidth, Converter={StaticResource Multiplier}, ConverterParameter=0.3}"
+                              DisplayMemberBinding="{Binding Unit}" />
+            </GridView>
       </ListView.View>
       </ListView>
       </StackPanel>

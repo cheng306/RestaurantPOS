@@ -45,16 +45,23 @@ namespace RestaurantPOS.Dialogs
                 foreach (InventoryConsumption inventoryConsumption in selectedItem.InventoryConsumptionList)
                 {
                     ObservableCollection<string> comboBoxInventoryList = new ObservableCollection<string>(inventoryNameList);
-                    inventoryNameList.Remove(inventoryConsumption.InventoryName);
+
+                    
+
                     DependencyRow dependencyRow = new DependencyRow();
+
                     dependencyRow.inventoryComboBox.ItemsSource = comboBoxInventoryList;
                     dependencyRow.inventoryComboBox.SelectedItem = inventoryConsumption.InventoryName;
+
+                    inventoryNameList.Remove(inventoryConsumption.InventoryName);
+                    RemoveOptionsfromOtherComboBox(dependencyRow.inventoryComboBox);
+
                     dependencyRow.quantityTextBox.Text = inventoryConsumption.ConsumptionQuantity.ToString();
+                   
 
                     //add event handler to newly added dependencyRow
-                    dependencyRow.removeDependencyRowButton.Click += RemoveDependencyRowButton_Click;
-                    dependencyRow.inventoryComboBox.SelectionChanged += InventoryComboBox_SelectionChanged;
-                    dependencyRow.quantityTextBox.TextChanged += QuantityTextBox_TextChanged;
+                    AddEventHandlersToDependencyRow(dependencyRow);
+
                     dependenciesStackpanel.Children.Add(dependencyRow);
                 }
             }
@@ -68,9 +75,8 @@ namespace RestaurantPOS.Dialogs
             dependencyRow.inventoryComboBox.ItemsSource = comboBoxInventoryList;
 
             //add event handler to newly added dependencyRow
-            dependencyRow.removeDependencyRowButton.Click += RemoveDependencyRowButton_Click;
-            dependencyRow.inventoryComboBox.SelectionChanged += InventoryComboBox_SelectionChanged;
-            dependencyRow.quantityTextBox.TextChanged += QuantityTextBox_TextChanged;
+            AddEventHandlersToDependencyRow(dependencyRow);
+
             dependenciesStackpanel.Children.Add(dependencyRow);
 
             ValidationCheck();
@@ -93,7 +99,8 @@ namespace RestaurantPOS.Dialogs
 
         private void InventoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            IList removedInventoryList =  e.RemovedItems;
+            //although name it removedInventoryList, there is only one removed item from combbox
+            IList removedInventoryList =  e.RemovedItems; 
             ComboBox comboBox = (ComboBox)sender; 
             
             if (removedInventoryList.Count != 0)
@@ -104,6 +111,8 @@ namespace RestaurantPOS.Dialogs
 
             RemoveOptionsfromOtherComboBox(comboBox);
 
+            //Console.WriteLine("======= "+ comboBox.Parent);
+
             ValidationCheck();
         }
 
@@ -111,8 +120,6 @@ namespace RestaurantPOS.Dialogs
         {
             ValidationCheck();
         }
-
-
 
         private void AddOptionsToAllComboBox(string option)
         {
@@ -130,11 +137,9 @@ namespace RestaurantPOS.Dialogs
                 if (otherDependencyRow.inventoryComboBox!= comboBox)
                 {
                     ((ObservableCollection<String>)otherDependencyRow.inventoryComboBox.ItemsSource).Remove((string)comboBox.SelectedItem);
-                    Console.WriteLine("======remove option");
                 }     
             }
-            inventoryNameList.Remove((string)comboBox.SelectedItem);
-            
+            inventoryNameList.Remove((string)comboBox.SelectedItem);        
         }
 
        
@@ -159,9 +164,17 @@ namespace RestaurantPOS.Dialogs
             }
         }
 
+        private void AddEventHandlersToDependencyRow(DependencyRow dependencyRow)
+        {
+            dependencyRow.removeDependencyRowButton.Click += RemoveDependencyRowButton_Click;
+            dependencyRow.inventoryComboBox.SelectionChanged += InventoryComboBox_SelectionChanged;
+            dependencyRow.quantityTextBox.TextChanged += QuantityTextBox_TextChanged;
+        }
+
         private void ConfrimButton_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
         }
+
     }
 }

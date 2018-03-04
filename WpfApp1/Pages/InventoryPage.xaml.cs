@@ -71,14 +71,17 @@ namespace RestaurantPOS.Pages
             AddInventoryDialog addInventoryWindow = new AddInventoryDialog();
             if (addInventoryWindow.ShowDialog() == true)
             {
-                Inventory addedInventory = new Inventory { Name = addInventoryWindow.InventoryName, Quantity = addInventoryWindow.InventoryQuantity };
+                Inventory addedInventory = new Inventory { Name = addInventoryWindow.InventoryName,
+                    Quantity = addInventoryWindow.InventoryQuantity,
+                    Unit = addInventoryWindow.InventoryUnit};
+
                 inventoryList.Add(addedInventory);
 
                 inventoryListView.SelectedItem = addedInventory;
                 inventoryListView.Focus();
                 rightEnabled = true;
             }
-            else
+            else //did not add a new inventory
             {
                 if (rightEnabled)
                 {
@@ -98,10 +101,13 @@ namespace RestaurantPOS.Pages
             addInventoryWindow.addButton.Content = "Modify";
             addInventoryWindow.nameTextBox.Text = selectedInventory.Name;
             addInventoryWindow.quantityTextBox.Text = selectedInventory.Quantity.ToString();
+            addInventoryWindow.unitTextBox.Text = selectedInventory.Unit;
+
             if (addInventoryWindow.ShowDialog() == true)
             {
                 selectedInventory.Name = addInventoryWindow.InventoryName;      
                 selectedInventory.Quantity = addInventoryWindow.InventoryQuantity;
+                selectedInventory.Unit = addInventoryWindow.InventoryUnit;
             }
 
             inventoryListView.Focus();

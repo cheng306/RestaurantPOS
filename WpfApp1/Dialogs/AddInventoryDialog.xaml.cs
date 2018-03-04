@@ -21,6 +21,7 @@ namespace RestaurantPOS.Dialogs
     {
         bool validName;
         bool validQuantity;
+        bool validUnit;
 
         public AddInventoryDialog()
         {
@@ -32,6 +33,7 @@ namespace RestaurantPOS.Dialogs
         {
             nameWarningTextBlock.Visibility = Visibility.Hidden;
             quantityWarningTextBlock.Visibility = Visibility.Hidden;
+            unitWarningTextBlock.Visibility = Visibility.Hidden;
             addButton.IsEnabled = false;
         }
 
@@ -43,6 +45,11 @@ namespace RestaurantPOS.Dialogs
         internal double InventoryQuantity
         {
             get { return Double.Parse(quantityTextBox.Text); }
+        }
+
+        internal string InventoryUnit
+        {
+            get { return unitTextBox.Text; }
         }
 
         private void QuantityTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -77,9 +84,25 @@ namespace RestaurantPOS.Dialogs
             }
         }
 
+        private void UnitTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!unitTextBox.Text.Equals(""))
+            {
+                validUnit = true;
+                unitWarningTextBlock.Visibility = Visibility.Hidden;
+                UpdateAddButton();
+            }
+            else
+            {
+                validUnit = false;
+                unitWarningTextBlock.Visibility = Visibility.Visible;
+                UpdateAddButton();
+            }
+        }
+
         private void UpdateAddButton()
         {
-            if (validName && validQuantity)
+            if (validName && validQuantity )
             {
                 addButton.IsEnabled = true;
             }
@@ -93,5 +116,7 @@ namespace RestaurantPOS.Dialogs
         {
             this.DialogResult = true;
         }
+
+   
     }
 }

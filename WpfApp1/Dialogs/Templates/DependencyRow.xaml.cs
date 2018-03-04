@@ -15,9 +15,7 @@ using System.Windows.Shapes;
 
 namespace RestaurantPOS.Dialogs.Templates
 {
-    /// <summary>
-    /// Interaction logic for DependencyRow.xaml
-    /// </summary>
+    // logic here only apply to apperance of the dependencyRow
     public partial class DependencyRow : UserControl
     {
         
