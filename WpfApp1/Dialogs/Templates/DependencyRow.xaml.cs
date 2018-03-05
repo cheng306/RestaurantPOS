@@ -18,8 +18,6 @@ namespace RestaurantPOS.Dialogs.Templates
     // logic here only apply to apperance of the dependencyRow
     public partial class DependencyRow : UserControl
     {
-        
-
         public DependencyRow()
         {
             InitializeComponent();

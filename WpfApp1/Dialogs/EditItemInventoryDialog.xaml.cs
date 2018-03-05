@@ -26,6 +26,7 @@ namespace RestaurantPOS.Dialogs
     public partial class EditItemInventoryDialog : Window
     {
         public List<string> inventoryNameList;
+        public ObservableCollection<Inventory> inventoryList;
         
         public EditItemInventoryDialog(Item selectedItem)
         {
@@ -34,7 +35,8 @@ namespace RestaurantPOS.Dialogs
             inventoryNameList = new List<string>();
             itemNameTextBlock.Text = selectedItem.Name;
 
-            foreach ( Inventory inventory in ((MainWindow)Application.Current.MainWindow).inventoryPage.inventoryList)
+            inventoryList = ((MainWindow)Application.Current.MainWindow).inventoryPage.inventoryList;
+            foreach ( Inventory inventory in inventoryList)
             {
                 inventoryNameList.Add(inventory.Name);
             }
@@ -46,8 +48,6 @@ namespace RestaurantPOS.Dialogs
                 {
                     ObservableCollection<string> comboBoxInventoryList = new ObservableCollection<string>(inventoryNameList);
 
-                    
-
                     DependencyRow dependencyRow = new DependencyRow();
 
                     dependencyRow.inventoryComboBox.ItemsSource = comboBoxInventoryList;
@@ -57,7 +57,15 @@ namespace RestaurantPOS.Dialogs
                     RemoveOptionsfromOtherComboBox(dependencyRow.inventoryComboBox);
 
                     dependencyRow.quantityTextBox.Text = inventoryConsumption.ConsumptionQuantity.ToString();
-                   
+                    
+                    foreach (Inventory inventory in inventoryList)
+                    {
+                        if (inventory.Name.Equals(inventoryConsumption.InventoryName))
+                        {
+                            dependencyRow.unitTextBlock.Text = inventory.Unit;
+                            break;
+                        }
+                    }
 
                     //add event handler to newly added dependencyRow
                     AddEventHandlersToDependencyRow(dependencyRow);
@@ -89,7 +97,7 @@ namespace RestaurantPOS.Dialogs
             if (dependencyRow.inventoryComboBox.SelectedItem != null)
             {
                 string selectedOption = (string)dependencyRow.inventoryComboBox.SelectedItem;
-                AddOptionsToAllComboBox(selectedOption);
+                AddOptionsToOtherComboBox(selectedOption,null);
             }
             //finally remove it
             dependenciesStackpanel.Children.Remove(dependencyRow);
@@ -106,12 +114,19 @@ namespace RestaurantPOS.Dialogs
             if (removedInventoryList.Count != 0)
             {
                 string previousComboBoxOption = (string)removedInventoryList[0];
-                AddOptionsToAllComboBox(previousComboBoxOption);   
+                AddOptionsToOtherComboBox(previousComboBoxOption,comboBox);   
             }
 
             RemoveOptionsfromOtherComboBox(comboBox);
 
-            //Console.WriteLine("======= "+ comboBox.Parent);
+            foreach (Inventory inventory in inventoryList)
+            {
+                if (inventory.Name.Equals(comboBox.SelectedItem))
+                {
+                    ((TextBlock)((WrapPanel)((FrameworkElement)comboBox.Parent).Parent).Children[4]).Text = inventory.Unit;
+                    break;
+                }
+            }
 
             ValidationCheck();
         }
@@ -121,12 +136,27 @@ namespace RestaurantPOS.Dialogs
             ValidationCheck();
         }
 
-        private void AddOptionsToAllComboBox(string option)
+        private void AddOptionsToOtherComboBox(string option, ComboBox comboBox)
         {
-            foreach (DependencyRow otherDependencyRow in dependenciesStackpanel.Children)
+            if (comboBox == null)
             {
-                ((ObservableCollection<string>)otherDependencyRow.inventoryComboBox.ItemsSource).Add(option);
+                foreach (DependencyRow otherDependencyRow in dependenciesStackpanel.Children)
+                {
+                    ((ObservableCollection<string>)otherDependencyRow.inventoryComboBox.ItemsSource).Add(option);
+                }
             }
+            else
+            {
+                foreach (DependencyRow otherDependencyRow in dependenciesStackpanel.Children)
+                {
+                    if (otherDependencyRow.inventoryComboBox!= comboBox)
+                    {
+                        ((ObservableCollection<string>)otherDependencyRow.inventoryComboBox.ItemsSource).Add(option);
+                    }
+                    
+                }
+            }
+            
             inventoryNameList.Add(option);
         }
 
@@ -142,7 +172,6 @@ namespace RestaurantPOS.Dialogs
             inventoryNameList.Remove((string)comboBox.SelectedItem);        
         }
 
-       
         private void ValidationCheck()
         {
             bool flag = true;

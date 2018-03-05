@@ -33,6 +33,7 @@
                Width="75"
                TextChanged="QuantityTextBox_TextChanged" />
       <TextBlock x:Name="unitTextBlock"
+                 FontSize="25"
                  Width="75"
                  Margin="5,5,10,5"/>
       <Button x:Name="removeDependencyRowButton"

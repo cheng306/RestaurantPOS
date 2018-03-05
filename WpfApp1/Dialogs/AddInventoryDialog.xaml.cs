@@ -1,5 +1,7 @@
-﻿using System;
+﻿using RestaurantPOS.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +24,7 @@ namespace RestaurantPOS.Dialogs
         bool validName;
         bool validQuantity;
         bool validUnit;
+        ObservableCollection<Inventory> inventoryList;
 
         public AddInventoryDialog()
         {
@@ -35,6 +38,8 @@ namespace RestaurantPOS.Dialogs
             quantityWarningTextBlock.Visibility = Visibility.Hidden;
             unitWarningTextBlock.Visibility = Visibility.Hidden;
             addButton.IsEnabled = false;
+            inventoryList = ((MainWindow)Application.Current.MainWindow).inventoryPage.inventoryList;
+
         }
 
         internal string InventoryName
@@ -52,36 +57,49 @@ namespace RestaurantPOS.Dialogs
             get { return unitTextBox.Text; }
         }
 
-        private void QuantityTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (Double.TryParse(quantityTextBox.Text, out double dump))
-            {
-                validQuantity = true;
-                quantityWarningTextBlock.Visibility = Visibility.Hidden;
-                UpdateAddButton();
-            }
-            else
-            {
-                validQuantity = false;
-                quantityWarningTextBlock.Visibility = Visibility.Visible;
-                UpdateAddButton();
-            }
-        }
-
         private void NameTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (!nameTextBox.Text.Equals(""))
             {
                 validName = true;
-                nameWarningTextBlock.Visibility = Visibility.Hidden;
-                UpdateAddButton();
+                foreach (Inventory inventory in inventoryList)
+                {
+                    if (inventory.Name.Equals(nameTextBox.Text))
+                    {
+                        validName = false;
+                        nameWarningTextBlock.Text = nameTextBox.Text + " already exist";
+                        nameWarningTextBlock.Visibility = Visibility.Visible;
+                        break;
+                    }
+                }
+                if (validName)
+                {
+                    nameWarningTextBlock.Visibility = Visibility.Hidden;
+                }
             }
             else
             {
                 validName = false;
-                nameWarningTextBlock.Visibility = Visibility.Visible;
-                UpdateAddButton();
+                nameWarningTextBlock.Visibility = Visibility.Visible;     
             }
+
+            UpdateAddButton();
+        }
+
+        private void QuantityTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (Double.TryParse(quantityTextBox.Text, out double dump))
+            {
+                validQuantity = true;
+                quantityWarningTextBlock.Visibility = Visibility.Hidden;  
+            }
+            else
+            {
+                validQuantity = false;
+                quantityWarningTextBlock.Visibility = Visibility.Visible;
+            }
+
+            UpdateAddButton();
         }
 
         private void UnitTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -90,19 +108,18 @@ namespace RestaurantPOS.Dialogs
             {
                 validUnit = true;
                 unitWarningTextBlock.Visibility = Visibility.Hidden;
-                UpdateAddButton();
             }
             else
             {
                 validUnit = false;
                 unitWarningTextBlock.Visibility = Visibility.Visible;
-                UpdateAddButton();
             }
+            UpdateAddButton();
         }
 
         private void UpdateAddButton()
         {
-            if (validName && validQuantity )
+            if (validName && validQuantity && validUnit )
             {
                 addButton.IsEnabled = true;
             }
