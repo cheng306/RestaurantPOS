@@ -1,35 +1,34 @@
 ﻿<UserControl x:Class="RestaurantPOS.Pages.TablesPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:RestaurantPOS.Pages"
              xmlns:model="clr-namespace:RestaurantPOS.Models"
-             mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="500"
+             mc:Ignorable="d"
+             d:DesignHeight="500"
+             d:DesignWidth="500"
              AllowDrop="True">
-    <Canvas 
-        Background="Beige"
-        Height="500"
-        Width="500"
-        x:Name="canvas">
-        
-        <model:Circle 
-            x:Name="addButton" 
-            Canvas.Right="0" 
-            Canvas.Bottom="0"
-            MouseDown="AddButton_MouseDown"
-            Panel.ZIndex="2"/>
+  <Canvas Background="Beige"
+          Height="500"
+          Width="500"
+          x:Name="canvas">
+
+    <model:Circle x:Name="addButton"
+                  Canvas.Right="0"
+                  Canvas.Bottom="0"
+                  MouseDown="AddButton_MouseDown"
+                  TouchDown="AddButton_TouchDown"
+                  Panel.ZIndex="2" />
 
 
-        <model:Circle 
-            x:Name="deleteButton" 
-            Canvas.Left="0" 
-            Canvas.Bottom="0"
-            Panel.ZIndex="2"/>
+    <model:Circle x:Name="deleteButton"
+                  Canvas.Left="0"
+                  Canvas.Bottom="0"
+                  Panel.ZIndex="2" />
 
 
-    </Canvas>
+  </Canvas>
 
 
 </UserControl>

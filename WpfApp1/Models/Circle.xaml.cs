@@ -15,31 +15,39 @@ using System.Windows.Shapes;
 
 namespace RestaurantPOS.Models
 {
-    /// <summary>
-    /// Interaction logic for Circle.xaml
-    /// </summary>
-    public partial class Circle : UserControl
+  /// <summary>
+  /// Interaction logic for Circle.xaml
+  /// </summary>
+  public partial class Circle : UserControl
+  {
+    public Circle()
     {
-        public Circle()
-        {
-            InitializeComponent();
-        }
-
-        public Circle(Circle c)
-        {
-            InitializeComponent();
-            this.circleUI.Height = c.circleUI.Height;
-            this.circleUI.Width = c.circleUI.Height;
-            this.circleUI.Fill = c.circleUI.Fill;
-        }
-
-        public bool Added { get; set; }
-
-        public bool Movable { get; set; }
-
-        public Point Center{   get; set; }
-
-        public Table Table { get; set; }
-
+      InitializeComponent();
     }
+
+    public Circle(Circle c)
+    {
+      InitializeComponent();
+      this.circleUI.Height = c.circleUI.Height;
+      this.circleUI.Width = c.circleUI.Height;
+      this.circleUI.Fill = c.circleUI.Fill;
+    }
+
+    public bool Added { get; set; }
+
+    public bool Movable { get; set; }
+
+    public Point Center { get; set; }
+
+    public Table Table { get; set; }
+
+    public TextBlock NumberTextBlock
+    {
+      get { return numberTextBlock; }
+      set { numberTextBlock= value; }
+    }
+
+      
+
+   }
 }

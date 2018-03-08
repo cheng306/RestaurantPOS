@@ -12,7 +12,14 @@
             Height="50" 
             Width="50"
             Fill="Blue" />
-   
+        <TextBlock x:Name="numberTextBlock"
+                   TextAlignment="Center"
+                   VerticalAlignment='Stretch'
+                   FontSize="25"
+                   Text="90"
+                   
+                   />
+
 
   </Grid>
 </UserControl>
