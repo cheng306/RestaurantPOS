@@ -16,9 +16,9 @@ namespace RestaurantPOS.Models
 
         public Table(Point point)
         {
-            this.Center = point;
+            this.UpperLeftPoint = point;
         }
 
-        public Point Center { get; set; }
+        public Point UpperLeftPoint { get; set; }
     }
 }

@@ -14,9 +14,9 @@
             Fill="Blue" />
         <TextBlock x:Name="numberTextBlock"
                    TextAlignment="Center"
-                   VerticalAlignment='Stretch'
+                   VerticalAlignment='Center'
                    FontSize="25"
-                   Text="90"
+                   Text=""
                    
                    />
 

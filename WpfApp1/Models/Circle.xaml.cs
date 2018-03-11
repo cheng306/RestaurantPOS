@@ -35,10 +35,6 @@ namespace RestaurantPOS.Models
 
     public bool Added { get; set; }
 
-    public bool Movable { get; set; }
-
-    public Point Center { get; set; }
-
     public Table Table { get; set; }
 
     public TextBlock NumberTextBlock
