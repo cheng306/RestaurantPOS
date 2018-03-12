@@ -35,12 +35,14 @@ namespace RestaurantPOS.Models
 
     public bool Added { get; set; }
 
+    public bool MouseTouchLock { get; set; }
+
     public Table Table { get; set; }
 
-    public TextBlock NumberTextBlock
+    public string NumberTextBlockText
     {
-      get { return numberTextBlock; }
-      set { numberTextBlock= value; }
+      get { return numberTextBlock.Text; }
+      set { numberTextBlock.Text= value; }
     }
 
       

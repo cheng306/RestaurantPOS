@@ -20,5 +20,7 @@ namespace RestaurantPOS.Models
         }
 
         public Point UpperLeftPoint { get; set; }
+
+        public int TableNumber { get; set; }
     }
 }

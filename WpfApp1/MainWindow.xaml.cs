@@ -24,27 +24,32 @@ namespace RestaurantPOS
     /// </summary>
     public partial class MainWindow : Window
     {
-        //path of xml file that store itemsList in Edit Page
-        //Serializer used to serialize and deserialize ObservableCollection<Item>
-        string itemListXmlPath; 
-        XmlSerializer listSerializer;
+      //path of xml file that store itemsList in Edit Page
+      //Serializer used to serialize and deserialize ObservableCollection<Item>
+      string itemListXmlPath; 
+      XmlSerializer listSerializer;
 
-        //path of xml file that store categoriesList in Edit Page
-        //Serializer used to serialize and deserialize ObservableCollection<String>
-        string categoriesListXmlPath;
-        XmlSerializer categoriesListSerializer;
+      //path of xml file that store categoriesList in Edit Page
+      //Serializer used to serialize and deserialize ObservableCollection<String>
+      string categoriesListXmlPath;
+      XmlSerializer categoriesListSerializer;
 
-        //path of xml file that store inventoryList in Inventory Page
-        //Serializer used to serialize and deserialize ObservableCollection<Inventory>
-        string inventoryListXmlPath;
-        XmlSerializer inventoryListSerializer;
+      //path of xml file that store inventoryList in Inventory Page
+      //Serializer used to serialize and deserialize ObservableCollection<Inventory>
+      string inventoryListXmlPath;
+      XmlSerializer inventoryListSerializer;
 
-        //path of xml file that store tablesList in Main Page
-        //Serializer used to serialize and deserialize List<Circle>
-        string tablesListXmlPath;
-        XmlSerializer tablesListSerializer;
+      //path of xml file that store tablesList in Main Page
+      //Serializer used to serialize and deserialize List<Circle>
+      string tablesListXmlPath;
+      XmlSerializer tablesListSerializer;
 
-        public MainWindow()
+      //path of xml file that store tablesList in Main Page
+      //Serializer used to serialize and deserialize List<Circle>
+      string tablesListXmlPath;
+      XmlSerializer tablesListSerializer;
+
+    public MainWindow()
         {
             InitializeComponent();
 
