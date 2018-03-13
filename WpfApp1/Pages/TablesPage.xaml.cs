@@ -50,7 +50,7 @@ namespace RestaurantPOS.Pages
 
     bool goToSelectionPage;
 
-    List<bool> tableNumberBooleanList;
+    internal List<bool> tableNumberBooleanList;
 
     double canvasDimension;
 
@@ -69,7 +69,6 @@ namespace RestaurantPOS.Pages
     {
       pointList = new List<Point>();
       previousPt = new Point();
-      tableNumberBooleanList = new List<bool>();
       movingCircle = null;
 
       double minDimension = Math.Min(SystemParameters.FullPrimaryScreenWidth, SystemParameters.FullPrimaryScreenHeight);
@@ -95,6 +94,41 @@ namespace RestaurantPOS.Pages
       deleteButton.circleUI.Width = diameter;
       deleteButton.circleUI.Height = diameter;
       deleteButton.numberTextBlock.Foreground = new SolidColorBrush(Colors.White);
+    }
+
+    private void AddButton_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+      if (e.LeftButton == MouseButtonState.Pressed && movingCircle == null)
+      {
+        newTable = new Circle();
+        movingCircle = newTable;
+
+        //how the new circle look
+        xDistance = diameter * 0.75;
+        yDistance = diameter * 0.75;
+        newTable.SetValue(Canvas.LeftProperty, e.GetPosition(canvas).X - xDistance);
+        newTable.SetValue(Canvas.TopProperty, e.GetPosition(canvas).Y - yDistance);       
+        SolidColorBrush myBrush = new SolidColorBrush()
+        {
+          Color = Colors.Red
+        };
+        newTable.circleUI.Fill = myBrush;
+        newTable.Opacity = 0.5;
+        newTable.circleUI.Width = diameter;
+        newTable.circleUI.Height = diameter;
+        ChangeZIndex(newTable, 3);
+
+
+        //logic of the new circle
+        newTable.Added = false;
+        canvas.Children.Add(newTable);
+        
+        newTable.CaptureMouse();
+
+        //add listener
+        AddMouseListener(newTable);
+      }
+
     }
 
     private void AddButton_TouchDown(object sender, TouchEventArgs e)
@@ -126,41 +160,7 @@ namespace RestaurantPOS.Pages
         newTable.CaptureTouch(e.TouchDevice);
 
         //add listener
-        AddListener(newTable);
-      }
-      
-    }
-
-    private void AddButton_MouseDown(object sender, MouseButtonEventArgs e)
-    {
-      if (e.LeftButton == MouseButtonState.Pressed && movingCircle == null)
-      {
-        newTable = new Circle();
-        movingCircle = newTable;
-
-        //how the new circle look
-        xDistance = diameter * 0.75;
-        yDistance = diameter * 0.75;
-        newTable.SetValue(Canvas.LeftProperty, e.GetPosition(canvas).X - xDistance);
-        newTable.SetValue(Canvas.TopProperty, e.GetPosition(canvas).Y - yDistance);
-        SolidColorBrush myBrush = new SolidColorBrush()
-        {
-          Color = Colors.Red
-        };
-        newTable.circleUI.Fill = myBrush;
-        newTable.Opacity = 0.5;
-        newTable.circleUI.Width = diameter;
-        newTable.circleUI.Height = diameter;
-
-
-        //logic of the new circle
-        newTable.Added = false;
-        canvas.Children.Add(newTable);
-        ChangeZIndex(newTable, 3);
-        newTable.CaptureMouse();
-
-        //add listener
-        AddListener(newTable);
+        AddTouchListener(newTable);
       }
 
     }
@@ -168,8 +168,9 @@ namespace RestaurantPOS.Pages
     private async void Table_MouseDownAsync(object sender, MouseButtonEventArgs e)
     {
       if (e.LeftButton == MouseButtonState.Pressed && movingCircle == null )
-      {
+      {       
         Circle circle = (Circle)sender;
+        RemoveTouchListeners(circle);
         movingCircle = circle;
         auxObject = new object();
         Object auxObject2 = auxObject;
@@ -202,12 +203,16 @@ namespace RestaurantPOS.Pages
 
     private void Table_MouseLeave(object sender, MouseEventArgs e)
     {
+      Console.WriteLine("MouseLeave");
       Circle circle = (Circle)sender;
       if (circle == movingCircle)
       {
         auxObject = null;
         goToSelectionPage = false;
         movingCircle = null;
+
+        AddTouchListener(circle);
+        Console.WriteLine("add touch listener");
       }
   
     }
@@ -242,6 +247,7 @@ namespace RestaurantPOS.Pages
     //if after moving a table, checked if table is added
     private void Table_MouseUp(object sender, MouseButtonEventArgs e)
     {
+      Console.WriteLine("MouseUp");
       Circle circle = (Circle)sender;
       if (movingCircle == circle)
       {
@@ -260,7 +266,7 @@ namespace RestaurantPOS.Pages
             }
             else //green color, then add the circle
             {
-              //add the table affliated to this circle 
+              //add the table affliated to this circle
               AddTableToCircle(circle);
             }
           }
@@ -284,6 +290,8 @@ namespace RestaurantPOS.Pages
         circle.ReleaseMouseCapture();
         auxObject = null;
         movingCircle = null;
+        AddTouchListener(circle);
+        Console.WriteLine("add touch listener");
       }
         
       
@@ -292,8 +300,12 @@ namespace RestaurantPOS.Pages
 
     private async void TableUI_TouchDownAsync(object sender, TouchEventArgs e)
     {
-      
+      Console.WriteLine("TouchDOwn");
+      if (movingCircle == null)
+      {
         Circle circle = (Circle)sender;
+        RemoveMouseListener(circle);
+        movingCircle = circle;
         auxObject = new object();
         Object auxObject2 = auxObject;
         goToSelectionPage = true;
@@ -317,22 +329,28 @@ namespace RestaurantPOS.Pages
           circle.Opacity = 0.5;
           ((SolidColorBrush)circle.circleUI.Fill).Color = Colors.Green;
           circle.CaptureTouch(e.TouchDevice);
-        
+        }
       }
+        
       
     }
 
     private void TableUI_TouchLeave(object sender, TouchEventArgs e)
     {
-      
+      Console.WriteLine("touchleave");
+      Circle circle = (Circle)sender;
+      if (movingCircle == circle)
+      {
         auxObject = null;
         goToSelectionPage = false;
-      
+        movingCircle = null;
+        AddMouseListener(circle);
+      }    
     }
 
     private void TableUI_TouchMove(object sender, TouchEventArgs e)
     {
-      
+
         Circle circle = (Circle)sender;
         if (circle.AreAnyTouchesCaptured)
         {
@@ -359,48 +377,55 @@ namespace RestaurantPOS.Pages
 
     private void TableUI_TouchUp(object sender, TouchEventArgs e)
     {
-      Console.WriteLine("TouchUp");
+      Console.WriteLine("touch_up");
       Circle circle = (Circle)sender;
-      if (goToSelectionPage)
+      if (movingCircle == circle)
       {
-        GoToSelectionPage();
-      }
-      else
-      {
-        ChangeZIndex(circle, 2);
-        if (!((Circle)sender).Added)
+        if (goToSelectionPage)
         {
-          if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Red)
-          {
-            canvas.Children.Remove(circle);
-          }
-          else //green color, then add the circle
-          {
-            //add the table affliated to this circle
-            AddTableToCircle(circle);
-          }
-
+          GoToSelectionPage();
         }
-        else //((Circle)sender).Added) which mean move a existed table
+        else
         {
-          if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Red)
+          ChangeZIndex(circle, 2);
+          if (!((Circle)sender).Added)
           {
-            RestoreOriginalCoordinate(circle);
-            SolidYellowCircle(circle);
+            if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Red)
+            {
+              canvas.Children.Remove(circle);
+            }
+            else //green color, then add the circle
+            {
+              //add the table affliated to this circle
+              AddTableToCircle(circle);
+            }
+
           }
-          else if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Green)
+          else //((Circle)sender).Added) which mean move a existed table
           {
-            DeleteOrRelocateTable(circle);
-          }
-          else //if yellow color
-          {
-            //do nothing
+            if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Red)
+            {
+              RestoreOriginalCoordinate(circle);
+              SolidYellowCircle(circle);
+            }
+            else if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Green)
+            {
+              DeleteOrRelocateTable(circle);
+            }
+            else //if yellow color
+            {
+              Console.WriteLine("touchup at sth else?");
+              //do nothing
+            }
           }
         }
-      }
 
-      circle.ReleaseMouseCapture();
-      auxObject = null;
+        circle.ReleaseMouseCapture();
+        auxObject = null;
+        movingCircle = null;
+        AddMouseListener(circle);
+      }
+      
     }
 
     /*
@@ -502,6 +527,53 @@ namespace RestaurantPOS.Pages
       tableUI.TouchUp += TableUI_TouchUp;
     }
 
+    private void RemoveListeners(Circle tableUI)
+    {
+      tableUI.MouseMove += Table_MouseMove;
+      tableUI.MouseUp += Table_MouseUp;
+      tableUI.MouseDown += Table_MouseDownAsync;
+      tableUI.MouseLeave += Table_MouseLeave;
+
+      tableUI.TouchDown -= TableUI_TouchDownAsync;
+      tableUI.TouchMove -= TableUI_TouchMove;
+      tableUI.TouchLeave -= TableUI_TouchLeave;
+      tableUI.TouchUp -= TableUI_TouchUp;
+    }
+
+    private void AddMouseListener(Circle tableUI)
+    {
+      tableUI.MouseMove += Table_MouseMove;
+      tableUI.MouseUp += Table_MouseUp;
+      tableUI.MouseDown += Table_MouseDownAsync;
+      tableUI.MouseLeave += Table_MouseLeave;
+    }
+
+    private void AddTouchListener(Circle tableUI)
+    {
+      tableUI.TouchDown += TableUI_TouchDownAsync;
+      tableUI.TouchMove += TableUI_TouchMove;
+      tableUI.TouchLeave += TableUI_TouchLeave;
+      tableUI.TouchUp += TableUI_TouchUp;
+    }
+
+    private void RemoveMouseListener(Circle tableUI)
+    {
+      tableUI.MouseMove -= Table_MouseMove;
+      tableUI.MouseUp -= Table_MouseUp;
+      tableUI.MouseDown -= Table_MouseDownAsync;
+      tableUI.MouseLeave -= Table_MouseLeave;
+    }
+
+    private void RemoveTouchListeners(Circle tableUI)
+    {
+      tableUI.TouchDown -= TableUI_TouchDownAsync;
+      tableUI.TouchMove -= TableUI_TouchMove;
+      tableUI.TouchLeave -= TableUI_TouchLeave;
+      tableUI.TouchUp -= TableUI_TouchUp;
+    }
+
+    
+
     private void GoToSelectionPage()
     {
       MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
@@ -599,6 +671,7 @@ namespace RestaurantPOS.Pages
         };
         tableUI.circleUI.Fill = myBrush;
         tableUI.Opacity = 1;
+        tableUI.NumberTextBlockText = tableUI.Table.TableNumber.ToString();
 
         //add listeners to tableUI
         AddListener(tableUI);

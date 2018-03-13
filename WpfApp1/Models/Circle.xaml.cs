@@ -33,9 +33,7 @@ namespace RestaurantPOS.Models
       this.circleUI.Fill = c.circleUI.Fill;
     }
 
-    public bool Added { get; set; }
-
-    public bool MouseTouchLock { get; set; }
+    public bool Added { get; set; } 
 
     public Table Table { get; set; }
 
