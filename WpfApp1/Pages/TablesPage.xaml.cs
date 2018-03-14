@@ -54,7 +54,7 @@ namespace RestaurantPOS.Pages
 
     double canvasDimension;
 
-    Circle movingCircle;
+    Circle selectedCircle;
 
     public TablesPage()
     {
@@ -69,7 +69,7 @@ namespace RestaurantPOS.Pages
     {
       pointList = new List<Point>();
       previousPt = new Point();
-      movingCircle = null;
+      selectedCircle = null;
 
       double minDimension = Math.Min(SystemParameters.FullPrimaryScreenWidth, SystemParameters.FullPrimaryScreenHeight);
       canvasDimension = minDimension * 0.85;
@@ -98,10 +98,10 @@ namespace RestaurantPOS.Pages
 
     private void AddButton_MouseDown(object sender, MouseButtonEventArgs e)
     {
-      if (e.LeftButton == MouseButtonState.Pressed && movingCircle == null)
+      if (e.LeftButton == MouseButtonState.Pressed && selectedCircle == null)
       {
         newTable = new Circle();
-        movingCircle = newTable;
+        selectedCircle = newTable;
 
         //how the new circle look
         xDistance = diameter * 0.75;
@@ -133,10 +133,10 @@ namespace RestaurantPOS.Pages
 
     private void AddButton_TouchDown(object sender, TouchEventArgs e)
     {
-      if (movingCircle == null)
+      if (selectedCircle == null)
       {
         newTable = new Circle();
-        movingCircle = newTable;
+        selectedCircle = newTable;
 
         //how the new circle look
         xDistance = diameter * 0.75;
@@ -167,11 +167,11 @@ namespace RestaurantPOS.Pages
 
     private async void Table_MouseDownAsync(object sender, MouseButtonEventArgs e)
     {
-      if (e.LeftButton == MouseButtonState.Pressed && movingCircle == null )
+      if (e.LeftButton == MouseButtonState.Pressed && selectedCircle == null )
       {       
         Circle circle = (Circle)sender;
         RemoveTouchListeners(circle);
-        movingCircle = circle;
+        selectedCircle = circle;
         auxObject = new object();
         Object auxObject2 = auxObject;
         goToSelectionPage = true;
@@ -205,11 +205,11 @@ namespace RestaurantPOS.Pages
     {
       Console.WriteLine("MouseLeave");
       Circle circle = (Circle)sender;
-      if (circle == movingCircle)
+      if (circle == selectedCircle)
       {
         auxObject = null;
         goToSelectionPage = false;
-        movingCircle = null;
+        selectedCircle = null;
 
         AddTouchListener(circle);
         Console.WriteLine("add touch listener");
@@ -249,7 +249,7 @@ namespace RestaurantPOS.Pages
     {
       Console.WriteLine("MouseUp");
       Circle circle = (Circle)sender;
-      if (movingCircle == circle)
+      if (selectedCircle == circle)
       {
         if (goToSelectionPage)
         {
@@ -289,7 +289,7 @@ namespace RestaurantPOS.Pages
         }
         circle.ReleaseMouseCapture();
         auxObject = null;
-        movingCircle = null;
+        selectedCircle = null;
         AddTouchListener(circle);
         Console.WriteLine("add touch listener");
       }
@@ -301,11 +301,11 @@ namespace RestaurantPOS.Pages
     private async void TableUI_TouchDownAsync(object sender, TouchEventArgs e)
     {
       Console.WriteLine("TouchDOwn");
-      if (movingCircle == null)
+      if (selectedCircle == null)
       {
         Circle circle = (Circle)sender;
         RemoveMouseListener(circle);
-        movingCircle = circle;
+        selectedCircle = circle;
         auxObject = new object();
         Object auxObject2 = auxObject;
         goToSelectionPage = true;
@@ -339,11 +339,11 @@ namespace RestaurantPOS.Pages
     {
       Console.WriteLine("touchleave");
       Circle circle = (Circle)sender;
-      if (movingCircle == circle)
+      if (selectedCircle == circle)
       {
         auxObject = null;
         goToSelectionPage = false;
-        movingCircle = null;
+        selectedCircle = null;
         AddMouseListener(circle);
       }    
     }
@@ -379,7 +379,7 @@ namespace RestaurantPOS.Pages
     {
       Console.WriteLine("touch_up");
       Circle circle = (Circle)sender;
-      if (movingCircle == circle)
+      if (selectedCircle == circle)
       {
         if (goToSelectionPage)
         {
@@ -422,7 +422,7 @@ namespace RestaurantPOS.Pages
 
         circle.ReleaseMouseCapture();
         auxObject = null;
-        movingCircle = null;
+        selectedCircle = null;
         AddMouseListener(circle);
       }
       
