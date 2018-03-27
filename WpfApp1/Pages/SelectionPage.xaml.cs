@@ -13,40 +13,48 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using RestaurantPOS.Models;
 
 namespace RestaurantPOS.Pages
 {
-    /// <summary>
-    /// Interaction logic for TestPage.xaml
-    /// </summary>
-    public partial class SelectionPage : UserControl
+  /// <summary>
+  /// Interaction logic for TestPage.xaml
+  /// </summary>
+  public partial class SelectionPage : UserControl
+  {
+    public SelectionPage()
     {
-        public SelectionPage()
-        {
-            InitializeComponent();
-            ObservableCollection<string> oc = new ObservableCollection<string>();
-            oc.Add("abc");
-            oc.Add("abc");
-            oc.Add("abc");
+      InitializeComponent();
+      Console.WriteLine("InitializeComponent");
+      //CategoryWrapPanel();
 
-            lb1.ItemsSource = oc;
-            lb2.ItemsSource = oc;
-        }
-
-       
-        private void uc_Loaded(object sender, RoutedEventArgs e)
-        {
-            Console.WriteLine("TestPage loaded");                             
-        }
-
-        private void uc_Unloaded(object sender, RoutedEventArgs e)
-        {
-            Console.WriteLine("TestPage unloaded");
-        }
-
-        private void uc_Initialized(object sender, EventArgs e)
-        {
-            Console.WriteLine("TestPage initialized");
-        }
     }
+
+    public SelectionPage(Circle tableUI)
+    {
+      InitializeComponent();
+      TableNumberTextBlock.Text = "Table " + tableUI.Table.TableNumber;
+      FillCategoryWrapPanel();
+
+    }
+
+    private void FillCategoryWrapPanel()
+    {
+      MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+      ObservableCollection<string> categoriesList = mainWindow.editPage.categoriesList;
+      foreach(string categoryStr in categoriesList)
+      {
+        Button categoryButton = new Button { Content = categoryStr };
+        categoryButton.Margin = new Thickness(10);
+        categoryButton.Width = 150;
+        categoryButton.Height = 100;
+        selectionWrapPanel.Children.Add(categoryButton);
+      }
+    }
+  
+
+
+
+ 
+  }
 }

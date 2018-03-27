@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using RestaurantPOS.Pages;
 
 namespace RestaurantPOS.Models
 {
@@ -36,6 +37,8 @@ namespace RestaurantPOS.Models
     public bool Added { get; set; } 
 
     public Table Table { get; set; }
+
+    public SelectionPage ItemsSelectionPage { get; set; }
 
     public string NumberTextBlockText
     {

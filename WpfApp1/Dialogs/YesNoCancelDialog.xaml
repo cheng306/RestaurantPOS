@@ -1,0 +1,52 @@
+﻿<Window x:Class="RestaurantPOS.Dialogs.YesNoCancelDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RestaurantPOS.Dialogs"
+        mc:Ignorable="d"
+        Title="YesNoCancelDialog"
+        WindowStartupLocation="CenterScreen"
+        Width="800"
+        Height="300"
+        MinHeight="300"
+        MinWidth="800">
+    <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <TextBlock x:Name="messageTextBlock"
+               Grid.Row="0"
+               TextAlignment="Center"
+               VerticalAlignment="Center"
+               FontSize="30"/>
+    <Grid Grid.Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <Button x:Name="yesButton"
+              Grid.Column="0"
+              FontSize="25"
+              Content="Yes"
+              Click="YesButton_MouseOrTouchDown"
+              TouchDown="YesButton_MouseOrTouchDown"/>
+      <Button x:Name="noButton"
+              Grid.Column="1"
+              FontSize="25"
+              Content="No"
+              IsCancel="True"
+              TouchDown="NoOrCancelButton_MouseOrTouchDown"/>
+      <Button x:Name="cancelButton"
+              Grid.Column="2"
+              FontSize="25"
+              Content="Cancel"
+              IsCancel="True"
+              TouchDown="NoOrCancelButton_MouseOrTouchDown"/>
+    </Grid>
+     
+
+  </Grid>
+</Window>

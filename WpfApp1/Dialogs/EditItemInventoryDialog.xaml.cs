@@ -205,5 +205,9 @@ namespace RestaurantPOS.Dialogs
             this.DialogResult = true;
         }
 
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+
     }
+  }
 }

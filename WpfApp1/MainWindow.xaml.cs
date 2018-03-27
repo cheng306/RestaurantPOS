@@ -59,12 +59,13 @@ namespace RestaurantPOS
       CreateDbDirectory();
 
       //locate the path and initialize the serializer
-      LoadTableNumberBooleanList();
-      LoadTablesList();
+      
       LoadItemsList();
       LoadCategoriesList();
       LoadInventoryList();
+
       LoadTableNumberBooleanList();
+      LoadTablesList();
 
 
       //editPage.itemsList.Add(new Item { Name = "bbb", Category = "aaa", Price = 12.6, AddTime = DateTime.Now });

@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using RestaurantPOS.Models;
 using System.Diagnostics;
+using RestaurantPOS.Dialogs;
 
 namespace RestaurantPOS.Pages
 {
@@ -56,6 +57,12 @@ namespace RestaurantPOS.Pages
 
     Circle selectedCircle;
 
+    SolidColorBrush redBrush = new SolidColorBrush(Colors.Red);
+    SolidColorBrush yellowBrush = new SolidColorBrush(Colors.Yellow);
+    SolidColorBrush greenBrush = new SolidColorBrush(Colors.Green);
+    SolidColorBrush blueBrush = new SolidColorBrush(Colors.Blue);
+    SolidColorBrush whiteBrush = new SolidColorBrush(Colors.White);
+
     public TablesPage()
     {
       InitializeComponent();
@@ -83,21 +90,25 @@ namespace RestaurantPOS.Pages
       deleteButtonAbsolutePoint = new Point(0, canvasDimension - diameter);
 
       addButton.numberTextBlock.Text = "+";
-      addButton.numberTextBlock.Foreground = new SolidColorBrush(Colors.White);
+      addButton.numberTextBlock.Foreground = whiteBrush;
+      //addButton.numberTextBlock.Foreground = new SolidColorBrush(Colors.White);
 
       pointList.Add(addButtonAbsolutePoint);
       addButton.circleUI.Width = diameter;
       addButton.circleUI.Height = diameter;
 
-      deleteButton.circleUI.Fill = new SolidColorBrush(Colors.Red);
+      //deleteButton.circleUI.Fill = new SolidColorBrush(Colors.Red);
+      deleteButton.circleUI.Fill = redBrush;
       deleteButton.numberTextBlock.Text = "-";
       deleteButton.circleUI.Width = diameter;
       deleteButton.circleUI.Height = diameter;
-      deleteButton.numberTextBlock.Foreground = new SolidColorBrush(Colors.White);
+      deleteButton.numberTextBlock.Foreground = whiteBrush;
+      //deleteButton.numberTextBlock.Foreground = new SolidColorBrush(Colors.White);
     }
 
     private void AddButton_MouseDown(object sender, MouseButtonEventArgs e)
     {
+
       if (e.LeftButton == MouseButtonState.Pressed && selectedCircle == null)
       {
         newTable = new Circle();
@@ -107,12 +118,12 @@ namespace RestaurantPOS.Pages
         xDistance = diameter * 0.75;
         yDistance = diameter * 0.75;
         newTable.SetValue(Canvas.LeftProperty, e.GetPosition(canvas).X - xDistance);
-        newTable.SetValue(Canvas.TopProperty, e.GetPosition(canvas).Y - yDistance);       
-        SolidColorBrush myBrush = new SolidColorBrush()
-        {
-          Color = Colors.Red
-        };
-        newTable.circleUI.Fill = myBrush;
+        newTable.SetValue(Canvas.TopProperty, e.GetPosition(canvas).Y - yDistance);
+        //SolidColorBrush myBrush = new SolidColorBrush()
+        //{
+        //  Color = Colors.Red
+        //};
+        newTable.circleUI.Fill = redBrush;
         newTable.Opacity = 0.5;
         newTable.circleUI.Width = diameter;
         newTable.circleUI.Height = diameter;
@@ -122,7 +133,7 @@ namespace RestaurantPOS.Pages
         //logic of the new circle
         newTable.Added = false;
         canvas.Children.Add(newTable);
-        
+
         newTable.CaptureMouse();
 
         //add listener
@@ -143,11 +154,11 @@ namespace RestaurantPOS.Pages
         yDistance = diameter * 0.75;
         newTable.SetValue(Canvas.LeftProperty, e.GetTouchPoint(canvas).Position.X - xDistance);
         newTable.SetValue(Canvas.TopProperty, e.GetTouchPoint(canvas).Position.Y - yDistance);
-        SolidColorBrush myBrush = new SolidColorBrush()
-        {
-          Color = Colors.Red
-        };
-        newTable.circleUI.Fill = myBrush;
+        //SolidColorBrush myBrush = new SolidColorBrush()
+        //{
+        //  Color = Colors.Red
+        //};
+        newTable.circleUI.Fill = redBrush;
         newTable.Opacity = 0.5;
         newTable.circleUI.Width = diameter;
         newTable.circleUI.Height = diameter;
@@ -167,8 +178,9 @@ namespace RestaurantPOS.Pages
 
     private async void Table_MouseDownAsync(object sender, MouseButtonEventArgs e)
     {
-      if (e.LeftButton == MouseButtonState.Pressed && selectedCircle == null )
-      {       
+      Console.WriteLine("mousedown");
+      if (e.LeftButton == MouseButtonState.Pressed && selectedCircle == null)
+      {
         Circle circle = (Circle)sender;
         RemoveTouchListeners(circle);
         selectedCircle = circle;
@@ -194,7 +206,8 @@ namespace RestaurantPOS.Pages
           yDistance = e.GetPosition(canvas).Y - previousPt.Y;
 
           circle.Opacity = 0.5;
-          ((SolidColorBrush)circle.circleUI.Fill).Color = Colors.Green;
+          //((SolidColorBrush)circle.circleUI.Fill).Color = Colors.Green;
+          circle.circleUI.Fill = greenBrush;
 
           circle.CaptureMouse();
         }
@@ -212,9 +225,8 @@ namespace RestaurantPOS.Pages
         selectedCircle = null;
 
         AddTouchListener(circle);
-        Console.WriteLine("add touch listener");
       }
-  
+
     }
 
     private void Table_MouseMove(object sender, MouseEventArgs e)
@@ -233,11 +245,13 @@ namespace RestaurantPOS.Pages
 
         if (!CoordinateConflict(circle, point))
         {
-          ((SolidColorBrush)((Circle)sender).circleUI.Fill).Color = Colors.Green;
+          //((SolidColorBrush)((Circle)sender).circleUI.Fill).Color = Colors.Green;
+          circle.circleUI.Fill = greenBrush;
         }
         else
         {
-          ((SolidColorBrush)((Circle)sender).circleUI.Fill).Color = Colors.Red;
+          //((SolidColorBrush)((Circle)sender).circleUI.Fill).Color = Colors.Red;
+          circle.circleUI.Fill = redBrush;
         }
       }
     }
@@ -253,14 +267,14 @@ namespace RestaurantPOS.Pages
       {
         if (goToSelectionPage)
         {
-          GoToSelectionPage();
+          DetermineGoingToSelectionPage(circle);
         }
         else
         {
           ChangeZIndex(circle, 2);
           if (!((Circle)sender).Added)
           {
-            if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Red)
+            if (circle.circleUI.Fill == redBrush)//((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Red
             {
               canvas.Children.Remove(circle);
             }
@@ -268,16 +282,17 @@ namespace RestaurantPOS.Pages
             {
               //add the table affliated to this circle
               AddTableToCircle(circle);
+              CreateSelectionPageToCircle(circle);
             }
           }
           else //((Circle)sender).Added) which mean move a existed table
           {
-            if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Red)
+            if (circle.circleUI.Fill == redBrush)//((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Red
             {
               RestoreOriginalCoordinate(circle);
               SolidYellowCircle(circle);
             }
-            else if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Green)
+            else if (circle.circleUI.Fill == greenBrush)//((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Green
             {
               DeleteOrRelocateTable(circle);
             }
@@ -291,11 +306,10 @@ namespace RestaurantPOS.Pages
         auxObject = null;
         selectedCircle = null;
         AddTouchListener(circle);
-        Console.WriteLine("add touch listener");
       }
-        
-      
-      
+
+
+
     }
 
     private async void TableUI_TouchDownAsync(object sender, TouchEventArgs e)
@@ -327,12 +341,13 @@ namespace RestaurantPOS.Pages
           yDistance = e.GetTouchPoint(canvas).Position.Y - previousPt.Y;
 
           circle.Opacity = 0.5;
-          ((SolidColorBrush)circle.circleUI.Fill).Color = Colors.Green;
+          circle.circleUI.Fill = greenBrush;
+          //((SolidColorBrush)circle.circleUI.Fill).Color = Colors.Green;
           circle.CaptureTouch(e.TouchDevice);
         }
       }
-        
-      
+
+
     }
 
     private void TableUI_TouchLeave(object sender, TouchEventArgs e)
@@ -345,34 +360,35 @@ namespace RestaurantPOS.Pages
         goToSelectionPage = false;
         selectedCircle = null;
         AddMouseListener(circle);
-      }    
+      }
     }
 
     private void TableUI_TouchMove(object sender, TouchEventArgs e)
     {
 
-        Circle circle = (Circle)sender;
-        if (circle.AreAnyTouchesCaptured)
+      Circle circle = (Circle)sender;
+      if (circle.AreAnyTouchesCaptured)
+      {
+        Point point = e.GetTouchPoint(canvas).Position;
+
+        circle.SetValue(Canvas.LeftProperty, point.X - xDistance);//Canvas.LeftProperty
+        circle.SetValue(Canvas.TopProperty, point.Y - yDistance);
+
+        point.X = point.X - xDistance;
+        point.Y = point.Y - yDistance;
+
+        if (!CoordinateConflict(circle, point))
         {
-          Point point = e.GetTouchPoint(canvas).Position;
-
-          circle.SetValue(Canvas.LeftProperty, point.X - xDistance);//Canvas.LeftProperty
-          circle.SetValue(Canvas.TopProperty, point.Y - yDistance);
-
-          point.X = point.X - xDistance;
-          point.Y = point.Y - yDistance;
-
-          if (!CoordinateConflict(circle, point))
-          {
-            ((SolidColorBrush)((Circle)sender).circleUI.Fill).Color = Colors.Green;
-          }
-          else
-          {
-            ((SolidColorBrush)((Circle)sender).circleUI.Fill).Color = Colors.Red;
-          }
+          circle.circleUI.Fill = greenBrush;
+          //((SolidColorBrush)((Circle)sender).circleUI.Fill).Color = Colors.Green;
         }
-      
-      
+        else
+        {
+          circle.circleUI.Fill = redBrush;
+          //((SolidColorBrush)((Circle)sender).circleUI.Fill).Color = Colors.Red;
+        }
+      }
+
     }
 
     private void TableUI_TouchUp(object sender, TouchEventArgs e)
@@ -383,14 +399,15 @@ namespace RestaurantPOS.Pages
       {
         if (goToSelectionPage)
         {
-          GoToSelectionPage();
+
+          DetermineGoingToSelectionPage(circle);
         }
         else
         {
           ChangeZIndex(circle, 2);
           if (!((Circle)sender).Added)
           {
-            if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Red)
+            if (circle.circleUI.Fill == redBrush)//((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Red
             {
               canvas.Children.Remove(circle);
             }
@@ -398,17 +415,18 @@ namespace RestaurantPOS.Pages
             {
               //add the table affliated to this circle
               AddTableToCircle(circle);
+              CreateSelectionPageToCircle(circle);
             }
 
           }
           else //((Circle)sender).Added) which mean move a existed table
           {
-            if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Red)
+            if (circle.circleUI.Fill == redBrush)//((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Red
             {
               RestoreOriginalCoordinate(circle);
               SolidYellowCircle(circle);
             }
-            else if (((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Green)
+            else if (circle.circleUI.Fill == greenBrush)//((SolidColorBrush)((Circle)sender).circleUI.Fill).Color == Colors.Green
             {
               DeleteOrRelocateTable(circle);
             }
@@ -425,7 +443,7 @@ namespace RestaurantPOS.Pages
         selectedCircle = null;
         AddMouseListener(circle);
       }
-      
+
     }
 
     /*
@@ -446,12 +464,12 @@ namespace RestaurantPOS.Pages
 
       if (!circle.Added)
       {
-        pointList.Add(deleteButtonAbsolutePoint); 
+        pointList.Add(deleteButtonAbsolutePoint);
       }
 
       foreach (Point otherPoint in pointList)
       {
-        if (Math.Sqrt(Math.Pow(upperLeftPoint.X - otherPoint.X,2) + Math.Pow(upperLeftPoint.Y - otherPoint.Y, 2)) < diameter)
+        if (Math.Sqrt(Math.Pow(upperLeftPoint.X - otherPoint.X, 2) + Math.Pow(upperLeftPoint.Y - otherPoint.Y, 2)) < diameter)
         {
           pointList.Remove(deleteButtonAbsolutePoint);
           return true;
@@ -465,7 +483,7 @@ namespace RestaurantPOS.Pages
 
     private Point AbsoluteToRelative(Point point)
     {
-      return new Point(point.X/canvasDimension, point.Y/canvasDimension);
+      return new Point(point.X / canvasDimension, point.Y / canvasDimension);
     }
 
     private Point RelativeToAbsolute(Point point)
@@ -487,8 +505,9 @@ namespace RestaurantPOS.Pages
 
     private void SolidYellowCircle(Circle circle)
     {
-      SolidColorBrush brush = (SolidColorBrush)circle.circleUI.Fill;
-      brush.Color = Colors.Yellow;
+      //SolidColorBrush brush = (SolidColorBrush)circle.circleUI.Fill;
+      //brush.Color = Colors.Yellow;
+      circle.circleUI.Fill = yellowBrush;
       circle.Opacity = 1;
     }
 
@@ -572,13 +591,33 @@ namespace RestaurantPOS.Pages
       tableUI.TouchUp -= TableUI_TouchUp;
     }
 
-    
 
-    private void GoToSelectionPage()
+
+    private void DetermineGoingToSelectionPage(Circle tableUI)
+    {
+      if (tableUI.Table.IsActive == true)
+      {
+        GoToSelectionPage(tableUI);
+      }
+      else
+      {
+        YesNoCancelDialog yesNoCancelDialog = new YesNoCancelDialog("A new Session for Table "+tableUI.Table.TableNumber);
+        if (yesNoCancelDialog.ShowDialog() == true)
+        {
+          tableUI.Table.IsActive = true;
+          tableUI.circleUI.Stroke = greenBrush;
+          GoToSelectionPage(tableUI);
+        }
+      } 
+    }
+
+    private void GoToSelectionPage(Circle tableUI)
     {
       MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+      mainWindow.selectionPageTab.Content = tableUI.ItemsSelectionPage;
       mainWindow.tabControl.SelectedItem = mainWindow.selectionPageTab;
     }
+
 
     private void AddTableToCircle(Circle circle)
     {
@@ -594,6 +633,13 @@ namespace RestaurantPOS.Pages
       circle.Added = true;
     }
 
+    private void CreateSelectionPageToCircle(Circle tableUI)
+    {
+      SelectionPage itemsSelectionPage = new SelectionPage(tableUI);
+      tableUI.ItemsSelectionPage = itemsSelectionPage;
+
+    }
+
     private void DeleteOrRelocateTable(Circle circle)
     {
       Double x = (Double)circle.GetValue(Canvas.LeftProperty);
@@ -601,20 +647,15 @@ namespace RestaurantPOS.Pages
 
       if (Math.Sqrt(Math.Pow(x - deleteButtonAbsolutePoint.X, 2) + Math.Pow(y - deleteButtonAbsolutePoint.Y, 2)) < diameter)
       {
-        MessageBoxResult mResult = MessageBox.Show("Do You want to DELETE this Table", "Delete the table", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.No);
-        switch (mResult)
+        YesNoCancelDialog yesNoCancelDialog = new YesNoCancelDialog("Do You want to DELETE this Table");
+        if (yesNoCancelDialog.ShowDialog() == true)
         {
-          case MessageBoxResult.Yes:
-            RemoveTable(circle);
-            break;
-          case MessageBoxResult.No:
-            RestoreOriginalCoordinate(circle);
-            SolidYellowCircle(circle);
-            break;
-          case MessageBoxResult.Cancel:
-            RestoreOriginalCoordinate(circle);
-            SolidYellowCircle(circle);
-            break;
+          RemoveTable(circle);
+        }
+        else
+        {
+          RestoreOriginalCoordinate(circle);
+          SolidYellowCircle(circle);
         }
       }
       else //green successfuly move the circle
@@ -627,7 +668,7 @@ namespace RestaurantPOS.Pages
     private void RemoveTable(Circle circle)
     {
       canvas.Children.Remove(circle);
-      tableNumberBooleanList[circle.Table.TableNumber-1] = false;
+      tableNumberBooleanList[circle.Table.TableNumber - 1] = false;
       tablesList.Remove(circle.Table);
     }
 
@@ -661,17 +702,19 @@ namespace RestaurantPOS.Pages
         Circle tableUI = new Circle();
         tableUI.Table = table;
         tableUI.Added = true;
+        CreateSelectionPageToCircle(tableUI);
 
         //apperance of the tableUI
         tableUI.circleUI.Width = diameter;
         tableUI.circleUI.Height = diameter;
-        SolidColorBrush myBrush = new SolidColorBrush()
+        tableUI.circleUI.Fill = yellowBrush;
+        if (tableUI.Table.IsActive)
         {
-          Color = Colors.Yellow
-        };
-        tableUI.circleUI.Fill = myBrush;
+          tableUI.circleUI.Stroke = greenBrush;
+        }
         tableUI.Opacity = 1;
         tableUI.NumberTextBlockText = tableUI.Table.TableNumber.ToString();
+     
 
         //add listeners to tableUI
         AddListener(tableUI);
@@ -679,7 +722,7 @@ namespace RestaurantPOS.Pages
         //show on canvas
         Point absolutePoint = RelativeToAbsolute(table.UpperLeftPoint);
         tableUI.SetValue(Canvas.LeftProperty, absolutePoint.X);
-        tableUI.SetValue(Canvas.TopProperty, absolutePoint.Y );
+        tableUI.SetValue(Canvas.TopProperty, absolutePoint.Y);
         canvas.Children.Add(tableUI);
 
         pointList.Add(absolutePoint);
