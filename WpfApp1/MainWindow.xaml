@@ -14,10 +14,16 @@
         MinWidth="1000">
   <Grid AllowDrop="True">
     <TabControl x:Name="tabControl"
-                HorizontalContentAlignment="Center"
-                >
-      <TabItem FontSize="20"
-               Header="Main">
+                HorizontalContentAlignment="Center">
+      <TabItem x:Name="tablesTab"
+               FontSize="20">
+        <TabItem.Header>
+          <TextBlock Text="Tables"
+                     Width="180"
+                     FontSize="25"
+                     TextAlignment="Center"
+                     Margin="0,10,0,10"/>
+        </TabItem.Header>
         <ScrollViewer HorizontalScrollBarVisibility="Auto">
           <page:TablesPage x:Name="tablesPage" />
         </ScrollViewer>
@@ -25,26 +31,40 @@
 
       <TabItem x:Name="selectionPageTab"
                FontSize="20"
-               Header="Table">
-        <page:SelectionPage />
-
+               IsEnabled="False">
+        <TabItem.Header>
+          <TextBlock Text="Items Selection"
+                     Width="180"
+                     FontSize="25"
+                     TextAlignment="Center"
+                     Margin="0,10,0,10"/>
+        </TabItem.Header>
+        
+        <page:SelectionPage x:Name="itemsSelectionPage" />
       </TabItem>
 
       <TabItem FontSize="20">
         <TabItem.Header>
-          <TextBlock Text="Edit"
-                     FontSize="24"
-                     Margin="10"/>
+          <TextBlock Text="Edit Items"
+                     Width="180"
+                     FontSize="25"
+                     TextAlignment="Center"
+                     Margin="0,10,0,10"/>
         </TabItem.Header>
         <page:EditPage x:Name="editPage" />
 
       </TabItem>
 
-      <TabItem FontSize="20"
-               Header="Sales" />
 
-      <TabItem FontSize="20"
-               Header="Inventory">
+
+      <TabItem FontSize="20">
+        <TabItem.Header>
+          <TextBlock Text="Inventory"
+                     Width="180"
+                     FontSize="25"
+                     TextAlignment="Center"
+                     Margin="0,10,0,10"/>
+        </TabItem.Header>
         <page:InventoryPage x:Name="inventoryPage" />
       </TabItem>
 

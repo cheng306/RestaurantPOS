@@ -16,12 +16,16 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Serialization;
 using RestaurantPOS.Models;
+using RestaurantPOS.Pages.Templates;
 
 namespace RestaurantPOS
 {
   /// <summary>
   /// Interaction logic for MainWindow.xaml
   /// </summary>
+  /// 
+
+
   public partial class MainWindow : Window
   {
     //path of xml file that store itemsList in Edit Page
@@ -49,42 +53,30 @@ namespace RestaurantPOS
     string tableNumberBooleanListXmlPath;
     XmlSerializer tableNumberBooleanListSerializer;
 
+
+
     public MainWindow()
     {
       InitializeComponent();
 
-      Console.WriteLine("================Window start==================");
+      Console.WriteLine("================Window created==================");
 
       //Create the directory for database if not exist
       CreateDbDirectory();
 
       //locate the path and initialize the serializer
-      
       LoadItemsList();
       LoadCategoriesList();
       LoadInventoryList();
-
       LoadTableNumberBooleanList();
       LoadTablesList();
 
+      //Build parts that require deserialized objects
+      itemsSelectionPage.BuildCategoryItemsWrapPanelDictionary();
+      itemsSelectionPage.BuildCategoriesWrapPanel();
 
-      //editPage.itemsList.Add(new Item { Name = "bbb", Category = "aaa", Price = 12.6, AddTime = DateTime.Now });
-      //editPage.itemsList.Add(new Item { Name = "www", Category = "aaa", Price = 12.6, AddTime = DateTime.Now });
-      //editPage.itemsList.Add(new Item { Name = "ggg", Category = "aaa", Price = 12.6, AddTime = DateTime.Now });
-      //editPage.itemsList.Add(new Item { Name = "bbb", Category = "kkk", Price = 12.6, AddTime = DateTime.Now });
-      //editPage.itemsList.Add(new Item { Name = "qqq", Category = "lll", Price = 12.6, AddTime = DateTime.Now });
-      //editPage.itemsList.Add(new Item { Name = "sss", Category = "lll", Price = 12.6, AddTime = DateTime.Now });
-      //editPage.itemsList.Add(new Item { Name = "qqq", Category = "lll", Price = 12.6, AddTime = DateTime.Now });
-      //editPage.itemsList.Add(new Item { Name = "eee", Category = "lll", Price = 12.6, AddTime = DateTime.Now });
-      //editPage.itemsList.Add(new Item { Name = "ttt", Category = "yyy", Price = 12.6, AddTime = DateTime.Now });
-      //editPage.itemsList.Add(new Item { Name = "ccc", Category = "aaa", Price = 12.6, AddTime = DateTime.Now });
-      //editPage.itemsList.Add(new Item { Name = "ccc", Category = "bbb", Price = 12.6, AddTime = DateTime.Now });
-      //InventoryConsumption ic = new InventoryConsumption { InventoryName = "abc", ConsumptionQUantity = 12 };
-      //InventoryConsumption ic2 = new InventoryConsumption { InventoryName = "abc2", ConsumptionQUantity = 14 };
-      //List<InventoryConsumption> list = new List<InventoryConsumption>();
-      //list.Add(ic);
-      //list.Add(ic2);
-      //editPage.itemsList.Add(new Item { Name = "test", Category = "bbb", Price = 12.6, AddTime = DateTime.Now,InventoryConsumptionList=list });
+      inventoryPage.BuildNameInventoryDict();
+      ((App)Application.Current).BuildInventoryItemsDict();
 
 
     }
@@ -118,8 +110,7 @@ namespace RestaurantPOS
         tablesPage.tablesList = new List<Models.Table>();
         Console.WriteLine("=============tablesList in tablesPage created");
       }
-
-      Console.WriteLine("=============tablesList size" + tablesPage.tablesList.Count);
+      
       tablesPage.LoadTables();
     }
 
@@ -141,7 +132,7 @@ namespace RestaurantPOS
       else
       {
         editPage.itemsList = new ObservableCollection<Item>();
-        Console.WriteLine("itemList created");
+        Console.WriteLine("=============itemList created");
       }
 
       editPage.itemsListView.ItemsSource = editPage.itemsList;
@@ -161,12 +152,12 @@ namespace RestaurantPOS
         StreamReader streamReader = new StreamReader(categoriesListXmlPath);
         editPage.categoriesList = (ObservableCollection<string>)categoriesListSerializer.Deserialize(streamReader);
         streamReader.Close();
-        Console.WriteLine("categoriesList loaded");
+        Console.WriteLine("============categoriesList loaded");
       }
       else
       {
         editPage.categoriesList = new ObservableCollection<string>();
-        Console.WriteLine("categoriesList created");
+        Console.WriteLine("===========categoriesList created");
       }
 
       editPage.categoriesListBox.ItemsSource = editPage.categoriesList;

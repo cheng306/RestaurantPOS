@@ -2,16 +2,17 @@
              x:Class="RestaurantPOS.Pages.SelectionPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:RestaurantPOS.Pages"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             Loaded="SelectionPage_Loaded"
              d:DesignHeight="300"
              d:DesignWidth="300">
   <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="*"/>
-      <RowDefinition Height="10*"/>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="10*" />
     </Grid.RowDefinitions>
     <Grid Grid.Row="0"
           Background="Yellow">
@@ -19,55 +20,164 @@
                  Background="Yellow"
                  TextAlignment="Center"
                  VerticalAlignment="Center"
-                 FontSize="30"
-                 Text="No Table has selected"/>
+                 FontSize="25"/>
     </Grid>
-    
+
     <Grid x:Name="sp"
-        Grid.Row="1">
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="*"/>
-      <ColumnDefinition Width="*"/>
-    </Grid.ColumnDefinitions>
-    <Grid Grid.Column="0">
-      <Grid.RowDefinitions>
-        <RowDefinition Height="8*"/>
-        <RowDefinition Height="*" />
-      </Grid.RowDefinitions>
-      <Grid Grid.Row="1">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition />
-          <ColumnDefinition />
-          <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Button Grid.Column="0"/>
-        <Button Grid.Column="1"/>
-        <Button Grid.Column="2"/>
-      </Grid>
-     
-    </Grid>
-    <Grid Grid.Column="1">
-      <Grid.RowDefinitions>
-        <RowDefinition Height="8*"/>
-        <RowDefinition Height="*"/>
-      </Grid.RowDefinitions>
-      <WrapPanel x:Name="selectionWrapPanel"
-                 Grid.Row="0"/>
-      <Grid Grid.Row="1">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition />
-          <ColumnDefinition />
-          <ColumnDefinition />
-          <ColumnDefinition />
-         </Grid.ColumnDefinitions>
-        <Button Grid.Column="0" />
-        <Button Grid.Column="1" />
-        <Button Grid.Column="2" />
-        <Button Grid.Column="3" />
+          Grid.Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Grid x:Name="leftGrid"
+            Grid.Column="0"
+            GotFocus="LeftGrid_GotFocus"
+            LostFocus="LeftGrid_LostFocus">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="*" />
+          <RowDefinition Height="7*" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0"
+              Background="Aquamarine">
+          <TextBlock Grid.Row="0"
+                     Text="Items"
+                     TextAlignment="Center"
+                     VerticalAlignment="Center"
+                     FontSize="25" />
+        </Grid>
+        <ListView x:Name="itemsListView"
+                  Grid.Row="1"
+                  BorderBrush="Aquamarine"
+                  BorderThickness="5"
+                  SelectionMode="Single"
+                  LostFocus="ItemsListView_LostFocus"
+                  GotFocus="ItemsListView_GotFocus"
+                  SelectionChanged='ItemsListView_SelectionChanged'>
+          
+          <ListView.View>
+            <GridView>
+              <GridViewColumn Header="Name"
+                              Width="{Binding ElementName=itemsListView, Path=ActualWidth, Converter={StaticResource Multiplier}, ConverterParameter=0.23}"
+                              DisplayMemberBinding="{Binding ItemName}" />
+              <GridViewColumn Header="Category"
+                              Width="{Binding ElementName=itemsListView, Path=ActualWidth, Converter={StaticResource Multiplier}, ConverterParameter=0.23}"
+                              DisplayMemberBinding="{Binding ItemCategory}" />
+              <GridViewColumn Header="Quantity"
+                              Width="{Binding ElementName=itemsListView, Path=ActualWidth, Converter={StaticResource Multiplier}, ConverterParameter=0.23}"
+                              DisplayMemberBinding="{Binding ItemQuantity}" />
+              <GridViewColumn Header="Price"
+                              Width="{Binding ElementName=itemsListView, Path=ActualWidth, Converter={StaticResource Multiplier}, ConverterParameter=0.23}"
+                              DisplayMemberBinding="{Binding ItemsPrice, StringFormat={}{0:C}}">
+                
+              </GridViewColumn>
+            </GridView>
+          </ListView.View>
+        </ListView>
+        <Grid Grid.Row="2"
+              Background="Aquamarine">
+          
+          <TextBlock x:Name="priceSummary"   
+                     Background="Aquamarine"
+                     TextAlignment="Center"
+                     VerticalAlignment="Center" />
+
 
         </Grid>
+                   
+
+        <Grid Grid.Row="3">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+          <Button x:Name="removeItemsButton"
+                  Grid.Column="0"
+                  Content="Remove"
+                  Background="Aquamarine"
+                  Click="RemoveItemsButton_Click"/>
+          <Button x:Name="minusItemButton"
+                  Grid.Column="1"
+                  Content="-"
+                  Background="Aquamarine" 
+                  Click="MinusItemButton_Click"/>
+          <Button x:Name="addItemButton"
+                  Grid.Column="2"
+                  Content="+"
+                  Background="Aquamarine"
+                  Click="AddItemButton_Click"/>
+        </Grid>
+
+      </Grid>
+      <Grid x:Name="rightGrid"
+            Grid.Column="1"
+            GotFocus="RightGrid_GotFocus">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="9*" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="8*" />
+          </Grid.RowDefinitions>
+          <Grid Background="AntiqueWhite">
+            <TextBlock TextAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="25"
+                       Grid.Row="0"
+                       Text="Selection" />
+          </Grid>
+          <Border Grid.Row="1"
+                  BorderBrush="AntiqueWhite"
+                  BorderThickness="5">
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="120"/>
+              </Grid.RowDefinitions>
+              <ScrollViewer x:Name="wrapPanelScrollViewer"
+                    Grid.Row="0"/>
+              <Button x:Name="backToCategoriesButton"
+                      Grid.Row="1"
+                      Margin="10"
+                      Height="100"
+                      Content=" &lt;&lt; Back To Categories"
+                      Background="AntiqueWhite"
+                      Click="BackToCategoriesButton_Click"/>
+
+            </Grid>
+            
+          </Border>
+        </Grid>
+        
+        <Grid Grid.Row="1">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+          <Button x:Name="goHomeButton"
+                  Grid.Column="0"
+                  Content="Home"
+                  Click="GoHomeButton_Click"
+                  Background="LightSkyBlue"/>
+          <Button Grid.Column="1"
+                  Content="To Kitchen"
+                  Background="LightSkyBlue"
+                  />
+          <Button x:Name="checkButton"
+                  Grid.Column="2"
+                  Content="Check"
+                  Background="LightSkyBlue"/>
+
+        </Grid>
+
+     
+      </Grid>
     </Grid>
-  </Grid>
   </Grid>
 </UserControl>
   

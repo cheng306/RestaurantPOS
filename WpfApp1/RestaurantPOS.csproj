@@ -90,8 +90,8 @@
     <Compile Include="Dialogs\AddInventoryDialog.xaml.cs">
       <DependentUpon>AddInventoryDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\AddItemDialog.xaml.cs">
-      <DependentUpon>AddItemDialog.xaml</DependentUpon>
+    <Compile Include="Dialogs\EditItemDialog.xaml.cs">
+      <DependentUpon>EditItemDialog.xaml</DependentUpon>
     </Compile>
     <Page Include="Dialogs\Templates\DependencyRow.xaml">
       <SubType>Designer</SubType>
@@ -145,12 +145,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\AddItemDialog.xaml">
+    <Page Include="Dialogs\EditItemDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Templates\CategoryWrapPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pages\Templates\CategoryWrapPanel.xaml.cs">
+      <DependentUpon>CategoryWrapPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -8,58 +8,75 @@ using System.Threading.Tasks;
 
 namespace RestaurantPOS.Models
 {
-    public class Inventory : INotifyPropertyChanged
+  public class Inventory : INotifyPropertyChanged
+  {
+    private string name;
+    private double quantity;
+    private double warningLevel;
+    private string unit;
+
+
+    public string Name
     {
-        private string name;
-        private double quantity;
-        private string unit;
-
-        public string Name {
-            get { return this.name; }
-            set
-            {
-                if (value != this.name)
-                {
-                    this.name = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
-        public double Quantity
+      get { return this.name; }
+      set
+      {
+        if (value != this.name)
         {
-            get { return this.quantity; }
-            set {
-                if (value != this.quantity)
-                {
-                    this.quantity = value;
-                    NotifyPropertyChanged();
-                }
-            }
+          this.name = value;
+          NotifyPropertyChanged();
         }
-
-        public string Unit
-        {
-            get { return this.unit; }
-            set
-            {
-                if (value != this.unit)
-                {
-                    this.unit = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
+      }
     }
+
+    public double Quantity
+    {
+      get { return this.quantity; }
+      set
+      {
+        if (value != this.quantity)
+        {
+          this.quantity = value;
+          NotifyPropertyChanged();
+        }
+      }
+    }
+
+    public double WarningLevel
+    {
+      get { return this.warningLevel; }
+      set
+      {
+        if (value != this.warningLevel)
+        {
+          this.warningLevel = value;
+          NotifyPropertyChanged();
+        }
+      }
+    }
+
+    public string Unit
+    {
+      get { return this.unit; }
+      set
+      {
+        if (value != this.unit)
+        {
+          this.unit = value;
+          NotifyPropertyChanged();
+        }
+      }
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+    {
+      if (PropertyChanged != null)
+      {
+        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+      }
+    }
+
+  }
 }

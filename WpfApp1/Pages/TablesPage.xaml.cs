@@ -63,11 +63,13 @@ namespace RestaurantPOS.Pages
     SolidColorBrush blueBrush = new SolidColorBrush(Colors.Blue);
     SolidColorBrush whiteBrush = new SolidColorBrush(Colors.White);
 
+    MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+
     public TablesPage()
     {
       InitializeComponent();
 
-      Console.WriteLine("=================tablesPage Started");
+      Console.WriteLine("=================tablesPage Created");
 
       OtherInitialSetup();
     }
@@ -178,7 +180,6 @@ namespace RestaurantPOS.Pages
 
     private async void Table_MouseDownAsync(object sender, MouseButtonEventArgs e)
     {
-      Console.WriteLine("mousedown");
       if (e.LeftButton == MouseButtonState.Pressed && selectedCircle == null)
       {
         Circle circle = (Circle)sender;
@@ -216,7 +217,6 @@ namespace RestaurantPOS.Pages
 
     private void Table_MouseLeave(object sender, MouseEventArgs e)
     {
-      Console.WriteLine("MouseLeave");
       Circle circle = (Circle)sender;
       if (circle == selectedCircle)
       {
@@ -261,7 +261,6 @@ namespace RestaurantPOS.Pages
     //if after moving a table, checked if table is added
     private void Table_MouseUp(object sender, MouseButtonEventArgs e)
     {
-      Console.WriteLine("MouseUp");
       Circle circle = (Circle)sender;
       if (selectedCircle == circle)
       {
@@ -282,7 +281,7 @@ namespace RestaurantPOS.Pages
             {
               //add the table affliated to this circle
               AddTableToCircle(circle);
-              CreateSelectionPageToCircle(circle);
+              //CreateSelectionPageToCircle(circle);
             }
           }
           else //((Circle)sender).Added) which mean move a existed table
@@ -314,7 +313,6 @@ namespace RestaurantPOS.Pages
 
     private async void TableUI_TouchDownAsync(object sender, TouchEventArgs e)
     {
-      Console.WriteLine("TouchDOwn");
       if (selectedCircle == null)
       {
         Circle circle = (Circle)sender;
@@ -352,7 +350,6 @@ namespace RestaurantPOS.Pages
 
     private void TableUI_TouchLeave(object sender, TouchEventArgs e)
     {
-      Console.WriteLine("touchleave");
       Circle circle = (Circle)sender;
       if (selectedCircle == circle)
       {
@@ -393,13 +390,11 @@ namespace RestaurantPOS.Pages
 
     private void TableUI_TouchUp(object sender, TouchEventArgs e)
     {
-      Console.WriteLine("touch_up");
       Circle circle = (Circle)sender;
       if (selectedCircle == circle)
       {
         if (goToSelectionPage)
         {
-
           DetermineGoingToSelectionPage(circle);
         }
         else
@@ -415,7 +410,7 @@ namespace RestaurantPOS.Pages
             {
               //add the table affliated to this circle
               AddTableToCircle(circle);
-              CreateSelectionPageToCircle(circle);
+              //CreateSelectionPageToCircle(circle);
             }
 
           }
@@ -432,7 +427,6 @@ namespace RestaurantPOS.Pages
             }
             else //if yellow color
             {
-              Console.WriteLine("touchup at sth else?");
               //do nothing
             }
           }
@@ -462,7 +456,7 @@ namespace RestaurantPOS.Pages
         return true;
       }
 
-      if (!circle.Added)
+      if (!circle.Added || circle.Table.IsActive)
       {
         pointList.Add(deleteButtonAbsolutePoint);
       }
@@ -597,6 +591,7 @@ namespace RestaurantPOS.Pages
     {
       if (tableUI.Table.IsActive == true)
       {
+        mainWindow.selectionPageTab.IsEnabled = true;
         GoToSelectionPage(tableUI);
       }
       else
@@ -606,6 +601,7 @@ namespace RestaurantPOS.Pages
         {
           tableUI.Table.IsActive = true;
           tableUI.circleUI.Stroke = greenBrush;
+          mainWindow.selectionPageTab.IsEnabled = true;
           GoToSelectionPage(tableUI);
         }
       } 
@@ -613,8 +609,7 @@ namespace RestaurantPOS.Pages
 
     private void GoToSelectionPage(Circle tableUI)
     {
-      MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-      mainWindow.selectionPageTab.Content = tableUI.ItemsSelectionPage;
+      mainWindow.itemsSelectionPage.tableUI = tableUI;
       mainWindow.tabControl.SelectedItem = mainWindow.selectionPageTab;
     }
 
@@ -633,12 +628,12 @@ namespace RestaurantPOS.Pages
       circle.Added = true;
     }
 
-    private void CreateSelectionPageToCircle(Circle tableUI)
-    {
-      SelectionPage itemsSelectionPage = new SelectionPage(tableUI);
-      tableUI.ItemsSelectionPage = itemsSelectionPage;
+    //private void CreateSelectionPageToCircle(Circle tableUI)
+    //{
+    //  SelectionPage itemsSelectionPage = new SelectionPage(tableUI);
+    //  tableUI.ItemsSelectionPage = itemsSelectionPage;
 
-    }
+    //}
 
     private void DeleteOrRelocateTable(Circle circle)
     {
@@ -702,7 +697,7 @@ namespace RestaurantPOS.Pages
         Circle tableUI = new Circle();
         tableUI.Table = table;
         tableUI.Added = true;
-        CreateSelectionPageToCircle(tableUI);
+        //CreateSelectionPageToCircle(tableUI);
 
         //apperance of the tableUI
         tableUI.circleUI.Width = diameter;
