@@ -77,7 +77,7 @@ namespace RestaurantPOS
 
       inventoryPage.BuildNameInventoryDict();
       ((App)Application.Current).BuildInventoryItemsDict();
-
+      ((App)Application.Current).BuildItemNameCategoryObjectDict();
 
     }
 

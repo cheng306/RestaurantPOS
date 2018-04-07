@@ -222,16 +222,7 @@ namespace RestaurantPOS.Pages
       }
     }
 
-    private void BackToCategoriesButton_Click(object sender, RoutedEventArgs e)
-    {
-      wrapPanelScrollViewer.Content = categoriesWrapPanel;
-      backToCategoriesButton.Visibility = Visibility.Hidden;
-    }
-
-    private void GoHomeButton_Click(object sender, RoutedEventArgs e)
-    {
-      mainWindow.tabControl.SelectedItem = mainWindow.tablesTab;
-    }
+    
 
     private void DisableLeftButtons()
     {
@@ -333,7 +324,36 @@ namespace RestaurantPOS.Pages
       selectedItem.ItemQuantity++;
       itemsListView.Focus();
     }
+
+    private void BackToCategoriesButton_Click(object sender, RoutedEventArgs e)
+    {
+      wrapPanelScrollViewer.Content = categoriesWrapPanel;
+      backToCategoriesButton.Visibility = Visibility.Hidden;
+    }
+
+    private void GoHomeButton_Click(object sender, RoutedEventArgs e)
+    {
+      mainWindow.tabControl.SelectedItem = mainWindow.tablesTab;
+    }
+
+    private void CheckButton_Click(object sender, RoutedEventArgs e)
+    {
+      YesNoCancelDialog yesNoCancelDialog = new YesNoCancelDialog("The Total is "+ tableUI.Table.PriceTotal+ ". Are you you sure to give the Check?");
+      if (yesNoCancelDialog.ShowDialog() == true)
+      {
+        tableUI.Table.IsActive = false;
+        tableUI.circleUI.Stroke = null;
+        tableUI.Table.PriceTotal = 0;
+        tableUI.Table.ItemNameCategoryQuantityList = new ObservableCollection<ItemNameCategoryQuantity>();
+        mainWindow.tabControl.SelectedItem = mainWindow.tablesTab;
+        //update dictionaries
+      }
+
+    }
+
   }
+
+
 
   public class ItemButton : Button
   {

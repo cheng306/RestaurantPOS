@@ -60,11 +60,18 @@ namespace RestaurantPOS.Pages
 
     private void EditItemConsumptionButton_Click(object sender, RoutedEventArgs e)
     {
-      Item seletedItem = (Item)itemsListView.SelectedItem;
-      EditItemInventoryDialog editItemInventoryDialog = new EditItemInventoryDialog(seletedItem);
-
+      Item selectedItem = (Item)itemsListView.SelectedItem;
+      EditItemInventoryDialog editItemInventoryDialog = new EditItemInventoryDialog(selectedItem);
+      
       if (editItemInventoryDialog.ShowDialog() == true)//when user click confrim button
       {
+        //modify the inventoryItemsDict
+        Dictionary<Inventory, List<Item>> inventoryItemsDict = ((App)Application.Current).inventoryItemsDict;
+        foreach (InventoryConsumption inventoryConsumption in selectedItem.InventoryConsumptionList)
+        {
+          inventoryItemsDict[inventoryNameObjectDict[inventoryConsumption.InventoryName]].Remove(selectedItem);
+        }
+
         List<InventoryConsumption> inventoryConsumptionList = new List<InventoryConsumption>();
         foreach (DependencyRow dependencyRow in editItemInventoryDialog.dependenciesStackpanel.Children)
         {
@@ -74,10 +81,12 @@ namespace RestaurantPOS.Pages
             ConsumptionQuantity = dependencyRow.ConsumptionQuantity
           };
           inventoryConsumptionList.Add(inventoryConsumption);
-          Console.WriteLine(dependencyRow.inventoryComboBox.SelectedValue + " " + dependencyRow.quantityTextBox.Text);
+          Console.WriteLine("==========="+inventoryNameObjectDict[dependencyRow.InventoryName]);
+          inventoryItemsDict[inventoryNameObjectDict[dependencyRow.InventoryName]].Add(selectedItem);
+          //Console.WriteLine(dependencyRow.inventoryComboBox.SelectedValue + " " + dependencyRow.quantityTextBox.Text);
         }
 
-        seletedItem.InventoryConsumptionList = inventoryConsumptionList;
+        selectedItem.InventoryConsumptionList = inventoryConsumptionList;
 
       }
       else
@@ -97,8 +106,11 @@ namespace RestaurantPOS.Pages
           Quantity = addInventoryWindow.InventoryQuantity,
           Unit = addInventoryWindow.InventoryUnit
         };
-
+        //update dictionary
         inventoryNameObjectDict.Add(addedInventory.Name, addedInventory);
+        Dictionary<Inventory, List<Item>> inventoryItemsDict = ((App)Application.Current).inventoryItemsDict;
+        inventoryItemsDict[addedInventory] = new List<Item>();
+        //update inventoryList
         inventoryList.Add(addedInventory);
 
         inventoryListView.SelectedItem = addedInventory;
@@ -175,7 +187,11 @@ namespace RestaurantPOS.Pages
     {
       Inventory selectedInventory = (Inventory)inventoryListView.SelectedItem;
       RemoveItemInventoryConsumptionFromItemInventoryConsumptionList(selectedInventory);
+
+      //update dictionaries
       inventoryNameObjectDict.Remove(selectedInventory.Name);
+      Dictionary<Inventory, List<Item>> inventoryItemsDict = ((App)Application.Current).inventoryItemsDict;
+      //inventoryItemsDict.Remove(selectedInventory);
       inventoryList.Remove(selectedInventory);
 
       DisableRightGridButtons();

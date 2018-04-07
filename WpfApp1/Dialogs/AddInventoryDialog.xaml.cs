@@ -30,24 +30,30 @@ namespace RestaurantPOS.Dialogs
     public AddInventoryDialog()
     {
       InitializeComponent();
+      nameWarningTextBlock.Visibility = Visibility.Visible;
+      quantityWarningTextBlock.Visibility = Visibility.Visible;
+      unitWarningTextBlock.Visibility = Visibility.Visible;
       OtherInitialSetup();
+      modifyInventoryName = "";
+      
     }
 
     public AddInventoryDialog(Inventory inventory)
     {
       InitializeComponent();
+
+      nameWarningTextBlock.Visibility = Visibility.Hidden;
+      quantityWarningTextBlock.Visibility = Visibility.Hidden;
+      unitWarningTextBlock.Visibility = Visibility.Hidden;
       OtherInitialSetup();
       modifyInventoryName = inventory.Name;
     }
 
     private void OtherInitialSetup()
     {
-      nameWarningTextBlock.Visibility = Visibility.Hidden;
-      quantityWarningTextBlock.Visibility = Visibility.Hidden;
-      unitWarningTextBlock.Visibility = Visibility.Hidden;
+      
       addButton.IsEnabled = false;
       inventoryList = ((MainWindow)Application.Current.MainWindow).inventoryPage.inventoryList;
-
     }
 
     internal string InventoryName
@@ -88,6 +94,7 @@ namespace RestaurantPOS.Dialogs
       else
       {
         validName = false;
+        nameWarningTextBlock.Text = "Inventory Name Cannot be Blank";
         nameWarningTextBlock.Visibility = Visibility.Visible;
       }
 
