@@ -2,10 +2,9 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:RestaurantPOS"
-             xmlns:converter="clr-namespace:RestaurantPOS.Converter"
-             xmlns:converter1="clr-namespace:RestaurantPOS.Converter"
+             xmlns:converter="clr-namespace:RestaurantPOS.Converters"
              StartupUri="MainWindow.xaml">
    <Application.Resources>
-    <converter1:MultiplierConverter x:Key="Multiplier" />
+    <converter:MultiplierConverter x:Key="Multiplier" />
   </Application.Resources>
 </Application>

@@ -76,6 +76,7 @@ namespace RestaurantPOS
       itemsSelectionPage.BuildCategoriesWrapPanel();
 
       inventoryPage.BuildNameInventoryDict();
+      ((App)Application.Current).BuildCategoryItemDict();
       ((App)Application.Current).BuildInventoryItemsDict();
       ((App)Application.Current).BuildItemNameCategoryObjectDict();
 

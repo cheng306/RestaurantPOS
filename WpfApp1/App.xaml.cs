@@ -18,6 +18,7 @@ namespace RestaurantPOS
   {
     internal Dictionary<Inventory, List<Item>> inventoryItemsDict;
     internal Dictionary<Tuple<string, string>, Item> itemNameCategoryObjectDict;
+    internal Dictionary<string, List<Item>> categoryItemDict;
 
     public App()
     {
@@ -55,6 +56,23 @@ namespace RestaurantPOS
       {
         itemNameCategoryObjectDict[new Tuple<string, string>(item.Name, item.Category)] = item;
       }
+    }
+
+    internal void BuildCategoryItemDict()
+    {
+      categoryItemDict = new Dictionary<string, List<Item>>();
+      ObservableCollection<string> categoriesList = ((MainWindow)MainWindow).editPage.categoriesList;
+      foreach (String category in categoriesList)
+      {
+        categoryItemDict.Add(category, new List<Item>());
+      }
+      ObservableCollection<Item> itemsList = ((MainWindow)MainWindow).editPage.itemsList;
+      foreach (Item item in itemsList)
+      {
+        categoryItemDict[item.Category].Add(item);
+        Console.WriteLine("Testing: item - " + item.Name + " category: " + item.Category);
+      }
+
     }
   }
 }

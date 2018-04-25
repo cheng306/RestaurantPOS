@@ -11,9 +11,9 @@
              d:DesignWidth="300"
              MinWidth="800"
              Loaded="EditPage_Loaded">
-  <UserControl.Resources>
+  <!--<UserControl.Resources>
     <converter:MultiplierConverter x:Key="Multiplier" />
-  </UserControl.Resources>
+  </UserControl.Resources>-->
   <Grid x:Name="stackpanel">
     <Grid.RowDefinitions>
       <RowDefinition Height="5*" />
