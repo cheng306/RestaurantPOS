@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using RestaurantPOS.Models;
+using System.Collections.ObjectModel;
 
 namespace RestaurantPOS.Dialogs
 {
@@ -24,6 +25,7 @@ namespace RestaurantPOS.Dialogs
     bool validPrice;
     bool validCategory;
     MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+    ObservableCollection<string> categoriesList = ((MainWindow)Application.Current.MainWindow).editPage.categoriesList;
 
     public EditItemDialog()
     {
@@ -31,8 +33,15 @@ namespace RestaurantPOS.Dialogs
       OtherInitializeSetup();
     }
 
+    public EditItemDialog(Item item)
+    {
+      InitializeComponent();
+      OtherInitializeSetup2(item);
+    }
+
     private void OtherInitializeSetup()
     {
+
       addButton.IsEnabled = false;
 
       nameWarningTextBlock.Visibility = Visibility.Visible;
@@ -42,6 +51,24 @@ namespace RestaurantPOS.Dialogs
       validName = false;
       validPrice = false;
       validCategory = false;
+    }
+
+    private void OtherInitializeSetup2(Item item)
+    {
+      addButton.IsEnabled = true;
+
+      nameWarningTextBlock.Visibility = Visibility.Hidden;
+      priceWarningTextBlock.Visibility = Visibility.Hidden;
+      categoryWarningTextBlock.Visibility = Visibility.Hidden;
+
+      nameTextBox.Text = item.Name;
+      priceTextBox.Text = item.Price.ToString();
+      categoriesComboBox.ItemsSource = categoriesList;
+      categoriesComboBox.SelectedItem = item.Category;
+
+      validName = true;
+      validPrice = true;
+      validCategory = true;
     }
 
     internal String ItemName

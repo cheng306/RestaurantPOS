@@ -29,6 +29,7 @@ namespace RestaurantPOS.Pages
     //internal List<Item> itemList;
     internal ObservableCollection<Item> itemsList;
     internal ObservableCollection<string> categoriesList;
+    internal Dictionary<string, List<Item>> categoryItemDict = ((App)Application.Current).categoryItemDict;
     
 
     MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
@@ -123,6 +124,15 @@ namespace RestaurantPOS.Pages
       }
     }
 
+    private void ModifyItemButton_Click(object sender, RoutedEventArgs e)
+    {
+      if (itemsListView.SelectedItem != null)
+      {
+        EditItemDialog editItemDialog = new EditItemDialog((Item)itemsListView.SelectedItem);
+        editItemDialog.ShowDialog();
+      }
+    }
+
     private void DeleteItemButton_Click(object sender, RoutedEventArgs e)
     {
       //Get the selected Items List
@@ -175,10 +185,12 @@ namespace RestaurantPOS.Pages
 
     private void ModifyCategoryButton_Click(object sender, RoutedEventArgs e)
     {
+      int selectedIndex; 
+
       if (categoriesListBox.SelectedItem != null)
       {
-        //undate the category list
-        int selectedIndex = categoriesListBox.SelectedIndex;
+        //undate the category list 
+        selectedIndex = categoriesListBox.SelectedIndex;
         EditCategoryDialog editCategoryDialog = new EditCategoryDialog((string)categoriesListBox.SelectedItem);
         editCategoryDialog.inputTextBox.Text = (string)categoriesListBox.SelectedItem;
         editCategoryDialog.inputTextBox.SelectionLength = editCategoryDialog.inputTextBox.Text.Length;
@@ -188,7 +200,10 @@ namespace RestaurantPOS.Pages
         {
           ((ObservableCollection<string>)categoriesListBox.ItemsSource)[selectedIndex] = editCategoryDialog.Input;
         }
+        categoriesListBox.SelectedIndex = selectedIndex;
       }
+
+      //after the dialog close  
       categoriesListBox.Focus();
     }
 
@@ -243,6 +258,14 @@ namespace RestaurantPOS.Pages
     private void ItemsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       EnableModifyAndDeleteItemButton();
+    }
+
+    private void ItemsListView_GotFocus(object sender, RoutedEventArgs e)
+    {
+      if (itemsListView.SelectedItem != null)
+      {
+        EnableModifyAndDeleteItemButton();
+      }
     }
 
     private void CategoriesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
