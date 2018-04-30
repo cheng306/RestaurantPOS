@@ -81,8 +81,8 @@
     <Compile Include="Pages\SelectionPage.xaml.cs">
       <DependentUpon>SelectionPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\AddCategoryDialog.xaml.cs">
-      <DependentUpon>AddCategoryDialog.xaml</DependentUpon>
+    <Compile Include="Dialogs\EditCategoryDialog.xaml.cs">
+      <DependentUpon>EditCategoryDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\EditItemInventoryDialog.xaml.cs">
       <DependentUpon>EditItemInventoryDialog.xaml</DependentUpon>
@@ -133,7 +133,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\AddCategoryDialog.xaml">
+    <Page Include="Dialogs\EditCategoryDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

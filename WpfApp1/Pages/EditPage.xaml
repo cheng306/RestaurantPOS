@@ -94,6 +94,7 @@
                  SelectionMode="Extended"
                  BorderBrush="AntiqueWhite"
                  BorderThickness="5"
+                 GotFocus="CategoriesListBox_GotFocus"
                  SelectionChanged="CategoriesListBox_SelectionChanged"/>
       </StackPanel>
       
@@ -135,7 +136,8 @@
       <Button x:Name="modifyCategoryButton"
               Background="AntiqueWhite"
               Grid.Column="4"
-              Content="Modify Category" />
+              Content="Modify Category"
+              Click="ModifyCategoryButton_Click"/>
 
       <Button x:Name="deleteCategoryButton"
               Background="AntiqueWhite"

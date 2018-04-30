@@ -153,7 +153,7 @@ namespace RestaurantPOS.Pages
 
     private void AddCategoryButton_Click(object sender, RoutedEventArgs e)
     {
-      AddCategoryDialog addCategoryWindow = new AddCategoryDialog();
+      EditCategoryDialog addCategoryWindow = new EditCategoryDialog();
       if (addCategoryWindow.ShowDialog() == true)
       {
         categoriesList.Add(addCategoryWindow.Input);
@@ -173,7 +173,25 @@ namespace RestaurantPOS.Pages
       categoriesListBox.Focus();
     }
 
-   
+    private void ModifyCategoryButton_Click(object sender, RoutedEventArgs e)
+    {
+      if (categoriesListBox.SelectedItem != null)
+      {
+        //undate the category list
+        int selectedIndex = categoriesListBox.SelectedIndex;
+        EditCategoryDialog editCategoryDialog = new EditCategoryDialog((string)categoriesListBox.SelectedItem);
+        editCategoryDialog.inputTextBox.Text = (string)categoriesListBox.SelectedItem;
+        editCategoryDialog.inputTextBox.SelectionLength = editCategoryDialog.inputTextBox.Text.Length;
+        editCategoryDialog.categoryWarningTextBlock.Visibility = Visibility.Hidden;
+        editCategoryDialog.addButton.Content = "Edit";
+        if (editCategoryDialog.ShowDialog() == true)
+        {
+          ((ObservableCollection<string>)categoriesListBox.ItemsSource)[selectedIndex] = editCategoryDialog.Input;
+        }
+      }
+      categoriesListBox.Focus();
+    }
+
 
     private void DeleteCategoryButton_Click(object sender, RoutedEventArgs e)
     {
@@ -204,10 +222,11 @@ namespace RestaurantPOS.Pages
     //below are about focus and buttons ability
     private void EditPage_Loaded(object sender, RoutedEventArgs e)
     {
-      DisableModifyAndDeleteItemButton();
-      DisableModifyAndDeleteCategoryButton();
       itemsListView.SelectedItem = null;
       categoriesListBox.SelectedItem = null;
+      DisableModifyAndDeleteItemButton();
+      DisableModifyAndDeleteCategoryButton();
+      
       Console.WriteLine("==============editPage Loaded");
     }
 
@@ -229,6 +248,14 @@ namespace RestaurantPOS.Pages
     private void CategoriesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       EnableModifyAndDeleteCategoryButton();
+    }
+
+    private void CategoriesListBox_GotFocus(object sender, RoutedEventArgs e)
+    {
+      if (categoriesListBox.SelectedItem != null)
+      {
+        EnableModifyAndDeleteCategoryButton();
+      }
     }
 
     private void DisableModifyAndDeleteCategoryButton()
@@ -260,6 +287,8 @@ namespace RestaurantPOS.Pages
     {
 
     }
+
+    
   }
 
 
