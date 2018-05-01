@@ -96,7 +96,8 @@
                 Grid.Column="0"
                 Content="Create Inventory"
                 Click="CreateInventoryButton_Click"
-                Background="AntiqueWhite"/>
+                Background="AntiqueWhite"
+                />
         <Button x:Name="modifyInventoryButton"
                 Grid.Column="1"
                 Content="Modify Inventory"

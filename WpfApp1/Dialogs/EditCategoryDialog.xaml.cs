@@ -91,5 +91,13 @@ namespace RestaurantPOS.Dialogs
     {
       get { return inputTextBox.Text; }
     }
+
+    private void Window_KeyDown(object sender, KeyEventArgs e)
+    {
+      if (e.Key == Key.Enter && addButton.IsEnabled)
+      {
+        this.DialogResult = true;
+      }
+    }
   }
 }

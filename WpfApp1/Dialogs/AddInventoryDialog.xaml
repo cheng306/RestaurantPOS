@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         Title="Create Inventory"
         WindowStartupLocation="CenterScreen"
-        Height="700"
+        Height="500"
         Width="400"
-        MinHeight="700"
+        MinHeight="500"
         MinWidth="400">
   <Window.Resources>
     <Style TargetType="Button">
@@ -32,33 +32,36 @@
     </Grid.RowDefinitions>
     <StackPanel>
       <TextBlock Text="Name of Inventory"
-                 Margin="10"/>
+                 Margin="10,10,0,0"/>
       <TextBox x:Name="nameTextBox"
-               Margin="10"
+               Margin="10,0,10,0"
                TextChanged="NameTextBox_TextChanged"/>
       <TextBlock x:Name="nameWarningTextBlock"
                  Text="Name Cannot be Blank"
                  Foreground="Red"
-                 Margin="10"/>
+                 FontSize="20"
+                 Margin="10,0,10,10"/>
 
       <TextBlock Text="Initial Quantity"
-                 Margin="10"/>
+                 Margin="10,10,10,0"/>
       <TextBox x:Name="quantityTextBox"
-               Margin="10"
+               Margin="10,0,10,0"
                TextChanged="QuantityTextBox_TextChanged"/>
       <TextBlock x:Name="quantityWarningTextBlock"
                  Foreground="Red"
                  Text="Quantity must be Numeric"
-                 Margin="10"/>
+                 Margin="10,0,10,10"
+                 FontSize="20"/>
       <TextBlock Text="Quantity unit"
-                 Margin="10" />
+                 Margin="10,10,10,0" />
       <TextBox x:Name="unitTextBox"
-               Margin="10"
+               Margin="10,0,10,0"
                TextChanged="UnitTextBox_TextChanged" />
       <TextBlock x:Name="unitWarningTextBlock"
                  Foreground="Red"
                  Text="Unit Cannot be Blank"
-                 Margin="10" />
+                 Margin="10,0,10,0"
+                 FontSize="20"/>
     </StackPanel>
     <Grid Grid.Row="1">
       <Grid.ColumnDefinitions>

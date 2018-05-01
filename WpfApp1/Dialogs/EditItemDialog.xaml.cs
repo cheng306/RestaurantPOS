@@ -17,15 +17,18 @@ using System.Collections.ObjectModel;
 namespace RestaurantPOS.Dialogs
 {
   /// <summary>
-  /// Interaction logic for EditItemWindow.xaml
+  /// 
   /// </summary>
   public partial class EditItemDialog : Window
   {
     bool validName;
     bool validPrice;
     bool validCategory;
+    string currentItemName;
+
     MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
     ObservableCollection<string> categoriesList = ((MainWindow)Application.Current.MainWindow).editPage.categoriesList;
+    Dictionary<string, List<Item>> categoryItemDict = ((App)(Application.Current)).categoryItemDict;
 
     public EditItemDialog()
     {
@@ -41,7 +44,7 @@ namespace RestaurantPOS.Dialogs
 
     private void OtherInitializeSetup()
     {
-
+      currentItemName = "";
       addButton.IsEnabled = false;
 
       nameWarningTextBlock.Visibility = Visibility.Visible;
@@ -55,6 +58,7 @@ namespace RestaurantPOS.Dialogs
 
     private void OtherInitializeSetup2(Item item)
     {
+      currentItemName = item.Name;
       addButton.IsEnabled = true;
 
       nameWarningTextBlock.Visibility = Visibility.Hidden;
@@ -139,16 +143,27 @@ namespace RestaurantPOS.Dialogs
       nameWarningTextBlock.Visibility = Visibility.Hidden;
 
       string category = (string)categoriesComboBox.SelectedItem;
-      foreach (Item item in mainWindow.editPage.itemsList)
+      List<Item> itemsList = categoryItemDict[category];
+      foreach(Item item in itemsList)
       {
-        if (item.Category.Equals(category) && item.Name.Equals(nameTextBox.Text))
+        if (item.Name.Equals(nameTextBox.Text) && !item.Name.Equals(currentItemName))
         {
           validName = false;
-          nameWarningTextBlock.Text = "This item already existed";
+          nameWarningTextBlock.Text = nameTextBox.Text + " already existed";
           nameWarningTextBlock.Visibility = Visibility.Visible;
           break;
         }
       }
+      //foreach (Item item in mainWindow.editPage.itemsList)
+      //{
+      //  if (item.Category.Equals(category) && item.Name.Equals(nameTextBox.Text))
+      //  {
+      //    validName = false;
+      //    nameWarningTextBlock.Text = "This item already existed";
+      //    nameWarningTextBlock.Visibility = Visibility.Visible;
+      //    break;
+      //  }
+      //}
       UpdateAddButton();
     }
 
