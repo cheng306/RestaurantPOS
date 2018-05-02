@@ -33,6 +33,7 @@ namespace RestaurantPOS.Pages
     
 
     MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+    App currentApp = (App)Application.Current;
 
     public EditPage()
     {
@@ -155,6 +156,8 @@ namespace RestaurantPOS.Pages
 
           //modify itemsSelectionPage
           mainWindow.itemsSelectionPage.RemoveItemFromItemsWrapPanel(removeItemsArray[i]);
+
+        
         }
       }
 
@@ -169,7 +172,13 @@ namespace RestaurantPOS.Pages
         categoriesList.Add(addCategoryWindow.Input);
         categoriesListBox.SelectedItem = addCategoryWindow.Input;
 
+        //modify CategoriesWrapPanel in itemsSelectionPage
         mainWindow.itemsSelectionPage.AddCategoryToCategoriesWrapPanel(addCategoryWindow.Input);
+
+        //modify categoryItemDict
+        currentApp.AddCategoryToCategoryItemDict(addCategoryWindow.Input);
+
+        categoriesListBox.SelectedItem = addCategoryWindow.Input;
       }
       else
       {
@@ -179,7 +188,7 @@ namespace RestaurantPOS.Pages
         }
       }
 
-      categoriesListBox.SelectedItem = addCategoryWindow.Input;
+      
       categoriesListBox.Focus();
     }
 
@@ -191,14 +200,19 @@ namespace RestaurantPOS.Pages
       {
         //undate the category list 
         selectedIndex = categoriesListBox.SelectedIndex;
+        string oldCategory = (string)categoriesListBox.SelectedItem;
         EditCategoryDialog editCategoryDialog = new EditCategoryDialog((string)categoriesListBox.SelectedItem);
-        editCategoryDialog.inputTextBox.Text = (string)categoriesListBox.SelectedItem;
-        editCategoryDialog.inputTextBox.SelectionLength = editCategoryDialog.inputTextBox.Text.Length;
-        editCategoryDialog.categoryWarningTextBlock.Visibility = Visibility.Hidden;
-        editCategoryDialog.addButton.Content = "Edit";
+        
         if (editCategoryDialog.ShowDialog() == true)
         {
-          ((ObservableCollection<string>)categoriesListBox.ItemsSource)[selectedIndex] = editCategoryDialog.Input;
+          if (!oldCategory.Equals(editCategoryDialog.Input))
+          {
+            //update categoriesList
+            ((ObservableCollection<string>)categoriesListBox.ItemsSource)[selectedIndex] = editCategoryDialog.Input;
+            //update categoryItemDict
+            currentApp.ModifyCategoryInCategoryItemDict(oldCategory, editCategoryDialog.Input);
+            UpdateItemCategoryProperty(editCategoryDialog.Input);
+          }        
         }
         categoriesListBox.SelectedIndex = selectedIndex;
       }
@@ -228,10 +242,32 @@ namespace RestaurantPOS.Pages
         {
           categoriesList.Remove(removeCategoriesArray[i]);
           mainWindow.itemsSelectionPage.RemoveCategoryToCategoriesWrapPanel(removeCategoriesArray[i]);
+          //remove all items of removed category
+          RemoveItemsOfCategory(removeCategoriesArray[i]);
+          //update categoryItemDict
+          currentApp.RemoveCategoryFromCategoryItemDict(removeCategoriesArray[i]);
         }
       }
 
       DisableModifyAndDeleteCategoryButton();
+    }
+
+    private void UpdateItemCategoryProperty(string category)
+    {
+      List<Item> selectedItemsList = currentApp.CategoryItemDict[category];
+      foreach (Item item in selectedItemsList)
+      {
+        item.Category = category;
+      }
+    }
+
+    private void RemoveItemsOfCategory(string category)
+    {
+      List<Item> selectedItemsList = currentApp.CategoryItemDict[category];
+      foreach (Item item in selectedItemsList)
+      {
+        itemsList.Remove(item);
+      }
     }
 
     //below are about focus and buttons ability

@@ -8,42 +8,55 @@ using System.Threading.Tasks;
 
 namespace RestaurantPOS.Models
 {
-    public class Item : INotifyPropertyChanged
+  public class Item : INotifyPropertyChanged
+  {
+    private List<InventoryConsumption> inventoryConsumptionList;
+    private string category;
+
+    public int Id { get; set; }
+
+    public string Name { get; set; }
+
+    public string Category
     {
-        private List<InventoryConsumption> inventoryConsumptionList;
-
-        public int Id { get; set; }
-
-        public string Name{ get;set;}
-
-        public string Category { get; set; }
-
-        public  double Price { get; set; }
-
-        public DateTime AddTime { get; set; }
-
-        public List<InventoryConsumption> InventoryConsumptionList {
-            get { return this.inventoryConsumptionList; }
-            set
-            {
-                if (value != this.inventoryConsumptionList)
-                {
-                    this.inventoryConsumptionList = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+      get { return this.category; }
+      set
+      {
+        if (value != this.category)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        } 
+          this.category = value;
+          NotifyPropertyChanged();
+        }
+      }
     }
 
-    
+    public double Price { get; set; }
+
+    public DateTime AddTime { get; set; }
+
+    public List<InventoryConsumption> InventoryConsumptionList
+    {
+      get { return this.inventoryConsumptionList; }
+      set
+      {
+        if (value != this.inventoryConsumptionList)
+        {
+          this.inventoryConsumptionList = value;
+          NotifyPropertyChanged();
+        }
+      }
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+    {
+      if (PropertyChanged != null)
+      {
+        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+      }
+    }
+  }
+
+
 }

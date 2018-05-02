@@ -26,22 +26,23 @@ namespace RestaurantPOS.Dialogs
     public EditCategoryDialog()
     {
       InitializeComponent();
-      InitializeOther();
+      addButton.IsEnabled = false;
+      categoryWarningTextBlock.Visibility = Visibility.Visible;
       currentCategory = "";
     }
 
     public EditCategoryDialog(string currentCategory)
     {
       InitializeComponent();
-      InitializeOther();
+      inputTextBox.Text = currentCategory;
+      inputTextBox.SelectionLength = currentCategory.Length;
+      categoryWarningTextBlock.Visibility = Visibility.Hidden;
+      addButton.Content = "Edit";
+      addButton.IsEnabled = true;
       this.currentCategory = currentCategory;
     }
 
-    private void InitializeOther()
-    {
-      addButton.IsEnabled = false;
-      categoryWarningTextBlock.Visibility = Visibility.Visible;
-    }
+   
 
     private void Window_ContentRendered(object sender, EventArgs e)
     {

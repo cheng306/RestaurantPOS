@@ -1,1 +1,10 @@
 make all windows respond to enter key
+
+categoryItemDict
+-add category done
+-modify category done
+-delete category done
+
+-add item
+-modify item's category
+-delete item

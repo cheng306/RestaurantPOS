@@ -74,5 +74,31 @@ namespace RestaurantPOS
       }
 
     }
+
+    internal void AddCategoryToCategoryItemDict(string category)
+    {
+      categoryItemDict[category] = new List<Item>();
+    }
+
+    //make sure oldCategory!= newCategory
+    internal void ModifyCategoryInCategoryItemDict(string oldCategory, string newCategory)
+    {
+      categoryItemDict[newCategory] = categoryItemDict[oldCategory];
+      if (!newCategory.Equals(oldCategory)){
+        categoryItemDict.Remove(oldCategory);
+      }
+    }
+
+    internal void RemoveCategoryFromCategoryItemDict(string category)
+    {
+      categoryItemDict.Remove(category);
+    }
+
+
+
+    public Dictionary<string, List<Item>> CategoryItemDict
+    {
+      get { return this.categoryItemDict; }
+    }
   }
 }
