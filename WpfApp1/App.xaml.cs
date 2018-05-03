@@ -94,6 +94,22 @@ namespace RestaurantPOS
       categoryItemDict.Remove(category);
     }
 
+    internal void AddItemToCategoryItemDict(string category, Item item)
+    {
+      categoryItemDict[category].Add(item);
+    }
+
+    internal void ChangeItemCategoryInCategoryItemDict(Item item, string oldCategory, string newCategory)
+    {
+      categoryItemDict[oldCategory].Remove(item);
+      categoryItemDict[newCategory].Add(item);
+    }
+
+    internal void RemoveItemFromCategoryItemDict(Item item)
+    {
+      categoryItemDict[item.Category].Remove(item);
+    }
+
 
 
     public Dictionary<string, List<Item>> CategoryItemDict

@@ -96,7 +96,6 @@ namespace RestaurantPOS.Pages
     private void AddItemButton_Click(object sender, RoutedEventArgs e)
     {
       EditItemDialog addItemWindow = new EditItemDialog();
-      addItemWindow.categoriesComboBox.ItemsSource = categoriesList;
 
       if (addItemWindow.ShowDialog() == true)
       {
@@ -111,6 +110,9 @@ namespace RestaurantPOS.Pages
 
         //modify itemsSelectionPage
         mainWindow.itemsSelectionPage.AddItemToItemsWrapPanel(newItem);
+
+        //update categoryItemDict
+        currentApp.AddItemToCategoryItemDict(addItemWindow.ItemCategory, newItem);
 
         itemsListView.SelectedItem = newItem;
         itemsListView.Focus();
@@ -127,10 +129,24 @@ namespace RestaurantPOS.Pages
 
     private void ModifyItemButton_Click(object sender, RoutedEventArgs e)
     {
-      if (itemsListView.SelectedItem != null)
+      Item selectedItem = (Item)itemsListView.SelectedItem;
+      if (selectedItem != null)
       {
-        EditItemDialog editItemDialog = new EditItemDialog((Item)itemsListView.SelectedItem);
-        editItemDialog.ShowDialog();
+        EditItemDialog editItemDialog = new EditItemDialog(selectedItem);
+        if (editItemDialog.ShowDialog() == true)
+        {
+          string oldCategory = selectedItem.Category;
+          double oldPrice = selectedItem.Price;
+
+          // 
+          if (!selectedItem.Category.Equals(editItemDialog.ItemCategory))
+          {
+            currentApp.ChangeItemCategoryInCategoryItemDict(selectedItem, oldCategory, editItemDialog.ItemCategory);
+          }
+          selectedItem.Name = editItemDialog.ItemName;
+          selectedItem.Category = editItemDialog.ItemCategory;
+          selectedItem.Price = editItemDialog.ItemPrice;
+        }
       }
     }
 
@@ -157,7 +173,8 @@ namespace RestaurantPOS.Pages
           //modify itemsSelectionPage
           mainWindow.itemsSelectionPage.RemoveItemFromItemsWrapPanel(removeItemsArray[i]);
 
-        
+          //update categoryItemDict
+          currentApp.RemoveItemFromCategoryItemDict(removeItemsArray[i]);
         }
       }
 
@@ -227,7 +244,7 @@ namespace RestaurantPOS.Pages
       //Get the selected Items List
       IList selectedCategoriesList = categoriesListBox.SelectedItems;
       int selectedCategoriesCount = selectedCategoriesList.Count;
-      string removeCategoriesMessage = "Do you want to delete " + selectedCategoriesCount + " items";
+      string removeCategoriesMessage = "Do you want to delete " + selectedCategoriesCount + " Category and ALL assocaited items";
 
       YesNoCancelDialog yesNoCancelDialog = new YesNoCancelDialog(removeCategoriesMessage);
       if (yesNoCancelDialog.ShowDialog() == true)

@@ -12,10 +12,21 @@ namespace RestaurantPOS.Models
   {
     private List<InventoryConsumption> inventoryConsumptionList;
     private string category;
+    private string name;
 
     public int Id { get; set; }
 
-    public string Name { get; set; }
+    public string Name {
+      get { return this.name; }
+      set
+      {
+        if (value!= this.name)
+        {
+          this.name = value;
+          NotifyPropertyChanged();
+        }
+      }
+    }
 
     public string Category
     {

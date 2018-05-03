@@ -39,13 +39,16 @@
           <ColumnDefinition Width="2*" />
           <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
-        <TextBlock Text="Name" />
+        <TextBlock Text="Name"
+                   FontSize="25"/>
         <TextBox x:Name="nameTextBox"
                  Grid.Column="1"
+                 FontSize="25"
                  TextChanged="NameTextBox_TextChanged"/>
         <TextBlock x:Name="nameWarningTextBlock"
                    Grid.Column="2"
                    Margin="5,0,0,0"
+                   FontSize="20"
                    Text="Name cannot be Blank"
                    Foreground="Red" />
       </Grid>
@@ -58,9 +61,11 @@
           <ColumnDefinition Width="2*" />
           <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
-        <TextBlock Text="Category" />
+        <TextBlock Text="Category"
+                   FontSize="25"/>
         <ComboBox x:Name="categoriesComboBox"
                   Grid.Column="1"
+                  FontSize="25"
                   SelectionChanged="CategoriesComboBox_SelectionChanged"/>
         <TextBlock x:Name="categoryWarningTextBlock"
                    Grid.Column="2"
@@ -75,9 +80,11 @@
           <ColumnDefinition Width="2*" />
           <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
-        <TextBlock Text="Price" />
+        <TextBlock Text="Price"
+                   FontSize="25"/>
         <TextBox x:Name="priceTextBox"
                  Grid.Column="1"
+                 FontSize="25"
                  TextChanged="PriceTextBox_TextChanged" />
         <TextBlock x:Name="priceWarningTextBlock"
                    Grid.Column="2"
@@ -95,9 +102,11 @@
       </Grid.ColumnDefinitions>
       <Button x:Name="addButton"
               Content="Add"
+              FontSize="25"
               Click="AddButton_Click"/>
       <Button Content="Cancel"
               IsCancel="True"
+              FontSize="25"
               Grid.Column="1" />
     </Grid>
 

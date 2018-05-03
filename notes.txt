@@ -5,6 +5,6 @@ categoryItemDict
 -modify category done
 -delete category done
 
--add item
--modify item's category
--delete item
+-add item done
+-modify item's category done
+-delete item (done)

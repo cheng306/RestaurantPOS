@@ -25,6 +25,7 @@ namespace RestaurantPOS.Dialogs
     bool validPrice;
     bool validCategory;
     string currentItemName;
+    string currentItemCategory;
 
     MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
     ObservableCollection<string> categoriesList = ((MainWindow)Application.Current.MainWindow).editPage.categoriesList;
@@ -46,7 +47,9 @@ namespace RestaurantPOS.Dialogs
     private void OtherInitializeSetup()
     {
       currentItemName = "";
+      currentItemCategory = "";
       addButton.IsEnabled = false;
+      categoriesComboBox.ItemsSource = categoriesList;
 
       nameWarningTextBlock.Visibility = Visibility.Visible;
       priceWarningTextBlock.Visibility = Visibility.Visible;
@@ -60,16 +63,17 @@ namespace RestaurantPOS.Dialogs
     private void OtherInitializeSetup2(Item item)
     {
       currentItemName = item.Name;
+      currentItemCategory = item.Category;
       addButton.IsEnabled = true;
-
-      nameWarningTextBlock.Visibility = Visibility.Hidden;
-      priceWarningTextBlock.Visibility = Visibility.Hidden;
-      categoryWarningTextBlock.Visibility = Visibility.Hidden;
-
+      addButton.Content = "Edit";
       nameTextBox.Text = item.Name;
       priceTextBox.Text = item.Price.ToString();
       categoriesComboBox.ItemsSource = categoriesList;
       categoriesComboBox.SelectedItem = item.Category;
+
+      nameWarningTextBlock.Visibility = Visibility.Hidden;
+      priceWarningTextBlock.Visibility = Visibility.Hidden;
+      categoryWarningTextBlock.Visibility = Visibility.Hidden;
 
       validName = true;
       validPrice = true;
@@ -133,6 +137,7 @@ namespace RestaurantPOS.Dialogs
 
       if (!nameTextBox.Text.Equals(""))
       {
+        Console.WriteLine("goes here");
         CheckIfItemNameRepeat();
       }
     }
@@ -145,12 +150,13 @@ namespace RestaurantPOS.Dialogs
 
       string category = (string)categoriesComboBox.SelectedItem;
       List<Item> itemsList = categoryItemDict[category];
+      Console.WriteLine(itemsList.Count);
       foreach(Item item in itemsList)
       {
-        if (item.Name.Equals(nameTextBox.Text) && !item.Name.Equals(currentItemName))
+        if (item.Name.Equals(nameTextBox.Text) && !(item.Name.Equals(currentItemName) && item.Category.Equals(currentItemCategory)))
         {
           validName = false;
-          nameWarningTextBlock.Text = nameTextBox.Text + " already existed";
+          nameWarningTextBlock.Text = nameTextBox.Text + " already existed in this Category: "+ category;
           nameWarningTextBlock.Visibility = Visibility.Visible;
           break;
         }
