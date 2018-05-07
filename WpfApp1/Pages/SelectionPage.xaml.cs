@@ -27,7 +27,7 @@ namespace RestaurantPOS.Pages
     WrapPanel categoriesWrapPanel;
     Dictionary<string,WrapPanel> categoryItemsWrapPanelDict;
     internal Circle tableUI;
-    public string currentCategory;
+    //public string currentCategory;
 
     SolidColorBrush antiqueWhiteBrush = new SolidColorBrush(Colors.AntiqueWhite);
 
@@ -44,7 +44,7 @@ namespace RestaurantPOS.Pages
       if (tableUI != null)
       {
         TableNumberTextBlock.Text = "Table " + tableUI.Table.TableNumber;
-        itemsListView.ItemsSource = tableUI.Table.ItemNameCategoryQuantityList; 
+        itemsListView.ItemsSource = tableUI.Table.DatabaseItemNameCategoryQuantityList; 
         wrapPanelScrollViewer.Content=categoriesWrapPanel;
 
         Binding myBinding = new Binding("Table.PriceTotal");
@@ -65,8 +65,6 @@ namespace RestaurantPOS.Pages
       itemsListView.SelectedItem = null;
     }
 
-    
-
     internal void BuildCategoryItemsWrapPanelDictionary()
     {
       categoryItemsWrapPanelDict = new Dictionary<string, WrapPanel>();
@@ -81,14 +79,16 @@ namespace RestaurantPOS.Pages
         {
           if (item.Category.Equals(categoryStr))
           {
-            ItemButton itemButton = new ItemButton {
-              Content = item.Name,
+            ItemButton itemButton = new ItemButton(item) {
+              //Content = item.Name,
               Margin = new Thickness(10),
               Width = 150,
               Height = 100,
-              Background = antiqueWhiteBrush,
-              ButtonItem = item
+              Background = antiqueWhiteBrush
+              //ButtonItem = item
             };
+            
+
             itemButton.Click += ItemButton_Click;
             itemsWrapPanel.Children.Add(itemButton);
           }
@@ -124,7 +124,7 @@ namespace RestaurantPOS.Pages
       WrapPanel itemsWrapPanel = categoryItemsWrapPanelDict[categoryButton.Content.ToString()];
 
       wrapPanelScrollViewer.Content = itemsWrapPanel;
-      currentCategory = categoryButton.Content.ToString();
+      //currentCategory = categoryButton.Content.ToString();
       backToCategoriesButton.Visibility = Visibility.Visible;
 
     }
@@ -132,36 +132,35 @@ namespace RestaurantPOS.Pages
     private void ItemButton_Click(object sender, RoutedEventArgs e)
     {
       ItemButton itemButton = (ItemButton)sender;
-      ObservableCollection<ItemNameCategoryQuantity> itemNameCategoryQuantityList = (ObservableCollection<ItemNameCategoryQuantity>)itemsListView.ItemsSource;
+      ObservableCollection<DatabaseItemNameCategoryQuantity> itemNameCategoryQuantityList = (ObservableCollection<DatabaseItemNameCategoryQuantity>)itemsListView.ItemsSource;
 
       bool newItemInTable = true;
       for (int i = 0; i < itemNameCategoryQuantityList.Count; i++)
       {
         
         if (itemNameCategoryQuantityList[i].ItemName.Equals(itemButton.Content.ToString())&&
-          itemNameCategoryQuantityList[i].ItemCategory.Equals(currentCategory))
+          itemNameCategoryQuantityList[i].ItemCategory.Equals(itemButton.ButtonItem.Category) &&
+          itemNameCategoryQuantityList[i].ItemPrice == itemButton.ButtonItem.Price)
         {
           newItemInTable = false;
           itemNameCategoryQuantityList[i].ItemQuantity++;
           itemNameCategoryQuantityList[i].ItemsPrice += itemButton.ButtonItem.Price;
           tableUI.Table.PriceTotal += itemButton.ButtonItem.Price;
-          //priceSummary.Text = "Total: $" + tableUI.Table.PriceTotal.ToString();
           break;
         }
       }
       if (newItemInTable)
       {
-        itemNameCategoryQuantityList.Add(new ItemNameCategoryQuantity {
+        itemNameCategoryQuantityList.Add(new DatabaseItemNameCategoryQuantity {
           ItemName = itemButton.Content.ToString(),
-          ItemCategory = currentCategory,
+          ItemCategory = itemButton.ButtonItem.Category,
           ItemQuantity = 1,
+          ItemPrice = itemButton.ButtonItem.Price,
           ItemsPrice = itemButton.ButtonItem.Price
         });
         tableUI.Table.PriceTotal += itemButton.ButtonItem.Price;
       }
     }
-
-    
 
     internal void AddCategoryToCategoriesWrapPanel(string categoryName)
     {
@@ -178,6 +177,20 @@ namespace RestaurantPOS.Pages
       categoryButton.Click += CategoryButton_Click;
 
       categoriesWrapPanel.Children.Add(categoryButton);
+    }
+
+    internal void ModifyCategoryInCategoryWrapPanel(string oldCategory, string newCategory)
+    {
+      for (int i = 0; i < categoriesWrapPanel.Children.Count; i++)
+      {
+        if (((Button)categoriesWrapPanel.Children[i]).Content.ToString().Equals(oldCategory))
+        {
+          ((Button)categoriesWrapPanel.Children[i]).Content = newCategory;
+          break;
+        }
+      }
+      categoryItemsWrapPanelDict[newCategory] = categoryItemsWrapPanelDict[oldCategory];
+      categoryItemsWrapPanelDict.Remove(oldCategory);
     }
 
     internal void RemoveCategoryToCategoriesWrapPanel(string categoryName)
@@ -197,13 +210,13 @@ namespace RestaurantPOS.Pages
     {
       WrapPanel itemsWrapPanel = categoryItemsWrapPanelDict[item.Category];
 
-      ItemButton itemButton = new ItemButton {
-        Content = item.Name,
+      ItemButton itemButton = new ItemButton(item) {
+        //Content = item.Name,
         Background = antiqueWhiteBrush,
         Margin = new Thickness(10),
         Width = 150,
-        Height = 100,
-        ButtonItem = item
+        Height = 100
+        //ButtonItem = item
       };
       itemButton.Click += ItemButton_Click;
       itemsWrapPanel.Children.Add(itemButton);
@@ -271,7 +284,7 @@ namespace RestaurantPOS.Pages
       {
         removeItemsButton.IsEnabled = true;
         addItemButton.IsEnabled = true;
-        ItemNameCategoryQuantity selectedItem = (ItemNameCategoryQuantity)itemsListView.SelectedItem;
+        DatabaseItemNameCategoryQuantity selectedItem = (DatabaseItemNameCategoryQuantity)itemsListView.SelectedItem;
         if (selectedItem.ItemQuantity > 1)
         {
           minusItemButton.IsEnabled = true;
@@ -288,9 +301,9 @@ namespace RestaurantPOS.Pages
       YesNoCancelDialog yesNoCancelDialog = new YesNoCancelDialog("Do you want to Remove this Item");
       if (yesNoCancelDialog.ShowDialog() == true)
       {
-        ItemNameCategoryQuantity selectedItem = (ItemNameCategoryQuantity)itemsListView.SelectedItem;
+        DatabaseItemNameCategoryQuantity selectedItem = (DatabaseItemNameCategoryQuantity)itemsListView.SelectedItem;
         tableUI.Table.PriceTotal -= selectedItem.ItemsPrice;
-        ((ObservableCollection<ItemNameCategoryQuantity>)itemsListView.ItemsSource).Remove(selectedItem);
+        ((ObservableCollection<DatabaseItemNameCategoryQuantity>)itemsListView.ItemsSource).Remove(selectedItem);
         
         DisableLeftButtons();
       }
@@ -302,7 +315,7 @@ namespace RestaurantPOS.Pages
 
     private void MinusItemButton_Click(object sender, RoutedEventArgs e)
     {
-      ItemNameCategoryQuantity selectedItem = (ItemNameCategoryQuantity)itemsListView.SelectedItem;
+      DatabaseItemNameCategoryQuantity selectedItem = (DatabaseItemNameCategoryQuantity)itemsListView.SelectedItem;
       tableUI.Table.PriceTotal -= (selectedItem.ItemsPrice / selectedItem.ItemQuantity);
       selectedItem.ItemsPrice -= (selectedItem.ItemsPrice / selectedItem.ItemQuantity);
       
@@ -317,7 +330,7 @@ namespace RestaurantPOS.Pages
 
     private void AddItemButton_Click(object sender, RoutedEventArgs e)
     {
-      ItemNameCategoryQuantity selectedItem = (ItemNameCategoryQuantity)itemsListView.SelectedItem;
+      DatabaseItemNameCategoryQuantity selectedItem = (DatabaseItemNameCategoryQuantity)itemsListView.SelectedItem;
       tableUI.Table.PriceTotal += (selectedItem.ItemsPrice / selectedItem.ItemQuantity);
       selectedItem.ItemsPrice += (selectedItem.ItemsPrice / selectedItem.ItemQuantity);
       
@@ -344,7 +357,7 @@ namespace RestaurantPOS.Pages
         tableUI.Table.IsActive = false;
         tableUI.circleUI.Stroke = null;
         tableUI.Table.PriceTotal = 0;
-        tableUI.Table.ItemNameCategoryQuantityList = new ObservableCollection<ItemNameCategoryQuantity>();
+        tableUI.Table.DatabaseItemNameCategoryQuantityList = new ObservableCollection<DatabaseItemNameCategoryQuantity>();
         mainWindow.tabControl.SelectedItem = mainWindow.tablesTab;
         //update dictionaries
       }
@@ -355,18 +368,5 @@ namespace RestaurantPOS.Pages
 
 
 
-  public class ItemButton : Button
-  {
-
-    public ItemButton()
-    {
-      
-    }
-     
-    internal Item ButtonItem
-    {
-      get;set;
-    }
-
-  }
+  
 }

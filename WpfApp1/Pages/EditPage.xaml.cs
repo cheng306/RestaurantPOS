@@ -33,6 +33,7 @@ namespace RestaurantPOS.Pages
     
 
     MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+    SelectionPage itemsSelectionPage = ((MainWindow)Application.Current.MainWindow).itemsSelectionPage;
     App currentApp = (App)Application.Current;
 
     public EditPage()
@@ -229,6 +230,8 @@ namespace RestaurantPOS.Pages
             //update categoryItemDict
             currentApp.ModifyCategoryInCategoryItemDict(oldCategory, editCategoryDialog.Input);
             UpdateItemCategoryProperty(editCategoryDialog.Input);
+            //update SelectionPage
+            itemsSelectionPage.ModifyCategoryInCategoryWrapPanel(oldCategory, editCategoryDialog.Input);
           }        
         }
         categoriesListBox.SelectedIndex = selectedIndex;

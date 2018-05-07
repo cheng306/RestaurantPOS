@@ -111,8 +111,10 @@ namespace RestaurantPOS.Pages
     private void AddButton_MouseDown(object sender, MouseButtonEventArgs e)
     {
 
+      Console.WriteLine("AddButton_MouseDown");
       if (e.LeftButton == MouseButtonState.Pressed && selectedCircle == null)
       {
+        Console.WriteLine("In_AddButton_MouseDown");
         newTable = new Circle();
         selectedCircle = newTable;
 
@@ -146,8 +148,10 @@ namespace RestaurantPOS.Pages
 
     private void AddButton_TouchDown(object sender, TouchEventArgs e)
     {
+      Console.WriteLine("AddButton_TouchDown");
       if (selectedCircle == null)
       {
+        Console.WriteLine("In_AddButton_TouchDown");
         newTable = new Circle();
         selectedCircle = newTable;
 
@@ -180,20 +184,23 @@ namespace RestaurantPOS.Pages
 
     private async void Table_MouseDownAsync(object sender, MouseButtonEventArgs e)
     {
+      Console.WriteLine("Table_MouseDownAsync");
       if (e.LeftButton == MouseButtonState.Pressed && selectedCircle == null)
       {
+        Console.WriteLine("In_Table_MouseDownAsync");
         Circle circle = (Circle)sender;
         RemoveTouchListeners(circle);
         selectedCircle = circle;
         auxObject = new object();
         Object auxObject2 = auxObject;
+        Console.WriteLine("goToSelectionPage--1");
         goToSelectionPage = true;
         //hold for 1 second, if mouse leave within a second, it fail to gain mousecapture
         await HoldDelay();
 
         if (auxObject == auxObject2)
         {
-
+          Console.WriteLine("goToSelectionPage--2");
           goToSelectionPage = false;
 
           ChangeZIndex(circle, 3);
@@ -217,10 +224,13 @@ namespace RestaurantPOS.Pages
 
     private void Table_MouseLeave(object sender, MouseEventArgs e)
     {
+      Console.WriteLine("Table_MouseLeave");
       Circle circle = (Circle)sender;
       if (circle == selectedCircle)
       {
+        Console.WriteLine("In_Table_MouseLeave");
         auxObject = null;
+        Console.WriteLine("goToSelectionPage--3");
         goToSelectionPage = false;
         selectedCircle = null;
 
@@ -234,7 +244,6 @@ namespace RestaurantPOS.Pages
       Circle circle = (Circle)sender;
       if (circle.IsMouseCaptured)//&& e.LeftButton == MouseButtonState.Pressed
       {
-
         Point point = e.GetPosition(canvas);
 
         circle.SetValue(Canvas.LeftProperty, point.X - xDistance);//Canvas.LeftProperty
@@ -261,9 +270,11 @@ namespace RestaurantPOS.Pages
     //if after moving a table, checked if table is added
     private void Table_MouseUp(object sender, MouseButtonEventArgs e)
     {
+      Console.WriteLine("Table_MouseUp");
       Circle circle = (Circle)sender;
       if (selectedCircle == circle)
       {
+        Console.WriteLine("In_Table_MouseUp");
         if (goToSelectionPage)
         {
           DetermineGoingToSelectionPage(circle);
@@ -302,24 +313,25 @@ namespace RestaurantPOS.Pages
           }
         }
         circle.ReleaseMouseCapture();
+        goToSelectionPage = false;
         auxObject = null;
         selectedCircle = null;
         AddTouchListener(circle);
       }
-
-
-
     }
 
     private async void TableUI_TouchDownAsync(object sender, TouchEventArgs e)
     {
+      Console.WriteLine("TableUI_TouchDownAsync");
       if (selectedCircle == null)
       {
+        Console.WriteLine("In_TableUI_TouchDownAsync");
         Circle circle = (Circle)sender;
         RemoveMouseListener(circle);
         selectedCircle = circle;
         auxObject = new object();
         Object auxObject2 = auxObject;
+        Console.WriteLine("goToSelectionPage--5");
         goToSelectionPage = true;
 
         //hold for 1 second, if mouse le
@@ -327,6 +339,7 @@ namespace RestaurantPOS.Pages
 
         if (auxObject == auxObject2)//circle.AreAnyTouchesDirectlyOver &&
         {
+          Console.WriteLine("goToSelectionPage--6");
           goToSelectionPage = false;
 
           ChangeZIndex(circle, 3);
@@ -350,10 +363,13 @@ namespace RestaurantPOS.Pages
 
     private void TableUI_TouchLeave(object sender, TouchEventArgs e)
     {
+      Console.WriteLine("TableUI_TouchLeave");
       Circle circle = (Circle)sender;
       if (selectedCircle == circle)
       {
+        Console.WriteLine("In_TableUI_TouchLeave");
         auxObject = null;
+        Console.WriteLine("goToSelectionPage--7");
         goToSelectionPage = false;
         selectedCircle = null;
         AddMouseListener(circle);
@@ -390,9 +406,11 @@ namespace RestaurantPOS.Pages
 
     private void TableUI_TouchUp(object sender, TouchEventArgs e)
     {
+      Console.WriteLine("TableUI_TouchUp");
       Circle circle = (Circle)sender;
       if (selectedCircle == circle)
       {
+        Console.WriteLine("In_TableUI_TouchUp");
         if (goToSelectionPage)
         {
           DetermineGoingToSelectionPage(circle);
@@ -433,6 +451,7 @@ namespace RestaurantPOS.Pages
         }
 
         circle.ReleaseMouseCapture();
+        goToSelectionPage = false;
         auxObject = null;
         selectedCircle = null;
         AddMouseListener(circle);
@@ -499,8 +518,6 @@ namespace RestaurantPOS.Pages
 
     private void SolidYellowCircle(Circle circle)
     {
-      //SolidColorBrush brush = (SolidColorBrush)circle.circleUI.Fill;
-      //brush.Color = Colors.Yellow;
       circle.circleUI.Fill = yellowBrush;
       circle.Opacity = 1;
     }
@@ -627,13 +644,6 @@ namespace RestaurantPOS.Pages
       SolidYellowCircle(circle);
       circle.Added = true;
     }
-
-    //private void CreateSelectionPageToCircle(Circle tableUI)
-    //{
-    //  SelectionPage itemsSelectionPage = new SelectionPage(tableUI);
-    //  tableUI.ItemsSelectionPage = itemsSelectionPage;
-
-    //}
 
     private void DeleteOrRelocateTable(Circle circle)
     {

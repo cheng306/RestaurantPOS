@@ -14,10 +14,11 @@ namespace RestaurantPOS.Models
   public class Table: INotifyPropertyChanged
   {
     private double priceTotal;
+    ObservableCollection<DatabaseItemNameCategoryQuantity> databaseItemNameCategoryQuantityList;
 
     public Table()
     {
-      this.ItemNameCategoryQuantityList = new ObservableCollection<ItemNameCategoryQuantity>();
+      this.databaseItemNameCategoryQuantityList = new ObservableCollection<DatabaseItemNameCategoryQuantity>();
     }
 
     public double PriceTotal {
@@ -38,7 +39,10 @@ namespace RestaurantPOS.Models
 
     public Boolean IsActive { get; set; }
 
-    public ObservableCollection<ItemNameCategoryQuantity> ItemNameCategoryQuantityList { get; set; }
+    public ObservableCollection<DatabaseItemNameCategoryQuantity> DatabaseItemNameCategoryQuantityList {
+      get { return this.databaseItemNameCategoryQuantityList; }
+      set { this.databaseItemNameCategoryQuantityList = value; }
+    }
 
     public event PropertyChangedEventHandler PropertyChanged;
 
@@ -52,12 +56,14 @@ namespace RestaurantPOS.Models
 
   }
 
-  public class ItemNameCategoryQuantity : INotifyPropertyChanged
+  public class DatabaseItemNameCategoryQuantity : INotifyPropertyChanged
   {
     internal string itemName;
     internal string itemCategory;
     internal int itemQuantity;
+    private double itemPrice;
     internal double itemsPrice;
+
 
 
     public string ItemName {
@@ -90,6 +96,19 @@ namespace RestaurantPOS.Models
         if (value != this.itemQuantity)
         {
           this.itemQuantity = value;
+          NotifyPropertyChanged();
+        }
+      }
+    }
+
+    public double ItemPrice
+    {
+      get { return this.itemPrice; }
+      set
+      {
+        if (value != this.itemPrice)
+        {
+          this.itemPrice = value;
           NotifyPropertyChanged();
         }
       }

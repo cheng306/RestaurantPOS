@@ -13,6 +13,8 @@ namespace RestaurantPOS.Models
     private List<InventoryConsumption> inventoryConsumptionList;
     private string category;
     private string name;
+    private double price;
+
 
     public int Id { get; set; }
 
@@ -41,7 +43,17 @@ namespace RestaurantPOS.Models
       }
     }
 
-    public double Price { get; set; }
+    public double Price {
+      get { return this.price; }
+      set
+      {
+        if (value != this.price)
+        {
+          this.price = value;
+          NotifyPropertyChanged();
+        }
+      }
+    }
 
     public DateTime AddTime { get; set; }
 
