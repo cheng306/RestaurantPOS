@@ -15,6 +15,11 @@ namespace RestaurantPOS.Models
     private string name;
     private double price;
 
+    public Item()
+    {
+      inventoryConsumptionList = new List<InventoryConsumption>();
+    }
+
 
     public int Id { get; set; }
 

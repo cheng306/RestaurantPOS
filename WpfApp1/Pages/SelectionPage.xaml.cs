@@ -357,9 +357,29 @@ namespace RestaurantPOS.Pages
         tableUI.Table.IsActive = false;
         tableUI.circleUI.Stroke = null;
         tableUI.Table.PriceTotal = 0;
+
+        Dictionary<string, Item> itemNameObjectDict = mainWindow.editPage.ItemNameObjectDict;
+        Dictionary<string, Inventory> inventoryNameObjectDict = mainWindow.inventoryPage.InventoryNameObjectDict;
+        foreach (DatabaseItemNameCategoryQuantity itemCategoryQuantity in tableUI.Table.DatabaseItemNameCategoryQuantityList)
+        {
+          if (itemNameObjectDict.ContainsKey(itemCategoryQuantity.itemName))
+          {
+            Item consumedItem = itemNameObjectDict[itemCategoryQuantity.itemName];
+            foreach (InventoryConsumption inventoryConsumption in consumedItem.InventoryConsumptionList)
+            {
+              if (inventoryNameObjectDict.ContainsKey(inventoryConsumption.InventoryName))
+              {
+                inventoryNameObjectDict[inventoryConsumption.InventoryName].Quantity -= (inventoryConsumption.ConsumptionQuantity* itemCategoryQuantity.ItemQuantity);
+              }  
+            }
+          }       
+        }
         tableUI.Table.DatabaseItemNameCategoryQuantityList = new ObservableCollection<DatabaseItemNameCategoryQuantity>();
         mainWindow.tabControl.SelectedItem = mainWindow.tablesTab;
+        mainWindow.selectionPageTab.IsEnabled = false;
         //update dictionaries
+
+
       }
 
     }

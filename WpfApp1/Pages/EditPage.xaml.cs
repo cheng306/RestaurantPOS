@@ -25,14 +25,11 @@ namespace RestaurantPOS.Pages
   /// </summary>
   public partial class EditPage : UserControl
   {
-
-    //internal List<Item> itemList;
     internal ObservableCollection<Item> itemsList;
     internal ObservableCollection<string> categoriesList;
-    internal Dictionary<string, List<Item>> categoryItemDict = ((App)Application.Current).categoryItemDict;
-    
+    Dictionary<string, Item> itemNameObjectDict;    
 
-    MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+    InventoryPage inventoryPage = ((MainWindow)Application.Current.MainWindow).inventoryPage;
     SelectionPage itemsSelectionPage = ((MainWindow)Application.Current.MainWindow).itemsSelectionPage;
     App currentApp = (App)Application.Current;
 
@@ -45,6 +42,8 @@ namespace RestaurantPOS.Pages
       InitializeHeadersTag();
 
       BuildSortDescriptions();
+
+      //BuildItemNameObjectDict();
     }
 
     private void InitializeHeadersTag()
@@ -62,6 +61,17 @@ namespace RestaurantPOS.Pages
       itemsListView.Items.SortDescriptions.Add(new SortDescription("Category", ListSortDirection.Ascending));
       itemsListView.Items.SortDescriptions.Add(new SortDescription("Price", ListSortDirection.Ascending));
     }
+
+    internal void BuildItemNameObjctDict()
+    {
+      itemNameObjectDict = new Dictionary<string, Item>();
+      foreach (Item item in itemsList)
+      {
+        itemNameObjectDict[item.Name] = item;
+      }
+    }
+
+
 
     private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
     {
@@ -110,11 +120,12 @@ namespace RestaurantPOS.Pages
         itemsList.Add(newItem);
 
         //modify itemsSelectionPage
-        mainWindow.itemsSelectionPage.AddItemToItemsWrapPanel(newItem);
+        itemsSelectionPage.AddItemToItemsWrapPanel(newItem);
 
         //update categoryItemDict
         currentApp.AddItemToCategoryItemDict(addItemWindow.ItemCategory, newItem);
 
+        //update the view of Edit Page
         itemsListView.SelectedItem = newItem;
         itemsListView.Focus();
       }
@@ -139,9 +150,9 @@ namespace RestaurantPOS.Pages
           string oldCategory = selectedItem.Category;
           double oldPrice = selectedItem.Price;
 
-          // 
           if (!selectedItem.Category.Equals(editItemDialog.ItemCategory))
           {
+            //update CategoryItemDict
             currentApp.ChangeItemCategoryInCategoryItemDict(selectedItem, oldCategory, editItemDialog.ItemCategory);
           }
           selectedItem.Name = editItemDialog.ItemName;
@@ -172,10 +183,16 @@ namespace RestaurantPOS.Pages
           itemsList.Remove(removeItemsArray[i]);
 
           //modify itemsSelectionPage
-          mainWindow.itemsSelectionPage.RemoveItemFromItemsWrapPanel(removeItemsArray[i]);
+          itemsSelectionPage.RemoveItemFromItemsWrapPanel(removeItemsArray[i]);
 
           //update categoryItemDict
           currentApp.RemoveItemFromCategoryItemDict(removeItemsArray[i]);
+
+          //update inventoryItemsDict
+          foreach (InventoryConsumption inventoryConsumption in removeItemsArray[i].InventoryConsumptionList)
+          {
+            currentApp.InventoryNameItemsListDict[inventoryConsumption.InventoryName].Remove(removeItemsArray[i]);
+          }
         }
       }
 
@@ -191,7 +208,7 @@ namespace RestaurantPOS.Pages
         categoriesListBox.SelectedItem = addCategoryWindow.Input;
 
         //modify CategoriesWrapPanel in itemsSelectionPage
-        mainWindow.itemsSelectionPage.AddCategoryToCategoriesWrapPanel(addCategoryWindow.Input);
+        itemsSelectionPage.AddCategoryToCategoriesWrapPanel(addCategoryWindow.Input);
 
         //modify categoryItemDict
         currentApp.AddCategoryToCategoryItemDict(addCategoryWindow.Input);
@@ -261,7 +278,7 @@ namespace RestaurantPOS.Pages
         for (int i = 0; i < removeCategoriesArray.Length; i++)
         {
           categoriesList.Remove(removeCategoriesArray[i]);
-          mainWindow.itemsSelectionPage.RemoveCategoryToCategoriesWrapPanel(removeCategoriesArray[i]);
+          itemsSelectionPage.RemoveCategoryToCategoriesWrapPanel(removeCategoriesArray[i]);
           //remove all items of removed category
           RemoveItemsOfCategory(removeCategoriesArray[i]);
           //update categoryItemDict
@@ -274,7 +291,7 @@ namespace RestaurantPOS.Pages
 
     private void UpdateItemCategoryProperty(string category)
     {
-      List<Item> selectedItemsList = currentApp.CategoryItemDict[category];
+      List<Item> selectedItemsList = currentApp.CategoryItemsDict[category];
       foreach (Item item in selectedItemsList)
       {
         item.Category = category;
@@ -283,7 +300,7 @@ namespace RestaurantPOS.Pages
 
     private void RemoveItemsOfCategory(string category)
     {
-      List<Item> selectedItemsList = currentApp.CategoryItemDict[category];
+      List<Item> selectedItemsList = currentApp.CategoryItemsDict[category];
       foreach (Item item in selectedItemsList)
       {
         itemsList.Remove(item);
@@ -362,9 +379,9 @@ namespace RestaurantPOS.Pages
     }
     //above are about focus and buttons ability
 
-    public void Nothing()
+    public Dictionary<string,Item> ItemNameObjectDict
     {
-
+      get { return this.itemNameObjectDict; }
     }
 
     

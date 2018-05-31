@@ -19,41 +19,49 @@ namespace RestaurantPOS.Dialogs
   /// <summary>
   /// Interaction logic for AddInventoryWindow.xaml
   /// </summary>
-  public partial class AddInventoryDialog : Window
+  public partial class EditInventoryDialog : Window
   {
     bool validName;
     bool validQuantity;
     bool validUnit;
     string modifyInventoryName;
-    ObservableCollection<Inventory> inventoryList;
+    ObservableCollection<Inventory> inventoryList = ((MainWindow)Application.Current.MainWindow).inventoryPage.inventoryList;
 
-    public AddInventoryDialog()
+    public EditInventoryDialog()
     {
       InitializeComponent();
       nameWarningTextBlock.Visibility = Visibility.Visible;
       quantityWarningTextBlock.Visibility = Visibility.Visible;
       unitWarningTextBlock.Visibility = Visibility.Visible;
-      OtherInitialSetup();
+      addButton.IsEnabled = false;
+
       modifyInventoryName = "";
       
     }
 
-    public AddInventoryDialog(Inventory inventory)
+    public EditInventoryDialog(Inventory inventory)
     {
       InitializeComponent();
+
+      modifyInventoryName = inventory.Name;
 
       nameWarningTextBlock.Visibility = Visibility.Hidden;
       quantityWarningTextBlock.Visibility = Visibility.Hidden;
       unitWarningTextBlock.Visibility = Visibility.Hidden;
-      OtherInitialSetup();
-      modifyInventoryName = inventory.Name;
+      Title = "Modify Inventory";
+      addButton.Content = "Modify";
+      nameTextBox.Text = inventory.Name;
+      quantityTextBox.Text = inventory.Quantity.ToString();
+      unitTextBox.Text = inventory.Unit;
+      addButton.IsEnabled = true;
+  
     }
 
     private void OtherInitialSetup()
     {
       
       addButton.IsEnabled = false;
-      inventoryList = ((MainWindow)Application.Current.MainWindow).inventoryPage.inventoryList;
+      //inventoryList = ((MainWindow)Application.Current.MainWindow).inventoryPage.inventoryList;
     }
 
     internal string InventoryName

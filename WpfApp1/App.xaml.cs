@@ -8,6 +8,7 @@ using System.Windows;
 using RestaurantPOS.Converters;
 using RestaurantPOS.Models;
 using System.Collections.ObjectModel;
+using RestaurantPOS.Pages;
 
 namespace RestaurantPOS
 {
@@ -16,60 +17,43 @@ namespace RestaurantPOS
   /// </summary>
   public partial class App : Application
   {
-    internal Dictionary<Inventory, List<Item>> inventoryItemsDict;
-    internal Dictionary<Tuple<string, string>, Item> itemNameCategoryObjectDict;
-    internal Dictionary<string, List<Item>> categoryItemDict;
+    Dictionary<string, List<Item>> inventoryNameItemsListDict;
+    //internal Dictionary<Tuple<string, string>, Item> itemNameCategoryObjectDict;
+    internal Dictionary<string, List<Item>> categoryItemsListDict;
 
+   
+    
     public App()
     {
+      //mainWindow = ((MainWindow)Application.Current.MainWindow);
       Console.WriteLine("=================App started");
     }
 
-    //must be build after inventoryPage.inventoryNameObjectDict
-    internal void BuildInventoryItemsDict()
-    {
-      inventoryItemsDict = new Dictionary<Inventory, List<Item>>();
-      Dictionary<String, Inventory> inventoryNameObjectDict = ((MainWindow)MainWindow).inventoryPage.inventoryNameObjectDict;
-      foreach (Inventory inventory in ((MainWindow)MainWindow).inventoryPage.inventoryList)
-      {
-        inventoryItemsDict[inventory] = new List<Item>();
-      }
-      foreach (Item item in ((MainWindow)MainWindow).editPage.itemsList)
-      {
-        if (item.InventoryConsumptionList != null)
-        {
-          foreach(InventoryConsumption inventoryConsumption in item.InventoryConsumptionList)
-          {
-            inventoryItemsDict[inventoryNameObjectDict[inventoryConsumption.InventoryName]].Add(item);
-          }
-        }
-      }
-    }
+    
 
-    internal void BuildItemNameCategoryObjectDict()
-    {
+    //internal void BuildItemNameCategoryObjectDict()
+    //{
+    //  itemNameCategoryObjectDict = new Dictionary<Tuple<string, string>, Item>();
 
-      itemNameCategoryObjectDict = new Dictionary<Tuple<string, string>, Item>();
-
-      ObservableCollection<Item> itemsList = ((MainWindow)MainWindow).editPage.itemsList;
-      foreach(Item item in itemsList)
-      {
-        itemNameCategoryObjectDict[new Tuple<string, string>(item.Name, item.Category)] = item;
-      }
-    }
+    //  ObservableCollection<Item> itemsList = ((MainWindow)Application.Current.MainWindow).editPage.itemsList;
+    //  foreach(Item item in itemsList)
+    //  {
+    //    itemNameCategoryObjectDict[new Tuple<string, string>(item.Name, item.Category)] = item;
+    //  }
+    //}
 
     internal void BuildCategoryItemDict()
     {
-      categoryItemDict = new Dictionary<string, List<Item>>();
-      ObservableCollection<string> categoriesList = ((MainWindow)MainWindow).editPage.categoriesList;
+      categoryItemsListDict = new Dictionary<string, List<Item>>();
+      ObservableCollection<string> categoriesList = ((MainWindow)Application.Current.MainWindow).editPage.categoriesList;
       foreach (String category in categoriesList)
       {
-        categoryItemDict.Add(category, new List<Item>());
+        categoryItemsListDict.Add(category, new List<Item>());
       }
-      ObservableCollection<Item> itemsList = ((MainWindow)MainWindow).editPage.itemsList;
+      ObservableCollection<Item> itemsList = ((MainWindow)Application.Current.MainWindow).editPage.itemsList;
       foreach (Item item in itemsList)
       {
-        categoryItemDict[item.Category].Add(item);
+        categoryItemsListDict[item.Category].Add(item);
         Console.WriteLine("Testing: item - " + item.Name + " category: " + item.Category);
       }
 
@@ -77,44 +61,116 @@ namespace RestaurantPOS
 
     internal void AddCategoryToCategoryItemDict(string category)
     {
-      categoryItemDict[category] = new List<Item>();
+      categoryItemsListDict[category] = new List<Item>();
     }
 
     //make sure oldCategory!= newCategory
     internal void ModifyCategoryInCategoryItemDict(string oldCategory, string newCategory)
     {
-      categoryItemDict[newCategory] = categoryItemDict[oldCategory];
+      categoryItemsListDict[newCategory] = categoryItemsListDict[oldCategory];
       if (!newCategory.Equals(oldCategory)){
-        categoryItemDict.Remove(oldCategory);
+        categoryItemsListDict.Remove(oldCategory);
       }
     }
 
     internal void RemoveCategoryFromCategoryItemDict(string category)
     {
-      categoryItemDict.Remove(category);
+      categoryItemsListDict.Remove(category);
     }
 
     internal void AddItemToCategoryItemDict(string category, Item item)
     {
-      categoryItemDict[category].Add(item);
+      categoryItemsListDict[category].Add(item);
     }
 
     internal void ChangeItemCategoryInCategoryItemDict(Item item, string oldCategory, string newCategory)
     {
-      categoryItemDict[oldCategory].Remove(item);
-      categoryItemDict[newCategory].Add(item);
+      categoryItemsListDict[oldCategory].Remove(item);
+      categoryItemsListDict[newCategory].Add(item);
     }
 
     internal void RemoveItemFromCategoryItemDict(Item item)
     {
-      categoryItemDict[item.Category].Remove(item);
+      categoryItemsListDict[item.Category].Remove(item);
     }
 
-
-
-    public Dictionary<string, List<Item>> CategoryItemDict
+    public Dictionary<string, List<Item>> CategoryItemsDict
     {
-      get { return this.categoryItemDict; }
+      get { return this.categoryItemsListDict; }
     }
+    //above are about categoryItemsListDict
+
+    public void BuildInventoryNameItemsListDict()
+    {
+      inventoryNameItemsListDict = new Dictionary<string, List<Item>>();
+      foreach (Inventory inventory in ((MainWindow)Application.Current.MainWindow).inventoryPage.inventoryList)
+      {
+        inventoryNameItemsListDict[inventory.Name] = new List<Item>();
+      }
+      foreach (Item item in ((MainWindow)Application.Current.MainWindow).editPage.itemsList)
+      {
+        foreach (InventoryConsumption inventoryConsumption in item.InventoryConsumptionList)
+        {
+          inventoryNameItemsListDict[inventoryConsumption.InventoryName].Add(item);
+        }
+      }
+    }
+
+    public void AddInventoryToInventoryNameItemsListDict(Inventory inventory)
+    {
+      inventoryNameItemsListDict[inventory.Name] = new List<Item>();
+    }
+
+    public void EditInventoryNameInInventoryNameItemsListDict(string oldInventoryName, string newInventoryName)
+    {
+      inventoryNameItemsListDict[newInventoryName] = inventoryNameItemsListDict[oldInventoryName];
+      inventoryNameItemsListDict.Remove(oldInventoryName);
+    }
+
+    public void RemoveInventoryFromInventoryNameItemsListDict(Inventory inventory)
+    {
+      inventoryNameItemsListDict.Remove(inventory.Name);
+    }
+
+    public void AddItemToInventoryNameItemsListDict(Item item, string inventoryName)
+    {
+      inventoryNameItemsListDict[inventoryName].Add(item);
+    }
+
+    public void RemoveItemFromInventoryNameItemsListDict(Item item)
+    {
+      foreach (InventoryConsumption inventoryConsumption in item.InventoryConsumptionList)
+      {
+        inventoryNameItemsListDict[inventoryConsumption.InventoryName].Remove(item);
+      }
+    }
+
+    public Dictionary<string,List<Item>> InventoryNameItemsListDict
+    {
+      get { return this.inventoryNameItemsListDict; }
+    }
+
+    //must be build after inventoryPage.inventoryNameObjectDict
+    //internal void BuildInventoryItemsDict()
+    //{
+    //  inventoryItemsDict = new Dictionary<Inventory, List<Item>>();
+    //  Dictionary<String, Inventory> inventoryNameObjectDict = ((MainWindow)MainWindow).inventoryPage.inventoryNameObjectDict;
+    //  foreach (Inventory inventory in ((MainWindow)MainWindow).inventoryPage.inventoryList)
+    //  {
+    //    inventoryItemsDict[inventory] = new List<Item>();
+    //  }
+    //  foreach (Item item in ((MainWindow)MainWindow).editPage.itemsList)
+    //  {
+    //    if (item.InventoryConsumptionList != null)
+    //    {
+    //      foreach (InventoryConsumption inventoryConsumption in item.InventoryConsumptionList)
+    //      {
+    //        inventoryItemsDict[inventoryNameObjectDict[inventoryConsumption.InventoryName]].Add(item);
+    //      }
+    //    }
+    //  }
+    //}
+
+
   }
 }

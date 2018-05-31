@@ -8,3 +8,18 @@ categoryItemDict
 -add item done
 -modify item's category done
 -delete item (done)
+
+
+InventoryNameItemsListDict
+-add inventory (done)
+-modify inventory (done)
+-remove inventory (done)
+
+- update inventoryConsumption
+
+-add Item (no need work)
+-modify item  (done
+- remove item (done)
+
+
+ItemNameObjctDict

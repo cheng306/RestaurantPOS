@@ -54,13 +54,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converter\MultplierConverter.cs" />
     <Compile Include="Dialogs\Templates\DependencyRow.xaml.cs">
       <DependentUpon>DependencyRow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\YesNoCancelDialog.xaml.cs">
       <DependentUpon>YesNoCancelDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dictionaries\InventoryNameObjectDict.cs" />
     <Compile Include="Models\Circle.xaml.cs">
       <DependentUpon>Circle.xaml</DependentUpon>
     </Compile>
@@ -88,8 +88,8 @@
     <Compile Include="Dialogs\EditItemInventoryDialog.xaml.cs">
       <DependentUpon>EditItemInventoryDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\AddInventoryDialog.xaml.cs">
-      <DependentUpon>AddInventoryDialog.xaml</DependentUpon>
+    <Compile Include="Dialogs\EditInventoryDialog.xaml.cs">
+      <DependentUpon>EditInventoryDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\EditItemDialog.xaml.cs">
       <DependentUpon>EditItemDialog.xaml</DependentUpon>
@@ -142,7 +142,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\AddInventoryDialog.xaml">
+    <Page Include="Dialogs\EditInventoryDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -24,7 +24,7 @@ namespace RestaurantPOS
   /// Interaction logic for MainWindow.xaml
   /// </summary>
   /// 
-
+ 
 
   public partial class MainWindow : Window
   {
@@ -53,7 +53,7 @@ namespace RestaurantPOS
     string tableNumberBooleanListXmlPath;
     XmlSerializer tableNumberBooleanListSerializer;
 
-
+    App currentApp = (App)Application.Current;
 
     public MainWindow()
     {
@@ -71,14 +71,16 @@ namespace RestaurantPOS
       LoadTableNumberBooleanList();
       LoadTablesList();
 
+      editPage.BuildItemNameObjctDict();
+      //inventoryPage.BuildInventoryNameObjectDict();
+
       //Build parts that require deserialized objects
       itemsSelectionPage.BuildCategoryItemsWrapPanelDictionary();
       itemsSelectionPage.BuildCategoriesWrapPanel();
 
-      inventoryPage.BuildNameInventoryDict();
-      ((App)Application.Current).BuildCategoryItemDict();
-      ((App)Application.Current).BuildInventoryItemsDict();
-      ((App)Application.Current).BuildItemNameCategoryObjectDict();
+      currentApp.BuildCategoryItemDict();
+      currentApp.BuildInventoryNameItemsListDict();
+      //currentApp.BuildItemNameCategoryObjectDict();
 
     }
 
