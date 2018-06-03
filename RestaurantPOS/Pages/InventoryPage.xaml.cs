@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using RestaurantPOS.Models;
 using RestaurantPOS.Dialogs;
+using RestaurantPOS.Dictionaries;
 using RestaurantPOS.Dialogs.Templates;
 
 namespace RestaurantPOS.Pages
@@ -24,8 +25,9 @@ namespace RestaurantPOS.Pages
   /// </summary>
   public partial class InventoryPage : UserControl
   {
-    internal ObservableCollection<Inventory> inventoryList;
-    Dictionary<String, Inventory> inventoryNameObjectDict;
+    ObservableCollection<Item> itemsList;
+    ObservableCollection<Inventory> inventoryList;
+    InventoryNameObjectDict inventoryNameObjectDict;
 
     MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
     App currentApp = (App)Application.Current; 
@@ -38,6 +40,16 @@ namespace RestaurantPOS.Pages
     public InventoryPage()
     {
       InitializeComponent();
+
+      itemsList = currentApp.itemsList;
+      itemsListView.ItemsSource = currentApp.itemsList;
+
+      inventoryList = currentApp.inventoryList;
+      inventoryListView.ItemsSource = inventoryList;
+
+      inventoryNameObjectDict = currentApp.InventoryNameObjectDict;
+
+      Console.WriteLine("======InventoryPage Created");
     }
 
     private void InventoryPage_Loaded(object sender, RoutedEventArgs e)
@@ -48,18 +60,6 @@ namespace RestaurantPOS.Pages
       DisableRightGridButtons();
       leftEnabled = false;
       rightEnabled = false;
-    }
-
-    
-
-    private void RemoveInventoryFromInventoryNameObjectDict(Inventory inventory)
-    {
-      inventoryNameObjectDict.Remove(inventory.Name);
-    }
-
-    public Dictionary<string, Inventory> InventoryNameObjectDict
-    {
-      get { return this.inventoryNameObjectDict; }
     }
 
     private void EditItemConsumptionButton_Click(object sender, RoutedEventArgs e)
@@ -108,7 +108,7 @@ namespace RestaurantPOS.Pages
         };
 
         //update InventoryNameObjectDict
-        //AddInventoryToInventoryNameObjectDict(addedInventory);
+        inventoryNameObjectDict.AddInventoryToInventoryNameObjectDict(addedInventory);
 
         //update InventoryNameItemsListDict
         currentApp.AddInventoryToInventoryNameItemsListDict(addedInventory);
@@ -144,7 +144,7 @@ namespace RestaurantPOS.Pages
           UpdateInventoryNameInItemInventoryConsumptionList(oldInventoryName, newInventoryName);
           
           //update inventoryNameObjectDict
-          //UpdateInventoryNameObjectDict(oldInventoryName, newInventoryName);
+          currentApp.InventoryNameObjectDict.UpdateInventoryNameObjectDict(oldInventoryName, newInventoryName);
 
           //update InventoryNameItemsListDict
           currentApp.EditInventoryNameInInventoryNameItemsListDict(oldInventoryName, newInventoryName);
@@ -166,6 +166,9 @@ namespace RestaurantPOS.Pages
 
       //update InventoryNameItemListDict
       currentApp.RemoveInventoryFromInventoryNameItemsListDict(selectedInventory);
+
+      //update InventoryNameObjectDict
+      currentApp.InventoryNameObjectDict.RemoveInventoryFromInventoryNameObjectDict(selectedInventory);
 
       inventoryList.Remove(selectedInventory);
 

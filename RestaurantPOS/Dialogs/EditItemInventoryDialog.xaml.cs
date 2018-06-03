@@ -35,7 +35,7 @@ namespace RestaurantPOS.Dialogs
       inventoryNameList = new List<string>();
       itemNameTextBlock.Text = selectedItem.Name;
 
-      inventoryList = ((MainWindow)Application.Current.MainWindow).inventoryPage.inventoryList;
+      inventoryList = ((App)Application.Current).inventoryList;
       foreach (Inventory inventory in inventoryList)
       {
         inventoryNameList.Add(inventory.Name);

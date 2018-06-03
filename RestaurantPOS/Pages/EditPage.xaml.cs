@@ -25,9 +25,10 @@ namespace RestaurantPOS.Pages
   /// </summary>
   public partial class EditPage : UserControl
   {
-    internal ObservableCollection<Item> itemsList;
-    internal ObservableCollection<string> categoriesList;
-    Dictionary<string, Item> itemNameObjectDict;    
+    ObservableCollection<Item> itemsList;
+    ObservableCollection<string> categoriesList;
+    // Comment out ItemNameObjctDict
+    //Dictionary<string, Item> itemNameObjectDict;    
 
     InventoryPage inventoryPage = ((MainWindow)Application.Current.MainWindow).inventoryPage;
     SelectionPage itemsSelectionPage = ((MainWindow)Application.Current.MainWindow).itemsSelectionPage;
@@ -37,12 +38,17 @@ namespace RestaurantPOS.Pages
     {
       InitializeComponent();
 
-      Console.WriteLine("=========================editPage start=============");
+      itemsList = currentApp.itemsList;
+      itemsListView.ItemsSource = itemsList;
+
+      categoriesList = currentApp.categoriesList;
+      categoriesListBox.ItemsSource = categoriesList;
 
       InitializeHeadersTag();
-
       BuildSortDescriptions();
 
+      Console.WriteLine("=========================editPage start=============");
+      // Comment out ItemNameObjctDict
       //BuildItemNameObjectDict();
     }
 
@@ -62,6 +68,7 @@ namespace RestaurantPOS.Pages
       itemsListView.Items.SortDescriptions.Add(new SortDescription("Price", ListSortDirection.Ascending));
     }
 
+    /* Comment out ItemNameObjctDict
     internal void BuildItemNameObjctDict()
     {
       itemNameObjectDict = new Dictionary<string, Item>();
@@ -70,6 +77,12 @@ namespace RestaurantPOS.Pages
         itemNameObjectDict[item.Name] = item;
       }
     }
+
+    public Dictionary<string, Item> ItemNameObjectDict
+    {
+      get { return this.itemNameObjectDict; }
+    }
+    */
 
 
 
@@ -379,10 +392,7 @@ namespace RestaurantPOS.Pages
     }
     //above are about focus and buttons ability
 
-    public Dictionary<string,Item> ItemNameObjectDict
-    {
-      get { return this.itemNameObjectDict; }
-    }
+   
 
     
   }

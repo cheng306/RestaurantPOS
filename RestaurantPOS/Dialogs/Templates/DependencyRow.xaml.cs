@@ -21,7 +21,7 @@ namespace RestaurantPOS.Dialogs.Templates
         public DependencyRow()
         {
             InitializeComponent();
-            inventoryComboBox.ItemsSource = ((MainWindow)Application.Current.MainWindow).inventoryPage.inventoryList;
+            inventoryComboBox.ItemsSource = ((App)Application.Current).inventoryList;
         }
 
         public string InventoryName

@@ -28,7 +28,7 @@ namespace RestaurantPOS.Dialogs
     string currentItemCategory;
 
     MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-    ObservableCollection<string> categoriesList = ((MainWindow)Application.Current.MainWindow).editPage.categoriesList;
+    ObservableCollection<string> categoriesList = ((App)Application.Current).categoriesList;
     Dictionary<string, List<Item>> categoryItemDict = ((App)(Application.Current)).categoryItemsListDict;
 
 

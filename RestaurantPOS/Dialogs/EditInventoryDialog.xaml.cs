@@ -25,7 +25,7 @@ namespace RestaurantPOS.Dialogs
     bool validQuantity;
     bool validUnit;
     string modifyInventoryName;
-    ObservableCollection<Inventory> inventoryList = ((MainWindow)Application.Current.MainWindow).inventoryPage.inventoryList;
+    ObservableCollection<Inventory> inventoryList = ((App)Application.Current).inventoryList;
 
     public EditInventoryDialog()
     {

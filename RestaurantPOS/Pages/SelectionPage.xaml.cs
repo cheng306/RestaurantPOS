@@ -27,7 +27,7 @@ namespace RestaurantPOS.Pages
     WrapPanel categoriesWrapPanel;
     Dictionary<string,WrapPanel> categoryItemsWrapPanelDict;
     internal Circle tableUI;
-    //public string currentCategory;
+    App currentApp = (App)Application.Current;
 
     SolidColorBrush antiqueWhiteBrush = new SolidColorBrush(Colors.AntiqueWhite);
 
@@ -68,8 +68,8 @@ namespace RestaurantPOS.Pages
     internal void BuildCategoryItemsWrapPanelDictionary()
     {
       categoryItemsWrapPanelDict = new Dictionary<string, WrapPanel>();
-      ObservableCollection<string> categoriesList = mainWindow.editPage.categoriesList;
-      ObservableCollection<Item> itemsList = mainWindow.editPage.itemsList;
+      ObservableCollection<string> categoriesList = currentApp.categoriesList;
+      ObservableCollection<Item> itemsList = currentApp.itemsList;
 
       foreach (string categoryStr in categoriesList)
       {
@@ -100,7 +100,7 @@ namespace RestaurantPOS.Pages
     internal void BuildCategoriesWrapPanel()
     {
       categoriesWrapPanel = new WrapPanel();
-      ObservableCollection<string> categoriesList = mainWindow.editPage.categoriesList;
+      ObservableCollection<string> categoriesList = currentApp.categoriesList;
 
       foreach (string categoryStr in categoriesList)
       {
@@ -247,28 +247,28 @@ namespace RestaurantPOS.Pages
 
     private void RightGrid_GotFocus(object sender, RoutedEventArgs e)
     {
-      Console.WriteLine("=======RightGrid_GotFocus");
+      //Console.WriteLine("=======SelectionPage_RightGrid_GotFocus");
       DisableLeftButtons();
     }
 
     private void LeftGrid_LostFocus(object sender, RoutedEventArgs e)
     {
-      Console.WriteLine("=======LeftGrid_LostFocus");
+      //Console.WriteLine("=======LeftGrid_LostFocus");
     }
 
     private void LeftGrid_GotFocus(object sender, RoutedEventArgs e)
     {
-      Console.WriteLine("=======LeftGrid_GotFocus");
+      //Console.WriteLine("=======LeftGrid_GotFocus");
     }
 
     private void ItemsListView_LostFocus(object sender, RoutedEventArgs e)
     {
-      Console.WriteLine("====ItemsListView_LostFocus");
+     //Console.WriteLine("====ItemsListView_LostFocus");
     }
 
     private void ItemsListView_GotFocus(object sender, RoutedEventArgs e)
     {
-      Console.WriteLine("====ItemsListView_GotFocus");
+      //Console.WriteLine("====ItemsListView_GotFocus");
       DetermineLeftGridButtons();
     }
 
@@ -358,8 +358,8 @@ namespace RestaurantPOS.Pages
         tableUI.circleUI.Stroke = null;
         tableUI.Table.PriceTotal = 0;
 
-        Dictionary<string, Item> itemNameObjectDict = mainWindow.editPage.ItemNameObjectDict;
-        Dictionary<string, Inventory> inventoryNameObjectDict = mainWindow.inventoryPage.InventoryNameObjectDict;
+        Dictionary<string, Item> itemNameObjectDict = currentApp.ItemNameObjectDict;
+        Dictionary<string, Inventory> inventoryNameObjectDict = currentApp.InventoryNameObjectDict;
         foreach (DatabaseItemNameCategoryQuantity itemCategoryQuantity in tableUI.Table.DatabaseItemNameCategoryQuantityList)
         {
           if (itemNameObjectDict.ContainsKey(itemCategoryQuantity.itemName))

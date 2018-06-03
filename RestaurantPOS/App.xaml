@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:RestaurantPOS"
              xmlns:converter="clr-namespace:RestaurantPOS.Converters"
+             Exit="Application_Exit"
              StartupUri="MainWindow.xaml">
    <Application.Resources>
     <converter:MultiplierConverter x:Key="Multiplier" />

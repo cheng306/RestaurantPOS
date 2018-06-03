@@ -22,4 +22,7 @@ InventoryNameItemsListDict
 - remove item (done)
 
 
-ItemNameObjctDict
+InventoryNameObjctDict
+- add Inventory (done)
+- remove Inventory (done)
+- edit inventory name (done)

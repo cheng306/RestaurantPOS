@@ -21,7 +21,7 @@ namespace RestaurantPOS.Dialogs
   public partial class EditCategoryDialog : Window
   {
     string currentCategory;
-    ObservableCollection<string> categoriesList = ((MainWindow)(Application.Current.MainWindow)).editPage.categoriesList;
+    ObservableCollection<string> categoriesList = ((App)Application.Current).categoriesList;
 
     public EditCategoryDialog()
     {

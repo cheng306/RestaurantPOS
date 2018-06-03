@@ -45,13 +45,15 @@ namespace RestaurantPOS.Pages
     List<Point> pointList;
 
     //a list of circles 
-    internal List<Models.Table> tablesList;
+    List<Models.Table> tablesList;
+    //a list of boolean
+    List<bool> tableNumberBooleanList;
 
     Object auxObject;
 
     bool goToSelectionPage;
 
-    internal List<bool> tableNumberBooleanList;
+    
 
     double canvasDimension;
 
@@ -68,15 +70,17 @@ namespace RestaurantPOS.Pages
     public TablesPage()
     {
       InitializeComponent();
-
-      Console.WriteLine("=================tablesPage Created");
-
       OtherInitialSetup();
+      Console.WriteLine("=================tablesPage Created");
     }
 
     private void OtherInitialSetup()
     {
       pointList = new List<Point>();
+
+      tablesList = ((App)Application.Current).tablesList;
+      tableNumberBooleanList = ((App)Application.Current).tableNumberBooleanList;
+      LoadTablesUI();  
       previousPt = new Point();
       selectedCircle = null;
 
@@ -93,7 +97,6 @@ namespace RestaurantPOS.Pages
 
       addButton.numberTextBlock.Text = "+";
       addButton.numberTextBlock.Foreground = whiteBrush;
-      //addButton.numberTextBlock.Foreground = new SolidColorBrush(Colors.White);
 
       pointList.Add(addButtonAbsolutePoint);
       addButton.circleUI.Width = diameter;
@@ -699,7 +702,7 @@ namespace RestaurantPOS.Pages
       }
     }
 
-    internal void LoadTables()
+    internal void LoadTablesUI()
     {
       foreach (Models.Table table in tablesList)
       {
