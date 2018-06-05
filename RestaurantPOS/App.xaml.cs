@@ -79,7 +79,9 @@ namespace RestaurantPOS
       //Build parts that require deserialized objects
       BuildCategoryItemDict();
       BuildInventoryNameItemsListDict();
-      InventoryNameObjectDict = new InventoryNameObjectDict();
+      inventoryNameObjectDict = new InventoryNameObjectDict();
+      itemNameObjectDict = new ItemNameObjectDict();
+
     }
 
     

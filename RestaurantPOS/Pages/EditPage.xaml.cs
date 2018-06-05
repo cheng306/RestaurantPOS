@@ -27,8 +27,6 @@ namespace RestaurantPOS.Pages
   {
     ObservableCollection<Item> itemsList;
     ObservableCollection<string> categoriesList;
-    // Comment out ItemNameObjctDict
-    //Dictionary<string, Item> itemNameObjectDict;    
 
     InventoryPage inventoryPage = ((MainWindow)Application.Current.MainWindow).inventoryPage;
     SelectionPage itemsSelectionPage = ((MainWindow)Application.Current.MainWindow).itemsSelectionPage;
@@ -48,8 +46,6 @@ namespace RestaurantPOS.Pages
       BuildSortDescriptions();
 
       Console.WriteLine("=========================editPage start=============");
-      // Comment out ItemNameObjctDict
-      //BuildItemNameObjectDict();
     }
 
     private void InitializeHeadersTag()
@@ -67,24 +63,6 @@ namespace RestaurantPOS.Pages
       itemsListView.Items.SortDescriptions.Add(new SortDescription("Category", ListSortDirection.Ascending));
       itemsListView.Items.SortDescriptions.Add(new SortDescription("Price", ListSortDirection.Ascending));
     }
-
-    /* Comment out ItemNameObjctDict
-    internal void BuildItemNameObjctDict()
-    {
-      itemNameObjectDict = new Dictionary<string, Item>();
-      foreach (Item item in itemsList)
-      {
-        itemNameObjectDict[item.Name] = item;
-      }
-    }
-
-    public Dictionary<string, Item> ItemNameObjectDict
-    {
-      get { return this.itemNameObjectDict; }
-    }
-    */
-
-
 
     private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
     {
@@ -120,7 +98,7 @@ namespace RestaurantPOS.Pages
     private void AddItemButton_Click(object sender, RoutedEventArgs e)
     {
       EditItemDialog addItemWindow = new EditItemDialog();
-
+      Console.WriteLine("id: "+addItemWindow.GetHashCode());
       if (addItemWindow.ShowDialog() == true)
       {
         Item newItem = new Item
@@ -138,6 +116,9 @@ namespace RestaurantPOS.Pages
         //update categoryItemDict
         currentApp.AddItemToCategoryItemDict(addItemWindow.ItemCategory, newItem);
 
+        //update ItemNameObjectDict
+        currentApp.ItemNameObjectDict.AddItemToItemNameObjectDict(newItem);
+
         //update the view of Edit Page
         itemsListView.SelectedItem = newItem;
         itemsListView.Focus();
@@ -150,6 +131,8 @@ namespace RestaurantPOS.Pages
           EnableModifyAndDeleteItemButton();
         }
       }
+      addItemWindow.DisableDialog();
+      //addItemWindow.Close();
     }
 
     private void ModifyItemButton_Click(object sender, RoutedEventArgs e)
@@ -158,20 +141,35 @@ namespace RestaurantPOS.Pages
       if (selectedItem != null)
       {
         EditItemDialog editItemDialog = new EditItemDialog(selectedItem);
+        Console.WriteLine("id: " + editItemDialog.GetHashCode());
         if (editItemDialog.ShowDialog() == true)
         {
+          string oldName = selectedItem.Name;
           string oldCategory = selectedItem.Category;
           double oldPrice = selectedItem.Price;
 
-          if (!selectedItem.Category.Equals(editItemDialog.ItemCategory))
+          string newName = editItemDialog.ItemName;
+          string newCategory = editItemDialog.ItemCategory;
+          double newPrice = editItemDialog.ItemPrice;
+
+          if (!newCategory.Equals(oldCategory))
           {
             //update CategoryItemDict
             currentApp.ChangeItemCategoryInCategoryItemDict(selectedItem, oldCategory, editItemDialog.ItemCategory);
           }
-          selectedItem.Name = editItemDialog.ItemName;
-          selectedItem.Category = editItemDialog.ItemCategory;
-          selectedItem.Price = editItemDialog.ItemPrice;
+
+          if (!newName.Equals(oldName))
+          {
+            //update ItemNameObjectDict
+            currentApp.ItemNameObjectDict.EditItemNameInItemNameObjectDict(oldName, newName);
+          }
+          selectedItem.Name = newName;
+          selectedItem.Category = newCategory;
+          selectedItem.Price = newPrice;
+          
         }
+        editItemDialog.DisableDialog();
+
       }
     }
 
@@ -200,6 +198,9 @@ namespace RestaurantPOS.Pages
 
           //update categoryItemDict
           currentApp.RemoveItemFromCategoryItemDict(removeItemsArray[i]);
+
+          //update itemNameObjectDict
+          currentApp.ItemNameObjectDict.RemoveItemFromItemNameObjectDict(removeItemsArray[i]);
 
           //update inventoryItemsDict
           foreach (InventoryConsumption inventoryConsumption in removeItemsArray[i].InventoryConsumptionList)
@@ -250,19 +251,25 @@ namespace RestaurantPOS.Pages
         selectedIndex = categoriesListBox.SelectedIndex;
         string oldCategory = (string)categoriesListBox.SelectedItem;
         EditCategoryDialog editCategoryDialog = new EditCategoryDialog((string)categoriesListBox.SelectedItem);
-        
+        Console.WriteLine("======reach here0");
         if (editCategoryDialog.ShowDialog() == true)
         {
+          Console.WriteLine("======reach here1");
           if (!oldCategory.Equals(editCategoryDialog.Input))
           {
             //update categoriesList
+            Console.WriteLine("======reach here2");
             ((ObservableCollection<string>)categoriesListBox.ItemsSource)[selectedIndex] = editCategoryDialog.Input;
             //update categoryItemDict
+            Console.WriteLine("======reach here3");
             currentApp.ModifyCategoryInCategoryItemDict(oldCategory, editCategoryDialog.Input);
+            Console.WriteLine("======reach here4");
             UpdateItemCategoryProperty(editCategoryDialog.Input);
             //update SelectionPage
+            Console.WriteLine("======reach here5");
             itemsSelectionPage.ModifyCategoryInCategoryWrapPanel(oldCategory, editCategoryDialog.Input);
-          }        
+          }
+          Console.WriteLine("======reach here2");
         }
         categoriesListBox.SelectedIndex = selectedIndex;
       }

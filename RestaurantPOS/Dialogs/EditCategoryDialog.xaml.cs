@@ -25,6 +25,7 @@ namespace RestaurantPOS.Dialogs
 
     public EditCategoryDialog()
     {
+      Console.WriteLine("======Open a EditCategoryDialog");
       InitializeComponent();
       addButton.IsEnabled = false;
       categoryWarningTextBlock.Visibility = Visibility.Visible;
@@ -33,6 +34,7 @@ namespace RestaurantPOS.Dialogs
 
     public EditCategoryDialog(string currentCategory)
     {
+      Console.WriteLine("======Open a EditCategoryDialog");
       InitializeComponent();
       inputTextBox.Text = currentCategory;
       inputTextBox.SelectionLength = currentCategory.Length;

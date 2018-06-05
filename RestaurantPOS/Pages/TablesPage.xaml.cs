@@ -80,7 +80,7 @@ namespace RestaurantPOS.Pages
 
       tablesList = ((App)Application.Current).tablesList;
       tableNumberBooleanList = ((App)Application.Current).tableNumberBooleanList;
-      LoadTablesUI();  
+       
       previousPt = new Point();
       selectedCircle = null;
 
@@ -109,6 +109,9 @@ namespace RestaurantPOS.Pages
       deleteButton.circleUI.Height = diameter;
       deleteButton.numberTextBlock.Foreground = whiteBrush;
       //deleteButton.numberTextBlock.Foreground = new SolidColorBrush(Colors.White);
+
+      //TablesUI must be loaded after 
+      LoadTablesUI();
     }
 
     private void AddButton_MouseDown(object sender, MouseButtonEventArgs e)
@@ -257,12 +260,10 @@ namespace RestaurantPOS.Pages
 
         if (!CoordinateConflict(circle, point))
         {
-          //((SolidColorBrush)((Circle)sender).circleUI.Fill).Color = Colors.Green;
           circle.circleUI.Fill = greenBrush;
         }
         else
         {
-          //((SolidColorBrush)((Circle)sender).circleUI.Fill).Color = Colors.Red;
           circle.circleUI.Fill = redBrush;
         }
       }
@@ -517,6 +518,7 @@ namespace RestaurantPOS.Pages
 
       pointList.Add(newAbsolutePoint);
       circle.Table.UpperLeftPoint = newRelativePoint;
+      Console.WriteLine("added-x:{0} added-y:{1}", newRelativePoint.X, newRelativePoint.Y);
     }
 
     private void SolidYellowCircle(Circle circle)
@@ -731,6 +733,7 @@ namespace RestaurantPOS.Pages
         Point absolutePoint = RelativeToAbsolute(table.UpperLeftPoint);
         tableUI.SetValue(Canvas.LeftProperty, absolutePoint.X);
         tableUI.SetValue(Canvas.TopProperty, absolutePoint.Y);
+        Console.WriteLine("x:{0} y:{1}",absolutePoint.X,absolutePoint.Y);
         canvas.Children.Add(tableUI);
 
         pointList.Add(absolutePoint);

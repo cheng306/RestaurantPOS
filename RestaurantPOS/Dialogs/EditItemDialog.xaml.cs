@@ -102,6 +102,7 @@ namespace RestaurantPOS.Dialogs
         nameWarningTextBlock.Visibility = Visibility.Hidden;
         if (categoriesComboBox.SelectedItem != null)
         {
+          Console.WriteLine("=======hit it 2");
           CheckIfItemNameRepeat();
         }
       }
@@ -137,7 +138,7 @@ namespace RestaurantPOS.Dialogs
 
       if (!nameTextBox.Text.Equals(""))
       {
-        Console.WriteLine("goes here");
+        Console.WriteLine("======hit it 3");
         CheckIfItemNameRepeat();
       }
     }
@@ -149,8 +150,9 @@ namespace RestaurantPOS.Dialogs
       nameWarningTextBlock.Visibility = Visibility.Hidden;
 
       string category = (string)categoriesComboBox.SelectedItem;
+      Console.WriteLine("=========hit it1");
+      Console.WriteLine("id: " + this.GetHashCode());
       List<Item> itemsList = categoryItemDict[category];
-      Console.WriteLine(itemsList.Count);
       foreach(Item item in itemsList)
       {
         if (item.Name.Equals(nameTextBox.Text) && !(item.Name.Equals(currentItemName) && item.Category.Equals(currentItemCategory)))
@@ -161,16 +163,6 @@ namespace RestaurantPOS.Dialogs
           break;
         }
       }
-      //foreach (Item item in mainWindow.editPage.itemsList)
-      //{
-      //  if (item.Category.Equals(category) && item.Name.Equals(nameTextBox.Text))
-      //  {
-      //    validName = false;
-      //    nameWarningTextBlock.Text = "This item already existed";
-      //    nameWarningTextBlock.Visibility = Visibility.Visible;
-      //    break;
-      //  }
-      //}
       UpdateAddButton();
     }
 
@@ -190,6 +182,15 @@ namespace RestaurantPOS.Dialogs
     {
       this.DialogResult = true;
     }
+
+    internal void DisableDialog()
+    {
+      nameTextBox.TextChanged -= NameTextBox_TextChanged;
+      categoriesComboBox.SelectionChanged -= CategoriesComboBox_SelectionChanged;
+      priceTextBox.TextChanged -= PriceTextBox_TextChanged;
+    }
+
+
 
 
   }

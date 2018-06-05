@@ -26,3 +26,8 @@ InventoryNameObjctDict
 - add Inventory (done)
 - remove Inventory (done)
 - edit inventory name (done)
+
+ItemNameObjectDict
+- add item (done)	
+- remove item (done)
+- editName (done)
