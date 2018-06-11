@@ -104,7 +104,8 @@ namespace RestaurantPOS.Pages
         {
           Name = addInventoryWindow.InventoryName,
           Quantity = addInventoryWindow.InventoryQuantity,
-          Unit = addInventoryWindow.InventoryUnit
+          Unit = addInventoryWindow.InventoryUnit,
+          RemindingLevel = addInventoryWindow.InventoryRemindingLevel
         };
 
         //update InventoryNameObjectDict
@@ -153,6 +154,7 @@ namespace RestaurantPOS.Pages
         selectedInventory.Name = editInventoryWindow.InventoryName;
         selectedInventory.Quantity = editInventoryWindow.InventoryQuantity;
         selectedInventory.Unit = editInventoryWindow.InventoryUnit;
+        selectedInventory.RemindingLevel = editInventoryWindow.InventoryRemindingLevel;
       }
 
       inventoryListView.Focus();
@@ -217,12 +219,6 @@ namespace RestaurantPOS.Pages
       }
     }
 
-    
-    
-
-
-    
-    
 
     private void LeftGrid_GotFocus(object sender, RoutedEventArgs e)
     {

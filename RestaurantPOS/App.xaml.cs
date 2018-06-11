@@ -12,6 +12,7 @@ using RestaurantPOS.Pages;
 using RestaurantPOS.Dictionaries;
 using System.IO;
 using System.Xml.Serialization;
+using RestaurantPOS.SerializedData;
 
 namespace RestaurantPOS
 {
@@ -20,46 +21,35 @@ namespace RestaurantPOS
   /// </summary>
   public partial class App : Application
   {
-    //path of xml file that store itemsList in Edit Page
-    //Serializer used to serialize and deserialize ObservableCollection<Item>
-    string itemListXmlPath;
-    XmlSerializer listSerializer;
-
-    //path of xml file that store categoriesList in Edit Page
-    //Serializer used to serialize and deserialize ObservableCollection<String>
-    string categoriesListXmlPath;
-    XmlSerializer categoriesListSerializer;
-
-    //path of xml file that store inventoryList in Inventory Page
-    //Serializer used to serialize and deserialize ObservableCollection<Inventory>
-    string inventoryListXmlPath;
-    XmlSerializer inventoryListSerializer;
-
-    //path of xml file that store tablesList in tables
-    //Serializer used to serialize and deserialize List<Circle>
-    string tablesListXmlPath;
-    XmlSerializer tablesListSerializer;
-
-    //path of xml file that store tableNumberBooleanList in tablesPage
-    //Serializer used to serialize and deserialize List<bool>
-    string tableNumberBooleanListXmlPath;
-    XmlSerializer tableNumberBooleanListSerializer;
-
-    //All App Object
-    internal List<Models.Table> tablesList;
+    //All App Objects
+    internal TablesList tablesList;
     internal ObservableCollection<Item> itemsList;
     internal ObservableCollection<string> categoriesList;
     internal ObservableCollection<Inventory> inventoryList;
     internal List<bool> tableNumberBooleanList;
 
-    // All dictionary
+    //Xml Path and Serializer used to serialize and deserialize all App Objects
+    string itemsListXmlPath;
+    XmlSerializer itemsListSerializer;
+
+    string categoriesListXmlPath;
+    XmlSerializer categoriesListSerializer;
+
+    string inventoryListXmlPath;
+    XmlSerializer inventoryListSerializer;
+
+    string tablesListXmlPath;
+    XmlSerializer tablesListSerializer;
+
+    string tableNumberBooleanListXmlPath;
+    XmlSerializer tableNumberBooleanListSerializer;
+
+    // All dictionaries
     internal Dictionary<string, List<Item>> inventoryNameItemsListDict;
     internal Dictionary<string, List<Item>> categoryItemsListDict;
     internal InventoryNameObjectDict inventoryNameObjectDict;
     internal ItemNameObjectDict itemNameObjectDict;
-   
-    
-
+       
     public App()
     {
       Console.WriteLine("=================App started");
@@ -73,8 +63,6 @@ namespace RestaurantPOS
       LoadInventoryList();
       LoadTableNumberBooleanList();
       LoadTablesList();
-
-
 
       //Build parts that require deserialized objects
       BuildCategoryItemDict();
@@ -207,9 +195,6 @@ namespace RestaurantPOS
     }
 
 
-
-
-
     private void CreateDbDirectory()
     {
       DirectoryInfo dbDirectory = new DirectoryInfo("db");
@@ -225,19 +210,19 @@ namespace RestaurantPOS
       tablesListXmlPath = @"db\tableslist.xml";
 
       //initilize serizlizer
-      tablesListSerializer = new XmlSerializer(typeof(List<Models.Table>));
+      tablesListSerializer = new XmlSerializer(typeof(TablesList));
 
       if (File.Exists(tablesListXmlPath))
       {
         StreamReader streamReader = new StreamReader(tablesListXmlPath);
-        tablesList = (List<Models.Table>)tablesListSerializer.Deserialize(streamReader);
+        tablesList = (TablesList)tablesListSerializer.Deserialize(streamReader);
         streamReader.Close();
-        Console.WriteLine("=============tablesList in tablesPage loaded");
+        Console.WriteLine("=============tablesList loaded");
       }
       else
       {
-        tablesList = new List<Models.Table>();
-        Console.WriteLine("=============tablesList in tablesPage created");
+        tablesList = new TablesList();
+        Console.WriteLine("=============tablesList created");
       }
       
     }
@@ -245,15 +230,15 @@ namespace RestaurantPOS
     private void LoadItemsList()
     {
       //locate the path
-      itemListXmlPath = @"db\itemlist.xml";
+      itemsListXmlPath = @"db\itemlist.xml";
 
       //initilize serizlizer
-      listSerializer = new XmlSerializer(typeof(ObservableCollection<Item>));
+      itemsListSerializer = new XmlSerializer(typeof(ObservableCollection<Item>));
 
-      if (File.Exists(itemListXmlPath))
+      if (File.Exists(itemsListXmlPath))
       {
-        StreamReader streamReader = new StreamReader(itemListXmlPath);
-        itemsList = (ObservableCollection<Item>)listSerializer.Deserialize(streamReader);
+        StreamReader streamReader = new StreamReader(itemsListXmlPath);
+        itemsList = (ObservableCollection<Item>)itemsListSerializer.Deserialize(streamReader);
         streamReader.Close();
         Console.WriteLine("=================itemsList in editPage loaded");
       }
@@ -266,10 +251,8 @@ namespace RestaurantPOS
 
     private void LoadCategoriesList()
     {
-      //locate the path
+      //locate the path and initilize serializer 
       categoriesListXmlPath = @"db\categoreslist.xml";
-
-      //initilize serizlizer
       categoriesListSerializer = new XmlSerializer(typeof(ObservableCollection<string>));
 
       if (File.Exists(categoriesListXmlPath))
@@ -332,8 +315,8 @@ namespace RestaurantPOS
 
     private void Application_Exit(object sender, ExitEventArgs e)
     {
-      FileStream fs = File.Create(itemListXmlPath);
-      listSerializer.Serialize(fs, itemsList);
+      FileStream fs = File.Create(itemsListXmlPath);
+      itemsListSerializer.Serialize(fs, itemsList);
       fs.Close();
 
       fs = File.Create(categoriesListXmlPath);

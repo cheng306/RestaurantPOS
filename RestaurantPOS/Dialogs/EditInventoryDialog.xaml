@@ -7,10 +7,10 @@
         mc:Ignorable="d"
         Title="Create Inventory"
         WindowStartupLocation="CenterScreen"
-        Height="500"
-        Width="400"
-        MinHeight="500"
-        MinWidth="400">
+        Height="600"
+        Width="600"
+        MinHeight="600"
+        MinWidth="600">
   <Window.Resources>
     <Style TargetType="Button">
       <Setter Property="FontSize"
@@ -27,7 +27,7 @@
   </Window.Resources>
   <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="4*" />
+      <RowDefinition Height="7*" />
       <RowDefinition Height="1*" />
     </Grid.RowDefinitions>
     <StackPanel>
@@ -39,10 +39,10 @@
       <TextBlock x:Name="nameWarningTextBlock"
                  Text="Name Cannot be Blank"
                  Foreground="Red"
-                 FontSize="20"
+                 FontSize="15"
                  Margin="10,0,10,10"/>
 
-      <TextBlock Text="Initial Quantity"
+      <TextBlock Text="Quantity"
                  Margin="10,10,10,0"/>
       <TextBox x:Name="quantityTextBox"
                Margin="10,0,10,0"
@@ -51,8 +51,8 @@
                  Foreground="Red"
                  Text="Quantity must be Numeric"
                  Margin="10,0,10,10"
-                 FontSize="20"/>
-      <TextBlock Text="Quantity unit"
+                 FontSize="15"/>
+      <TextBlock Text="Unit of Quantity "
                  Margin="10,10,10,0" />
       <TextBox x:Name="unitTextBox"
                Margin="10,0,10,0"
@@ -61,7 +61,21 @@
                  Foreground="Red"
                  Text="Unit Cannot be Blank"
                  Margin="10,0,10,0"
-                 FontSize="20"/>
+                 FontSize="15"/>
+      <TextBlock Text="Reminding Level (Remind User when Quantity goes below this level)"
+                 Margin="10,10,10,0" 
+                 TextWrapping="Wrap"/>
+      <TextBox x:Name="remindingLevelTextBox"
+               Margin="10,0,10,0"
+               TextChanged="RemindingLevelTextBox_TextChanged" />
+      <TextBlock x:Name="remindingLevelWarningTextBlock"
+                 Foreground="Red"
+                 FontSize="15"
+                 Margin="10,0,10,0"
+                 Text="This Field must be numeric"/>
+
+      
+      
     </StackPanel>
     <Grid Grid.Row="1">
       <Grid.ColumnDefinitions>
@@ -72,12 +86,12 @@
               Grid.Column="0"
               Content="Add"
               FontSize="25"
-              Margin="10"
+              Margin="5"
               Click="AddButton_Click"/>
       <Button Grid.Column="1"
               Content="Cancel"
               FontSize="25"
-              Margin="10"
+              Margin="5"
               IsCancel="True"/>
     </Grid>
   </Grid>

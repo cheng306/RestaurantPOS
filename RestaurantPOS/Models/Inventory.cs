@@ -12,7 +12,7 @@ namespace RestaurantPOS.Models
   {
     private string name;
     private double quantity;
-    private double warningLevel;
+    private double remindingLevel;
     private string unit;
 
 
@@ -42,14 +42,14 @@ namespace RestaurantPOS.Models
       }
     }
 
-    public double WarningLevel
+    public double RemindingLevel
     {
-      get { return this.warningLevel; }
+      get { return this.remindingLevel; }
       set
       {
-        if (value != this.warningLevel)
+        if (value != this.remindingLevel)
         {
-          this.warningLevel = value;
+          this.remindingLevel = value;
           NotifyPropertyChanged();
         }
       }

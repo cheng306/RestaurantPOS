@@ -132,7 +132,7 @@ namespace RestaurantPOS.Pages
     private void ItemButton_Click(object sender, RoutedEventArgs e)
     {
       ItemButton itemButton = (ItemButton)sender;
-      ObservableCollection<DatabaseItemNameCategoryQuantity> itemNameCategoryQuantityList = (ObservableCollection<DatabaseItemNameCategoryQuantity>)itemsListView.ItemsSource;
+      ObservableCollection<ItemNameCategoryQuantity> itemNameCategoryQuantityList = (ObservableCollection<ItemNameCategoryQuantity>)itemsListView.ItemsSource;
 
       bool newItemInTable = true;
       for (int i = 0; i < itemNameCategoryQuantityList.Count; i++)
@@ -151,7 +151,7 @@ namespace RestaurantPOS.Pages
       }
       if (newItemInTable)
       {
-        itemNameCategoryQuantityList.Add(new DatabaseItemNameCategoryQuantity {
+        itemNameCategoryQuantityList.Add(new ItemNameCategoryQuantity {
           ItemName = itemButton.Content.ToString(),
           ItemCategory = itemButton.ButtonItem.Category,
           ItemQuantity = 1,
@@ -284,7 +284,7 @@ namespace RestaurantPOS.Pages
       {
         removeItemsButton.IsEnabled = true;
         addItemButton.IsEnabled = true;
-        DatabaseItemNameCategoryQuantity selectedItem = (DatabaseItemNameCategoryQuantity)itemsListView.SelectedItem;
+        ItemNameCategoryQuantity selectedItem = (ItemNameCategoryQuantity)itemsListView.SelectedItem;
         if (selectedItem.ItemQuantity > 1)
         {
           minusItemButton.IsEnabled = true;
@@ -301,9 +301,9 @@ namespace RestaurantPOS.Pages
       YesNoCancelDialog yesNoCancelDialog = new YesNoCancelDialog("Do you want to Remove this Item");
       if (yesNoCancelDialog.ShowDialog() == true)
       {
-        DatabaseItemNameCategoryQuantity selectedItem = (DatabaseItemNameCategoryQuantity)itemsListView.SelectedItem;
+        ItemNameCategoryQuantity selectedItem = (ItemNameCategoryQuantity)itemsListView.SelectedItem;
         tableUI.Table.PriceTotal -= selectedItem.ItemsPrice;
-        ((ObservableCollection<DatabaseItemNameCategoryQuantity>)itemsListView.ItemsSource).Remove(selectedItem);
+        ((ObservableCollection<ItemNameCategoryQuantity>)itemsListView.ItemsSource).Remove(selectedItem);
         
         DisableLeftButtons();
       }
@@ -315,7 +315,7 @@ namespace RestaurantPOS.Pages
 
     private void MinusItemButton_Click(object sender, RoutedEventArgs e)
     {
-      DatabaseItemNameCategoryQuantity selectedItem = (DatabaseItemNameCategoryQuantity)itemsListView.SelectedItem;
+      ItemNameCategoryQuantity selectedItem = (ItemNameCategoryQuantity)itemsListView.SelectedItem;
       tableUI.Table.PriceTotal -= (selectedItem.ItemsPrice / selectedItem.ItemQuantity);
       selectedItem.ItemsPrice -= (selectedItem.ItemsPrice / selectedItem.ItemQuantity);
       
@@ -330,7 +330,7 @@ namespace RestaurantPOS.Pages
 
     private void AddItemButton_Click(object sender, RoutedEventArgs e)
     {
-      DatabaseItemNameCategoryQuantity selectedItem = (DatabaseItemNameCategoryQuantity)itemsListView.SelectedItem;
+      ItemNameCategoryQuantity selectedItem = (ItemNameCategoryQuantity)itemsListView.SelectedItem;
       tableUI.Table.PriceTotal += (selectedItem.ItemsPrice / selectedItem.ItemQuantity);
       selectedItem.ItemsPrice += (selectedItem.ItemsPrice / selectedItem.ItemQuantity);
       
@@ -360,7 +360,7 @@ namespace RestaurantPOS.Pages
 
         Dictionary<string, Item> itemNameObjectDict = currentApp.ItemNameObjectDict;
         Dictionary<string, Inventory> inventoryNameObjectDict = currentApp.InventoryNameObjectDict;
-        foreach (DatabaseItemNameCategoryQuantity itemCategoryQuantity in tableUI.Table.DatabaseItemNameCategoryQuantityList)
+        foreach (ItemNameCategoryQuantity itemCategoryQuantity in tableUI.Table.DatabaseItemNameCategoryQuantityList)
         {
           if (itemNameObjectDict.ContainsKey(itemCategoryQuantity.itemName))
           {
@@ -374,7 +374,7 @@ namespace RestaurantPOS.Pages
             }
           }       
         }
-        tableUI.Table.DatabaseItemNameCategoryQuantityList = new ObservableCollection<DatabaseItemNameCategoryQuantity>();
+        tableUI.Table.DatabaseItemNameCategoryQuantityList = new ObservableCollection<ItemNameCategoryQuantity>();
         mainWindow.tabControl.SelectedItem = mainWindow.tablesTab;
         mainWindow.selectionPageTab.IsEnabled = false;
         //update dictionaries

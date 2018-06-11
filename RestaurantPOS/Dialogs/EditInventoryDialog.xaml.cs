@@ -24,6 +24,7 @@ namespace RestaurantPOS.Dialogs
     bool validName;
     bool validQuantity;
     bool validUnit;
+    bool validRemindingLevel;
     string modifyInventoryName;
     ObservableCollection<Inventory> inventoryList = ((App)Application.Current).inventoryList;
 
@@ -33,6 +34,7 @@ namespace RestaurantPOS.Dialogs
       nameWarningTextBlock.Visibility = Visibility.Visible;
       quantityWarningTextBlock.Visibility = Visibility.Visible;
       unitWarningTextBlock.Visibility = Visibility.Visible;
+      remindingLevelWarningTextBlock.Visibility = Visibility.Visible;
       addButton.IsEnabled = false;
 
       modifyInventoryName = "";
@@ -48,11 +50,13 @@ namespace RestaurantPOS.Dialogs
       nameWarningTextBlock.Visibility = Visibility.Hidden;
       quantityWarningTextBlock.Visibility = Visibility.Hidden;
       unitWarningTextBlock.Visibility = Visibility.Hidden;
+      remindingLevelWarningTextBlock.Visibility = Visibility.Hidden;
       Title = "Modify Inventory";
       addButton.Content = "Modify";
       nameTextBox.Text = inventory.Name;
       quantityTextBox.Text = inventory.Quantity.ToString();
       unitTextBox.Text = inventory.Unit;
+      remindingLevelTextBox.Text = inventory.RemindingLevel.ToString();
       addButton.IsEnabled = true;
   
     }
@@ -77,6 +81,11 @@ namespace RestaurantPOS.Dialogs
     internal string InventoryUnit
     {
       get { return unitTextBox.Text; }
+    }
+
+    internal double InventoryRemindingLevel
+    {
+      get { return Double.Parse(remindingLevelTextBox.Text); }
     }
 
     private void NameTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -140,9 +149,25 @@ namespace RestaurantPOS.Dialogs
       UpdateAddButton();
     }
 
+    private void RemindingLevelTextBox_TextChanged(object sender, TextChangedEventArgs e)
+    {
+      if (Double.TryParse(remindingLevelTextBox.Text, out double dump))
+      {
+        validRemindingLevel = true;
+        remindingLevelWarningTextBlock.Visibility = Visibility.Hidden;
+      }
+      else
+      {
+        validRemindingLevel = false;
+        remindingLevelWarningTextBlock.Visibility = Visibility.Visible;
+      }
+
+      UpdateAddButton();
+    }
+
     private void UpdateAddButton()
     {
-      if (validName && validQuantity && validUnit)
+      if (validName && validQuantity && validUnit && validRemindingLevel)
       {
         addButton.IsEnabled = true;
       }
@@ -157,6 +182,6 @@ namespace RestaurantPOS.Dialogs
       this.DialogResult = true;
     }
 
-
+    
   }
 }
