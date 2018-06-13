@@ -66,7 +66,7 @@
       <DependentUpon>Circle.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\MultiplierConverter.cs" />
-    <Compile Include="Models\DatabaseItemNameCategoryQuantity.cs" />
+    <Compile Include="Models\ItemNameCategoryQuantity.cs" />
     <Compile Include="Models\Inventory.cs" />
     <Compile Include="Models\InventoryConsumption.cs" />
     <Compile Include="Models\Item.cs" />

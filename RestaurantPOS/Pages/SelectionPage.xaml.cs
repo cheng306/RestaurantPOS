@@ -44,7 +44,7 @@ namespace RestaurantPOS.Pages
       if (tableUI != null)
       {
         TableNumberTextBlock.Text = "Table " + tableUI.Table.TableNumber;
-        itemsListView.ItemsSource = tableUI.Table.DatabaseItemNameCategoryQuantityList; 
+        itemsListView.ItemsSource = tableUI.Table.ItemNameCategoryQuantityList; 
         wrapPanelScrollViewer.Content=categoriesWrapPanel;
 
         Binding myBinding = new Binding("Table.PriceTotal");
@@ -360,7 +360,7 @@ namespace RestaurantPOS.Pages
 
         Dictionary<string, Item> itemNameObjectDict = currentApp.ItemNameObjectDict;
         Dictionary<string, Inventory> inventoryNameObjectDict = currentApp.InventoryNameObjectDict;
-        foreach (ItemNameCategoryQuantity itemCategoryQuantity in tableUI.Table.DatabaseItemNameCategoryQuantityList)
+        foreach (ItemNameCategoryQuantity itemCategoryQuantity in tableUI.Table.ItemNameCategoryQuantityList)
         {
           if (itemNameObjectDict.ContainsKey(itemCategoryQuantity.itemName))
           {
@@ -374,7 +374,7 @@ namespace RestaurantPOS.Pages
             }
           }       
         }
-        tableUI.Table.DatabaseItemNameCategoryQuantityList = new ObservableCollection<ItemNameCategoryQuantity>();
+        tableUI.Table.ItemNameCategoryQuantityList = new ObservableCollection<ItemNameCategoryQuantity>();
         mainWindow.tabControl.SelectedItem = mainWindow.tablesTab;
         mainWindow.selectionPageTab.IsEnabled = false;
         //update dictionaries

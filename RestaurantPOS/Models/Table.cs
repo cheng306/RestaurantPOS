@@ -39,9 +39,22 @@ namespace RestaurantPOS.Models
 
     public Boolean IsActive { get; set; }
 
-    public ObservableCollection<ItemNameCategoryQuantity> DatabaseItemNameCategoryQuantityList {
+    public ObservableCollection<ItemNameCategoryQuantity> ItemNameCategoryQuantityList {
       get { return this.itemNameCategoryQuantityList; }
       set { this.itemNameCategoryQuantityList = value; }
+    }
+
+    internal void UpdateItemNameCategoryQuantity(string oldName, string oldCategory, string newName, string newCategory)
+    {
+      foreach (ItemNameCategoryQuantity itemNameCategoryQuantity in ItemNameCategoryQuantityList)
+      {
+        if (itemNameCategoryQuantity.ItemName.Equals(oldName) && itemNameCategoryQuantity.ItemCategory.Equals(oldCategory))
+        {
+          itemNameCategoryQuantity.ItemName = newName;
+          itemNameCategoryQuantity.ItemCategory = newCategory;
+          break;
+        }
+      }
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

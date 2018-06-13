@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using RestaurantPOS.Models;
 using RestaurantPOS.Dialogs;
+using RestaurantPOS.SerializedData;
 
 namespace RestaurantPOS.Pages
 {
@@ -30,7 +31,8 @@ namespace RestaurantPOS.Pages
 
     InventoryPage inventoryPage = ((MainWindow)Application.Current.MainWindow).inventoryPage;
     SelectionPage itemsSelectionPage = ((MainWindow)Application.Current.MainWindow).itemsSelectionPage;
-    App currentApp = (App)Application.Current;
+    static App currentApp = (App)Application.Current;
+    TablesList tablesList = currentApp.tablesList;
 
     public EditPage()
     {
@@ -152,6 +154,9 @@ namespace RestaurantPOS.Pages
           string newCategory = editItemDialog.ItemCategory;
           double newPrice = editItemDialog.ItemPrice;
 
+          //Update tables' ItemNameCategoryQunatityList
+          tablesList.UpdateItemNameCategoryQunatityListInTables(oldName, oldCategory, newName, newCategory);
+
           if (!newCategory.Equals(oldCategory))
           {
             //update CategoryItemDict
@@ -191,6 +196,9 @@ namespace RestaurantPOS.Pages
 
         for (int i = 0; i < removeItemsArray.Length; i++)
         {
+          //update tables' temNameCategoryQunatity
+          tablesList.RemoveItemNameCategoryQunatityFromTables(removeItemsArray[i].Name, removeItemsArray[i].Category);
+
           itemsList.Remove(removeItemsArray[i]);
 
           //modify itemsSelectionPage
@@ -254,22 +262,16 @@ namespace RestaurantPOS.Pages
         Console.WriteLine("======reach here0");
         if (editCategoryDialog.ShowDialog() == true)
         {
-          Console.WriteLine("======reach here1");
           if (!oldCategory.Equals(editCategoryDialog.Input))
           {
             //update categoriesList
-            Console.WriteLine("======reach here2");
             ((ObservableCollection<string>)categoriesListBox.ItemsSource)[selectedIndex] = editCategoryDialog.Input;
             //update categoryItemDict
-            Console.WriteLine("======reach here3");
             currentApp.ModifyCategoryInCategoryItemDict(oldCategory, editCategoryDialog.Input);
-            Console.WriteLine("======reach here4");
             UpdateItemCategoryProperty(editCategoryDialog.Input);
             //update SelectionPage
-            Console.WriteLine("======reach here5");
             itemsSelectionPage.ModifyCategoryInCategoryWrapPanel(oldCategory, editCategoryDialog.Input);
           }
-          Console.WriteLine("======reach here2");
         }
         categoriesListBox.SelectedIndex = selectedIndex;
       }
