@@ -60,8 +60,10 @@
     <Compile Include="Dialogs\YesNoCancelDialog.xaml.cs">
       <DependentUpon>YesNoCancelDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dictionaries\CategoryItemsWrapPanelDict.cs" />
     <Compile Include="Dictionaries\InventoryNameObjectDict.cs" />
     <Compile Include="Dictionaries\ItemNameObjectDict.cs" />
+    <Compile Include="CustomControls\CategoriesWrapPanel.cs" />
     <Compile Include="Models\Circle.xaml.cs">
       <DependentUpon>Circle.xaml</DependentUpon>
     </Compile>

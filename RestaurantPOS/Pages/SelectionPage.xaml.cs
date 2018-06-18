@@ -51,13 +51,9 @@ namespace RestaurantPOS.Pages
         myBinding.Source = tableUI;
         myBinding.StringFormat = "Total: {0:C2}";
         priceSummary.SetBinding(TextBlock.TextProperty, myBinding);
-        
-        //priceSummary.Text = "Total: $" +tableUI.Table.PriceTotal.ToString();
       }
 
-      
-      
-      
+ 
       backToCategoriesButton.Visibility = Visibility.Hidden;
       DisableLeftButtons();
 
@@ -126,7 +122,6 @@ namespace RestaurantPOS.Pages
       wrapPanelScrollViewer.Content = itemsWrapPanel;
       //currentCategory = categoryButton.Content.ToString();
       backToCategoriesButton.Visibility = Visibility.Visible;
-
     }
 
     private void ItemButton_Click(object sender, RoutedEventArgs e)

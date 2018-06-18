@@ -13,6 +13,7 @@ using RestaurantPOS.Dictionaries;
 using System.IO;
 using System.Xml.Serialization;
 using RestaurantPOS.SerializedData;
+using System.Windows.Media;
 
 namespace RestaurantPOS
 {
@@ -49,7 +50,10 @@ namespace RestaurantPOS
     internal Dictionary<string, List<Item>> categoryItemsListDict;
     internal InventoryNameObjectDict inventoryNameObjectDict;
     internal ItemNameObjectDict itemNameObjectDict;
-       
+
+    //All Colors
+    internal SolidColorBrush antiqueWhiteBrush = new SolidColorBrush(Colors.AntiqueWhite);
+
     public App()
     {
       Console.WriteLine("=================App started");
@@ -71,9 +75,6 @@ namespace RestaurantPOS
       itemNameObjectDict = new ItemNameObjectDict();
 
     }
-
-    
-
 
 
     internal void BuildCategoryItemDict()
@@ -334,6 +335,12 @@ namespace RestaurantPOS
       fs = File.Create(tableNumberBooleanListXmlPath);
       tableNumberBooleanListSerializer.Serialize(fs, tableNumberBooleanList);
       fs.Close();
+    }
+  
+    internal ObservableCollection<string> CategoriesList
+    {
+      get { return this.categoriesList; }
+      set { this.categoriesList = value; }
     }
 
 

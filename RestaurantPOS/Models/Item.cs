@@ -20,7 +20,6 @@ namespace RestaurantPOS.Models
       inventoryConsumptionList = new List<InventoryConsumption>();
     }
 
-
     public int Id { get; set; }
 
     public string Name {
