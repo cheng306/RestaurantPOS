@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using RestaurantPOS.Models;
 using RestaurantPOS.Dialogs;
+using RestaurantPOS.Dictionaries;
 
 namespace RestaurantPOS.Pages
 {
@@ -24,17 +25,19 @@ namespace RestaurantPOS.Pages
   public partial class SelectionPage : UserControl
   {
     MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-    WrapPanel categoriesWrapPanel;
-    Dictionary<string,WrapPanel> categoryItemsWrapPanelDict;
+    CategoryItemsWrapPanelDict categoryItemsWrapPanelDict;
+    CategoriesWrapPanel categoriesWrapPanel;
     internal Circle tableUI;
-    App currentApp = (App)Application.Current;
-
-    SolidColorBrush antiqueWhiteBrush = new SolidColorBrush(Colors.AntiqueWhite);
+    static App currentApp = (App)Application.Current;
+   
+    //SolidColorBrush antiqueWhiteBrush = new SolidColorBrush(Colors.AntiqueWhite);
 
     public SelectionPage()
     {
       InitializeComponent();
-      Console.WriteLine("Selection Page created");
+      categoryItemsWrapPanelDict = new CategoryItemsWrapPanelDict();
+      categoriesWrapPanel = new CategoriesWrapPanel();
+      Console.WriteLine("===========Selection Page created");
     }
 
     private void SelectionPage_Loaded(object sender, RoutedEventArgs e)
@@ -61,37 +64,37 @@ namespace RestaurantPOS.Pages
       itemsListView.SelectedItem = null;
     }
 
-    internal void BuildCategoryItemsWrapPanelDictionary()
-    {
-      categoryItemsWrapPanelDict = new Dictionary<string, WrapPanel>();
-      ObservableCollection<string> categoriesList = currentApp.categoriesList;
-      ObservableCollection<Item> itemsList = currentApp.itemsList;
+    //internal void BuildCategoryItemsWrapPanelDictionary()
+    //{
+    //  categoryItemsWrapPanelDict = new Dictionary<string, WrapPanel>();
+    //  ObservableCollection<string> categoriesList = currentApp.categoriesList;
+    //  ObservableCollection<Item> itemsList = currentApp.itemsList;
 
-      foreach (string categoryStr in categoriesList)
-      {
-        WrapPanel itemsWrapPanel = new WrapPanel();
+    //  foreach (string categoryStr in categoriesList)
+    //  {
+    //    WrapPanel itemsWrapPanel = new WrapPanel();
 
-        foreach (Item item in itemsList)
-        {
-          if (item.Category.Equals(categoryStr))
-          {
-            ItemButton itemButton = new ItemButton(item) {
-              //Content = item.Name,
-              Margin = new Thickness(10),
-              Width = 150,
-              Height = 100,
-              Background = antiqueWhiteBrush
-              //ButtonItem = item
-            };
+    //    foreach (Item item in itemsList)
+    //    {
+    //      if (item.Category.Equals(categoryStr))
+    //      {
+    //        ItemButton itemButton = new ItemButton(item) {
+    //          //Content = item.Name,
+    //          Margin = new Thickness(10),
+    //          Width = 150,
+    //          Height = 100,
+    //          Background = antiqueWhiteBrush
+    //          //ButtonItem = item
+    //        };
             
 
-            itemButton.Click += ItemButton_Click;
-            itemsWrapPanel.Children.Add(itemButton);
-          }
-        }
-        categoryItemsWrapPanelDict.Add(categoryStr, itemsWrapPanel);
-      }
-    }
+    //        itemButton.Click += ItemButton_Click;
+    //        itemsWrapPanel.Children.Add(itemButton);
+    //      }
+    //    }
+    //    categoryItemsWrapPanelDict.Add(categoryStr, itemsWrapPanel);
+    //  }
+    //}
 
     internal void BuildCategoriesWrapPanel()
     {
@@ -373,11 +376,15 @@ namespace RestaurantPOS.Pages
         mainWindow.tabControl.SelectedItem = mainWindow.tablesTab;
         mainWindow.selectionPageTab.IsEnabled = false;
         //update dictionaries
-
-
       }
-
     }
+
+    internal CategoryItemsWrapPanelDict CategoryItemsWrapPanelDict
+    {
+      get { return this.categoryItemsWrapPanelDict; }
+      set { this.categoryItemsWrapPanelDict = value; }
+    }
+
 
   }
 

@@ -14,6 +14,7 @@ using System.IO;
 using System.Xml.Serialization;
 using RestaurantPOS.SerializedData;
 using System.Windows.Media;
+using System.Windows.Controls;
 
 namespace RestaurantPOS
 {
@@ -73,6 +74,7 @@ namespace RestaurantPOS
       BuildInventoryNameItemsListDict();
       inventoryNameObjectDict = new InventoryNameObjectDict();
       itemNameObjectDict = new ItemNameObjectDict();
+
 
     }
 
@@ -193,6 +195,12 @@ namespace RestaurantPOS
     {
       get { return this.itemNameObjectDict; }
       set { this.itemNameObjectDict = value; }
+    }
+
+    internal ObservableCollection<string> CategoriesList
+    {
+      get { return this.categoriesList; }
+      set { this.categoriesList = value; }
     }
 
 
@@ -337,11 +345,7 @@ namespace RestaurantPOS
       fs.Close();
     }
   
-    internal ObservableCollection<string> CategoriesList
-    {
-      get { return this.categoriesList; }
-      set { this.categoriesList = value; }
-    }
+    
 
 
 

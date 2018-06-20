@@ -27,5 +27,7 @@ namespace RestaurantPOS.Dictionaries
         this[item.Category].Children.Add(itemButton);
       }
     }
+
+
   }
 }

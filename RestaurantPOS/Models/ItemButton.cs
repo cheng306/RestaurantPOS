@@ -58,7 +58,8 @@ namespace RestaurantPOS.Models
       }
       if (newItemInTable)
       {
-        itemNameCategoryQuantityList.Add(new ItemNameCategoryQuantity
+        itemNameCategoryQuantityList.
+          Add(new ItemNameCategoryQuantity
         {
           ItemName = itemButton.Content.ToString(),
           ItemCategory = itemButton.ButtonItem.Category,

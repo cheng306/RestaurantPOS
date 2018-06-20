@@ -13,8 +13,8 @@ namespace RestaurantPOS.Models
   internal class CategoriesWrapPanel:WrapPanel
   {
     static App currentApp = (App)Application.Current;
+    static MainWindow mainWindow = (MainWindow)currentApp.MainWindow;
     static ObservableCollection<string> categoriesList = currentApp.categoriesList;
-    SolidColorBrush antiqueWhiteBrush = new SolidColorBrush(Colors.AntiqueWhite);
 
     public CategoriesWrapPanel()
     {
@@ -23,14 +23,24 @@ namespace RestaurantPOS.Models
         Button categoryButton = new Button
         {
           Content = categoryStr,
-          Background = antiqueWhiteBrush,
+          Background = currentApp.antiqueWhiteBrush,
           Margin = new Thickness(10),
           Width = 150,
           Height = 100
         };
-        //categoryButton.Click += CategoryButton_Click;
+        categoryButton.Click += CategoryButton_Click;
         this.Children.Add(categoryButton);
       }
+    }
+
+    private void CategoryButton_Click(object sender, RoutedEventArgs e)
+    {
+      Console.WriteLine("=============CategoryButton Click");
+      Button categoryButton = (Button)sender;
+      WrapPanel itemsWrapPanel = mainWindow.itemsSelectionPage.CategoryItemsWrapPanelDict[categoryButton.Content.ToString()];
+
+      mainWindow.itemsSelectionPage.wrapPanelScrollViewer.Content = itemsWrapPanel;
+      mainWindow.itemsSelectionPage.backToCategoriesButton.Visibility = Visibility.Visible;
     }
 
   }
