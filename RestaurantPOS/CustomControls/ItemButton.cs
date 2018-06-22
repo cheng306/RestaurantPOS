@@ -8,8 +8,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using RestaurantPOS.Models;
 
-namespace RestaurantPOS.Models
+namespace RestaurantPOS.CustomControls
 {
   public class ItemButton : Button
   {
@@ -34,6 +35,9 @@ namespace RestaurantPOS.Models
       this.Width = 150;
       this.Height = 100;
       this.Background = antiqueWhiteBrush;
+
+      //add listener to the Button
+      this.Click += ItemButton_Click;
     }
 
     private void ItemButton_Click(object sender, RoutedEventArgs e)

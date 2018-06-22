@@ -72,7 +72,7 @@
     <Compile Include="Models\Inventory.cs" />
     <Compile Include="Models\InventoryConsumption.cs" />
     <Compile Include="Models\Item.cs" />
-    <Compile Include="Models\ItemButton.cs" />
+    <Compile Include="CustomControls\ItemButton.cs" />
     <Compile Include="Models\Table.cs" />
     <Compile Include="Pages\EditPage.xaml.cs">
       <DependentUpon>EditPage.xaml</DependentUpon>

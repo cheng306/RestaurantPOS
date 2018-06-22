@@ -46,13 +46,24 @@ namespace RestaurantPOS.Models
 
     internal void UpdateItemNameCategoryQuantity(string oldName, string oldCategory, string newName, string newCategory)
     {
+      Console.WriteLine("============Update Here");
       foreach (ItemNameCategoryQuantity itemNameCategoryQuantity in ItemNameCategoryQuantityList)
       {
         if (itemNameCategoryQuantity.ItemName.Equals(oldName) && itemNameCategoryQuantity.ItemCategory.Equals(oldCategory))
         {
           itemNameCategoryQuantity.ItemName = newName;
           itemNameCategoryQuantity.ItemCategory = newCategory;
-          break;
+        }
+      }
+    }
+
+    internal void UpdateCategoryInItemNameCategoryQuantityList(string oldCategory, string newCategory)
+    {
+      foreach (ItemNameCategoryQuantity itemNameCategoryQuantity in ItemNameCategoryQuantityList)
+      {
+        if (itemNameCategoryQuantity.ItemCategory.Equals(oldCategory))
+        {
+          itemNameCategoryQuantity.ItemCategory = newCategory;
         }
       }
     }

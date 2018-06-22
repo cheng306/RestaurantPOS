@@ -36,11 +36,6 @@ namespace RestaurantPOS
     public MainWindow()
     {
       InitializeComponent();
-
-      //build divtionary
-      itemsSelectionPage.BuildCategoryItemsWrapPanelDictionary();
-      itemsSelectionPage.BuildCategoriesWrapPanel();
-
       Console.WriteLine("================Window created==================");
     }
 

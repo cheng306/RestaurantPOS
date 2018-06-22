@@ -64,176 +64,8 @@ namespace RestaurantPOS.Pages
       itemsListView.SelectedItem = null;
     }
 
-    //internal void BuildCategoryItemsWrapPanelDictionary()
-    //{
-    //  categoryItemsWrapPanelDict = new Dictionary<string, WrapPanel>();
-    //  ObservableCollection<string> categoriesList = currentApp.categoriesList;
-    //  ObservableCollection<Item> itemsList = currentApp.itemsList;
 
-    //  foreach (string categoryStr in categoriesList)
-    //  {
-    //    WrapPanel itemsWrapPanel = new WrapPanel();
 
-    //    foreach (Item item in itemsList)
-    //    {
-    //      if (item.Category.Equals(categoryStr))
-    //      {
-    //        ItemButton itemButton = new ItemButton(item) {
-    //          //Content = item.Name,
-    //          Margin = new Thickness(10),
-    //          Width = 150,
-    //          Height = 100,
-    //          Background = antiqueWhiteBrush
-    //          //ButtonItem = item
-    //        };
-            
-
-    //        itemButton.Click += ItemButton_Click;
-    //        itemsWrapPanel.Children.Add(itemButton);
-    //      }
-    //    }
-    //    categoryItemsWrapPanelDict.Add(categoryStr, itemsWrapPanel);
-    //  }
-    //}
-
-    internal void BuildCategoriesWrapPanel()
-    {
-      categoriesWrapPanel = new WrapPanel();
-      ObservableCollection<string> categoriesList = currentApp.categoriesList;
-
-      foreach (string categoryStr in categoriesList)
-      {
-        Button categoryButton = new Button
-        {
-          Content = categoryStr,
-          Background = antiqueWhiteBrush,
-          Margin = new Thickness(10),
-          Width = 150,
-          Height = 100
-        };
-        categoryButton.Click += CategoryButton_Click;
-        categoriesWrapPanel.Children.Add(categoryButton);
-      }
-    }
-
-    private void CategoryButton_Click(object sender, RoutedEventArgs e)
-    {
-      Console.WriteLine("=============CategoryButton Click");
-      Button categoryButton = (Button)sender;
-      WrapPanel itemsWrapPanel = categoryItemsWrapPanelDict[categoryButton.Content.ToString()];
-
-      wrapPanelScrollViewer.Content = itemsWrapPanel;
-      //currentCategory = categoryButton.Content.ToString();
-      backToCategoriesButton.Visibility = Visibility.Visible;
-    }
-
-    private void ItemButton_Click(object sender, RoutedEventArgs e)
-    {
-      ItemButton itemButton = (ItemButton)sender;
-      ObservableCollection<ItemNameCategoryQuantity> itemNameCategoryQuantityList = (ObservableCollection<ItemNameCategoryQuantity>)itemsListView.ItemsSource;
-
-      bool newItemInTable = true;
-      for (int i = 0; i < itemNameCategoryQuantityList.Count; i++)
-      {
-        
-        if (itemNameCategoryQuantityList[i].ItemName.Equals(itemButton.Content.ToString())&&
-          itemNameCategoryQuantityList[i].ItemCategory.Equals(itemButton.ButtonItem.Category) &&
-          itemNameCategoryQuantityList[i].ItemPrice == itemButton.ButtonItem.Price)
-        {
-          newItemInTable = false;
-          itemNameCategoryQuantityList[i].ItemQuantity++;
-          itemNameCategoryQuantityList[i].ItemsPrice += itemButton.ButtonItem.Price;
-          tableUI.Table.PriceTotal += itemButton.ButtonItem.Price;
-          break;
-        }
-      }
-      if (newItemInTable)
-      {
-        itemNameCategoryQuantityList.Add(new ItemNameCategoryQuantity {
-          ItemName = itemButton.Content.ToString(),
-          ItemCategory = itemButton.ButtonItem.Category,
-          ItemQuantity = 1,
-          ItemPrice = itemButton.ButtonItem.Price,
-          ItemsPrice = itemButton.ButtonItem.Price
-        });
-        tableUI.Table.PriceTotal += itemButton.ButtonItem.Price;
-      }
-    }
-
-    internal void AddCategoryToCategoriesWrapPanel(string categoryName)
-    {
-      WrapPanel ItemsWrapPanel = new WrapPanel();
-      categoryItemsWrapPanelDict.Add(categoryName, ItemsWrapPanel);
-
-      Button categoryButton = new Button {
-        Content = categoryName,
-        Background = antiqueWhiteBrush,
-        Margin = new Thickness(10),
-        Width = 150,
-        Height = 100
-      };
-      categoryButton.Click += CategoryButton_Click;
-
-      categoriesWrapPanel.Children.Add(categoryButton);
-    }
-
-    internal void ModifyCategoryInCategoryWrapPanel(string oldCategory, string newCategory)
-    {
-      for (int i = 0; i < categoriesWrapPanel.Children.Count; i++)
-      {
-        if (((Button)categoriesWrapPanel.Children[i]).Content.ToString().Equals(oldCategory))
-        {
-          ((Button)categoriesWrapPanel.Children[i]).Content = newCategory;
-          break;
-        }
-      }
-      categoryItemsWrapPanelDict[newCategory] = categoryItemsWrapPanelDict[oldCategory];
-      categoryItemsWrapPanelDict.Remove(oldCategory);
-    }
-
-    internal void RemoveCategoryToCategoriesWrapPanel(string categoryName)
-    {
-      categoryItemsWrapPanelDict.Remove(categoryName);
-      for (int i=0; i< categoriesWrapPanel.Children.Count; i++)
-      {
-        if (((Button)categoriesWrapPanel.Children[i]).Content.ToString().Equals(categoryName))
-        {
-          categoriesWrapPanel.Children.Remove(categoriesWrapPanel.Children[i]);
-          break;
-        }
-      }
-    }
-
-    internal void AddItemToItemsWrapPanel(Item item)
-    {
-      WrapPanel itemsWrapPanel = categoryItemsWrapPanelDict[item.Category];
-
-      ItemButton itemButton = new ItemButton(item) {
-        //Content = item.Name,
-        Background = antiqueWhiteBrush,
-        Margin = new Thickness(10),
-        Width = 150,
-        Height = 100
-        //ButtonItem = item
-      };
-      itemButton.Click += ItemButton_Click;
-      itemsWrapPanel.Children.Add(itemButton);
-    }
-
-    internal void RemoveItemFromItemsWrapPanel(Item item)
-    {
-      WrapPanel itemsWrapPanel = categoryItemsWrapPanelDict[item.Category];
-
-      for (int i = 0; i < itemsWrapPanel.Children.Count; i++)
-      {
-        if (((Button)itemsWrapPanel.Children[i]).Content.Equals(item.Name))
-        {
-          itemsWrapPanel.Children.Remove(itemsWrapPanel.Children[i]);
-        }
-      }
-    }
-
-    
 
     private void DisableLeftButtons()
     {
@@ -383,6 +215,12 @@ namespace RestaurantPOS.Pages
     {
       get { return this.categoryItemsWrapPanelDict; }
       set { this.categoryItemsWrapPanelDict = value; }
+    }
+
+    internal CategoriesWrapPanel CategoriesWrapPanel
+    {
+      get { return this.categoriesWrapPanel; }
+      set { this.categoriesWrapPanel = value; }
     }
 
 

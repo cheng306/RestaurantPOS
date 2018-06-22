@@ -24,6 +24,20 @@ namespace RestaurantPOS.SerializedData
       }
     }
 
+    internal void UpdateCategoryInItemNameCategoryQuantityLists(string oldCategory, string newCategory)
+    {
+      if (!oldCategory.Equals(newCategory))
+      {
+        foreach (Table table in this)
+        {
+          if (table.IsActive)
+          {
+            table.UpdateCategoryInItemNameCategoryQuantityList(oldCategory, newCategory);
+          }
+        }
+      }
+    }
+
     internal void RemoveItemNameCategoryQunatityFromTables(string oldName, string oldCategory)
     {
       foreach (Table table in this)

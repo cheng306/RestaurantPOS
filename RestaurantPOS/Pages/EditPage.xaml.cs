@@ -113,7 +113,7 @@ namespace RestaurantPOS.Pages
         itemsList.Add(newItem);
 
         //modify itemsSelectionPage
-        itemsSelectionPage.AddItemToItemsWrapPanel(newItem);
+        itemsSelectionPage.CategoryItemsWrapPanelDict.AddItemToItemsWrapPanel(newItem);
 
         //update categoryItemDict
         currentApp.AddItemToCategoryItemDict(addItemWindow.ItemCategory, newItem);
@@ -156,7 +156,7 @@ namespace RestaurantPOS.Pages
 
           //Update tables' ItemNameCategoryQunatityList
           tablesList.UpdateItemNameCategoryQunatityListInTables(oldName, oldCategory, newName, newCategory);
-
+          
           if (!newCategory.Equals(oldCategory))
           {
             //update CategoryItemDict
@@ -198,11 +198,10 @@ namespace RestaurantPOS.Pages
         {
           //update tables' temNameCategoryQunatity
           tablesList.RemoveItemNameCategoryQunatityFromTables(removeItemsArray[i].Name, removeItemsArray[i].Category);
-
           itemsList.Remove(removeItemsArray[i]);
 
-          //modify itemsSelectionPage
-          itemsSelectionPage.RemoveItemFromItemsWrapPanel(removeItemsArray[i]);
+          //update itemsSelectionPage
+          itemsSelectionPage.CategoryItemsWrapPanelDict.RemoveItemFromItemsWrapPanel(removeItemsArray[i]);
 
           //update categoryItemDict
           currentApp.RemoveItemFromCategoryItemDict(removeItemsArray[i]);
@@ -229,8 +228,9 @@ namespace RestaurantPOS.Pages
         categoriesList.Add(addCategoryWindow.Input);
         categoriesListBox.SelectedItem = addCategoryWindow.Input;
 
-        //modify CategoriesWrapPanel in itemsSelectionPage
-        itemsSelectionPage.AddCategoryToCategoriesWrapPanel(addCategoryWindow.Input);
+        //update itemsSelectionPage
+        itemsSelectionPage.CategoryItemsWrapPanelDict.AddCategoryToCategoryItemsWrapPanelDict(addCategoryWindow.Input);
+        itemsSelectionPage.CategoriesWrapPanel.AddCategoryToCategoriesWrapPanel(addCategoryWindow.Input);
 
         //modify categoryItemDict
         currentApp.AddCategoryToCategoryItemDict(addCategoryWindow.Input);
@@ -243,9 +243,7 @@ namespace RestaurantPOS.Pages
         {
           EnableModifyAndDeleteCategoryButton();
         }
-      }
-
-      
+      }      
       categoriesListBox.Focus();
     }
 
@@ -257,20 +255,27 @@ namespace RestaurantPOS.Pages
       {
         //undate the category list 
         selectedIndex = categoriesListBox.SelectedIndex;
-        string oldCategory = (string)categoriesListBox.SelectedItem;
         EditCategoryDialog editCategoryDialog = new EditCategoryDialog((string)categoriesListBox.SelectedItem);
-        Console.WriteLine("======reach here0");
+
         if (editCategoryDialog.ShowDialog() == true)
         {
-          if (!oldCategory.Equals(editCategoryDialog.Input))
+          string oldCategory = (string)categoriesListBox.SelectedItem;
+          string newCategory = editCategoryDialog.Input;
+          if (!oldCategory.Equals(newCategory))
           {
             //update categoriesList
             ((ObservableCollection<string>)categoriesListBox.ItemsSource)[selectedIndex] = editCategoryDialog.Input;
+            
             //update categoryItemDict
             currentApp.ModifyCategoryInCategoryItemDict(oldCategory, editCategoryDialog.Input);
             UpdateItemCategoryProperty(editCategoryDialog.Input);
+            
             //update SelectionPage
-            itemsSelectionPage.ModifyCategoryInCategoryWrapPanel(oldCategory, editCategoryDialog.Input);
+            itemsSelectionPage.CategoryItemsWrapPanelDict.ModifyCategoryInCategoryItemsWrapPanelDict(oldCategory, editCategoryDialog.Input);
+            itemsSelectionPage.CategoriesWrapPanel.ModifyCategoryInCategoryWrapPanel(oldCategory, editCategoryDialog.Input);
+
+            //update 
+            tablesList.UpdateCategoryInItemNameCategoryQuantityLists(oldCategory, newCategory);
           }
         }
         categoriesListBox.SelectedIndex = selectedIndex;
@@ -300,9 +305,14 @@ namespace RestaurantPOS.Pages
         for (int i = 0; i < removeCategoriesArray.Length; i++)
         {
           categoriesList.Remove(removeCategoriesArray[i]);
-          itemsSelectionPage.RemoveCategoryToCategoriesWrapPanel(removeCategoriesArray[i]);
+
+          //udate itemsSelectionPage
+          itemsSelectionPage.CategoriesWrapPanel.RemoveCategoryFromCategoriesWrapPanel(removeCategoriesArray[i]);
+          itemsSelectionPage.CategoryItemsWrapPanelDict.RemoveCategoryFromCategoryItemsWrapPanelDict(removeCategoriesArray[i]);
+
           //remove all items of removed category
           RemoveItemsOfCategory(removeCategoriesArray[i]);
+          
           //update categoryItemDict
           currentApp.RemoveCategoryFromCategoryItemDict(removeCategoriesArray[i]);
         }
