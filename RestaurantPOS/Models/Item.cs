@@ -55,6 +55,7 @@ namespace RestaurantPOS.Models
         {
           this.price = value;
           NotifyPropertyChanged();
+          
         }
       }
     }

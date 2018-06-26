@@ -18,7 +18,7 @@ namespace RestaurantPOS.SerializedData
         {
           if (table.IsActive)
           {
-            table.UpdateItemNameCategoryQuantity(oldName, oldCategory, newName, newCategory);
+            table.UpdateItemNameCategoryInTableItemInfos(oldName, oldCategory, newName, newCategory);
           }
         }
       }
@@ -32,7 +32,7 @@ namespace RestaurantPOS.SerializedData
         {
           if (table.IsActive)
           {
-            table.UpdateCategoryInItemNameCategoryQuantityList(oldCategory, newCategory);
+            table.UpdateCategoryInTableItemInfos(oldCategory, newCategory);
           }
         }
       }
@@ -44,17 +44,19 @@ namespace RestaurantPOS.SerializedData
       {
         if (table.IsActive)
         {
-          for (int i=0; i<table.ItemNameCategoryQuantityList.Count;i++)
+          for (int i=0; i<table.TableItemInfosList.Count;i++)
           {
-            if (table.ItemNameCategoryQuantityList[i].ItemName.Equals(oldName) && table.ItemNameCategoryQuantityList[i].ItemCategory.Equals(oldCategory))
+            if (table.TableItemInfosList[i].ItemName.Equals(oldName) && table.TableItemInfosList[i].ItemCategory.Equals(oldCategory))
             {
-              table.ItemNameCategoryQuantityList.RemoveAt(i);
+              table.TableItemInfosList.RemoveAt(i);
               break;
             }
           }   
         }
       }
     }
+
+    //internal UpdateInItemNameCategoryQuantityLists
 
 
   }

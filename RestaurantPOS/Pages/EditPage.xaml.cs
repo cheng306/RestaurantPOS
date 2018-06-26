@@ -409,11 +409,7 @@ namespace RestaurantPOS.Pages
       modifyItemButton.IsEnabled = true;
       deleteItemButton.IsEnabled = true;
     }
-    //above are about focus and buttons ability
-
-   
-
-    
+    //above are about focus and buttons ability   
   }
 
 

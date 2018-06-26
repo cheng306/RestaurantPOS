@@ -43,27 +43,27 @@ namespace RestaurantPOS.CustomControls
     private void ItemButton_Click(object sender, RoutedEventArgs e)
     {
       ItemButton itemButton = (ItemButton)sender;
-      ObservableCollection<ItemNameCategoryQuantity> itemNameCategoryQuantityList =
-        (ObservableCollection<ItemNameCategoryQuantity>)mainWindow.itemsSelectionPage.itemsListView.ItemsSource;
+      ObservableCollection<TableItemInfo> tableItemInfosList =
+        (ObservableCollection<TableItemInfo>)mainWindow.itemsSelectionPage.itemsListView.ItemsSource;
 
       bool newItemInTable = true;
-      for (int i = 0; i < itemNameCategoryQuantityList.Count; i++)
+      for (int i = 0; i < tableItemInfosList.Count; i++)
       {
-        if (itemNameCategoryQuantityList[i].ItemName.Equals(itemButton.Content.ToString()) &&
-          itemNameCategoryQuantityList[i].ItemCategory.Equals(itemButton.ButtonItem.Category) &&
-          itemNameCategoryQuantityList[i].ItemPrice == itemButton.ButtonItem.Price)
+        if (tableItemInfosList[i].ItemName.Equals(itemButton.Content.ToString()) &&
+          tableItemInfosList[i].ItemCategory.Equals(itemButton.ButtonItem.Category) &&
+          tableItemInfosList[i].ItemPrice == itemButton.ButtonItem.Price)
         {
           newItemInTable = false;
-          itemNameCategoryQuantityList[i].ItemQuantity++;
-          itemNameCategoryQuantityList[i].ItemsPrice += itemButton.ButtonItem.Price;
+          tableItemInfosList[i].ItemQuantity++;
+          tableItemInfosList[i].ItemsPrice += itemButton.ButtonItem.Price;
           mainWindow.itemsSelectionPage.tableUI.Table.PriceTotal += itemButton.ButtonItem.Price;
           break;
         }
       }
       if (newItemInTable)
       {
-        itemNameCategoryQuantityList.
-          Add(new ItemNameCategoryQuantity
+        tableItemInfosList.
+          Add(new TableItemInfo
         {
           ItemName = itemButton.Content.ToString(),
           ItemCategory = itemButton.ButtonItem.Category,

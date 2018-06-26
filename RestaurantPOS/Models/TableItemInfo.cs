@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RestaurantPOS.Models
 {
-  public class ItemNameCategoryQuantity : INotifyPropertyChanged
+  public class TableItemInfo : INotifyPropertyChanged
   {
     internal string itemName;
     internal string itemCategory;

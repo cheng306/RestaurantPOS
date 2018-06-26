@@ -14,11 +14,11 @@ namespace RestaurantPOS.Models
   public class Table: INotifyPropertyChanged
   {
     private double priceTotal;
-    ObservableCollection<ItemNameCategoryQuantity> itemNameCategoryQuantityList;
+    ObservableCollection<TableItemInfo> tableItemInfosList;
 
     public Table()
     {
-      this.itemNameCategoryQuantityList = new ObservableCollection<ItemNameCategoryQuantity>();
+      this.tableItemInfosList = new ObservableCollection<TableItemInfo>();
     }
 
     public double PriceTotal {
@@ -39,31 +39,31 @@ namespace RestaurantPOS.Models
 
     public Boolean IsActive { get; set; }
 
-    public ObservableCollection<ItemNameCategoryQuantity> ItemNameCategoryQuantityList {
-      get { return this.itemNameCategoryQuantityList; }
-      set { this.itemNameCategoryQuantityList = value; }
+    public ObservableCollection<TableItemInfo> TableItemInfosList {
+      get { return this.tableItemInfosList; }
+      set { this.tableItemInfosList = value; }
     }
 
-    internal void UpdateItemNameCategoryQuantity(string oldName, string oldCategory, string newName, string newCategory)
+    internal void UpdateItemNameCategoryInTableItemInfos(string oldName, string oldCategory, string newName, string newCategory)
     {
       Console.WriteLine("============Update Here");
-      foreach (ItemNameCategoryQuantity itemNameCategoryQuantity in ItemNameCategoryQuantityList)
+      foreach (TableItemInfo tableItemInfo in tableItemInfosList)
       {
-        if (itemNameCategoryQuantity.ItemName.Equals(oldName) && itemNameCategoryQuantity.ItemCategory.Equals(oldCategory))
+        if (tableItemInfo.ItemName.Equals(oldName) && tableItemInfo.ItemCategory.Equals(oldCategory))
         {
-          itemNameCategoryQuantity.ItemName = newName;
-          itemNameCategoryQuantity.ItemCategory = newCategory;
+          tableItemInfo.ItemName = newName;
+          tableItemInfo.ItemCategory = newCategory;
         }
       }
     }
 
-    internal void UpdateCategoryInItemNameCategoryQuantityList(string oldCategory, string newCategory)
+    internal void UpdateCategoryInTableItemInfos(string oldCategory, string newCategory)
     {
-      foreach (ItemNameCategoryQuantity itemNameCategoryQuantity in ItemNameCategoryQuantityList)
+      foreach (TableItemInfo tableItemInfo in tableItemInfosList)
       {
-        if (itemNameCategoryQuantity.ItemCategory.Equals(oldCategory))
+        if (tableItemInfo.ItemCategory.Equals(oldCategory))
         {
-          itemNameCategoryQuantity.ItemCategory = newCategory;
+          tableItemInfo.ItemCategory = newCategory;
         }
       }
     }

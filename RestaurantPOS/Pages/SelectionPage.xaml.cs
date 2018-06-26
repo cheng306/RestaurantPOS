@@ -29,6 +29,7 @@ namespace RestaurantPOS.Pages
     CategoriesWrapPanel categoriesWrapPanel;
     internal Circle tableUI;
     static App currentApp = (App)Application.Current;
+
    
     //SolidColorBrush antiqueWhiteBrush = new SolidColorBrush(Colors.AntiqueWhite);
 
@@ -47,7 +48,7 @@ namespace RestaurantPOS.Pages
       if (tableUI != null)
       {
         TableNumberTextBlock.Text = "Table " + tableUI.Table.TableNumber;
-        itemsListView.ItemsSource = tableUI.Table.ItemNameCategoryQuantityList; 
+        itemsListView.ItemsSource = tableUI.Table.TableItemInfosList; 
         wrapPanelScrollViewer.Content=categoriesWrapPanel;
 
         Binding myBinding = new Binding("Table.PriceTotal");
@@ -114,7 +115,7 @@ namespace RestaurantPOS.Pages
       {
         removeItemsButton.IsEnabled = true;
         addItemButton.IsEnabled = true;
-        ItemNameCategoryQuantity selectedItem = (ItemNameCategoryQuantity)itemsListView.SelectedItem;
+        TableItemInfo selectedItem = (TableItemInfo)itemsListView.SelectedItem;
         if (selectedItem.ItemQuantity > 1)
         {
           minusItemButton.IsEnabled = true;
@@ -131,9 +132,9 @@ namespace RestaurantPOS.Pages
       YesNoCancelDialog yesNoCancelDialog = new YesNoCancelDialog("Do you want to Remove this Item");
       if (yesNoCancelDialog.ShowDialog() == true)
       {
-        ItemNameCategoryQuantity selectedItem = (ItemNameCategoryQuantity)itemsListView.SelectedItem;
+        TableItemInfo selectedItem = (TableItemInfo)itemsListView.SelectedItem;
         tableUI.Table.PriceTotal -= selectedItem.ItemsPrice;
-        ((ObservableCollection<ItemNameCategoryQuantity>)itemsListView.ItemsSource).Remove(selectedItem);
+        ((ObservableCollection<TableItemInfo>)itemsListView.ItemsSource).Remove(selectedItem);
         
         DisableLeftButtons();
       }
@@ -145,7 +146,7 @@ namespace RestaurantPOS.Pages
 
     private void MinusItemButton_Click(object sender, RoutedEventArgs e)
     {
-      ItemNameCategoryQuantity selectedItem = (ItemNameCategoryQuantity)itemsListView.SelectedItem;
+      TableItemInfo selectedItem = (TableItemInfo)itemsListView.SelectedItem;
       tableUI.Table.PriceTotal -= (selectedItem.ItemsPrice / selectedItem.ItemQuantity);
       selectedItem.ItemsPrice -= (selectedItem.ItemsPrice / selectedItem.ItemQuantity);
       
@@ -160,7 +161,7 @@ namespace RestaurantPOS.Pages
 
     private void AddItemButton_Click(object sender, RoutedEventArgs e)
     {
-      ItemNameCategoryQuantity selectedItem = (ItemNameCategoryQuantity)itemsListView.SelectedItem;
+      TableItemInfo selectedItem = (TableItemInfo)itemsListView.SelectedItem;
       tableUI.Table.PriceTotal += (selectedItem.ItemsPrice / selectedItem.ItemQuantity);
       selectedItem.ItemsPrice += (selectedItem.ItemsPrice / selectedItem.ItemQuantity);
       
@@ -190,7 +191,7 @@ namespace RestaurantPOS.Pages
 
         Dictionary<string, Item> itemNameObjectDict = currentApp.ItemNameObjectDict;
         Dictionary<string, Inventory> inventoryNameObjectDict = currentApp.InventoryNameObjectDict;
-        foreach (ItemNameCategoryQuantity itemCategoryQuantity in tableUI.Table.ItemNameCategoryQuantityList)
+        foreach (TableItemInfo itemCategoryQuantity in tableUI.Table.TableItemInfosList)
         {
           if (itemNameObjectDict.ContainsKey(itemCategoryQuantity.itemName))
           {
@@ -204,7 +205,7 @@ namespace RestaurantPOS.Pages
             }
           }       
         }
-        tableUI.Table.ItemNameCategoryQuantityList = new ObservableCollection<ItemNameCategoryQuantity>();
+        tableUI.Table.TableItemInfosList = new ObservableCollection<TableItemInfo>();
         mainWindow.tabControl.SelectedItem = mainWindow.tablesTab;
         mainWindow.selectionPageTab.IsEnabled = false;
         //update dictionaries
