@@ -143,7 +143,6 @@ namespace RestaurantPOS.Pages
       if (selectedItem != null)
       {
         EditItemDialog editItemDialog = new EditItemDialog(selectedItem);
-        Console.WriteLine("id: " + editItemDialog.GetHashCode());
         if (editItemDialog.ShowDialog() == true)
         {
           string oldName = selectedItem.Name;
@@ -155,7 +154,7 @@ namespace RestaurantPOS.Pages
           double newPrice = editItemDialog.ItemPrice;
 
           //Update tables' ItemNameCategoryQunatityList
-          tablesList.UpdateItemNameCategoryQunatityListInTables(oldName, oldCategory, newName, newCategory);
+          tablesList.UpdateItemNameCategoryPriceInTableItemInfos(oldName, oldCategory,oldPrice, newName, newCategory,newPrice);
           
           if (!newCategory.Equals(oldCategory))
           {

@@ -273,11 +273,6 @@ namespace RestaurantPOS.Pages
       modifyInventoryButton.IsEnabled = false;
       removeInventoryButton.IsEnabled = false;
     }
-
-  
-
-    
-
    
   }
 }

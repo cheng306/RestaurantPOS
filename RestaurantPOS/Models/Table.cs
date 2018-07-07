@@ -44,6 +44,20 @@ namespace RestaurantPOS.Models
       set { this.tableItemInfosList = value; }
     }
 
+    internal void UpdateItemPriceInTableItemInfos(string oldName, string oldCategory, double oldPrice, double newPrice)
+    {
+      foreach (TableItemInfo tableItemInfo in tableItemInfosList)
+      {
+        if (tableItemInfo.ItemName.Equals(oldName) && tableItemInfo.ItemCategory.Equals(oldCategory))
+        {
+          double unitPriceDifference = newPrice - oldPrice;
+          tableItemInfo.ItemPrice = newPrice;
+          tableItemInfo.ItemsPrice = newPrice * tableItemInfo.ItemQuantity;
+          this.PriceTotal = this.PriceTotal + unitPriceDifference * tableItemInfo.ItemQuantity;
+        }
+      }
+    }
+
     internal void UpdateItemNameCategoryInTableItemInfos(string oldName, string oldCategory, string newName, string newCategory)
     {
       Console.WriteLine("============Update Here");

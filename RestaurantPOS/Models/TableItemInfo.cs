@@ -10,11 +10,11 @@ namespace RestaurantPOS.Models
 {
   public class TableItemInfo : INotifyPropertyChanged
   {
-    internal string itemName;
-    internal string itemCategory;
-    internal int itemQuantity;
-    private double itemPrice;
-    internal double itemsPrice;
+    string itemName;
+    string itemCategory;
+    int itemQuantity;
+    double itemPrice;
+    double itemsPrice;
 
     public string ItemName
     {

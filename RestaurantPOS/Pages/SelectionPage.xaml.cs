@@ -147,10 +147,10 @@ namespace RestaurantPOS.Pages
     private void MinusItemButton_Click(object sender, RoutedEventArgs e)
     {
       TableItemInfo selectedItem = (TableItemInfo)itemsListView.SelectedItem;
-      tableUI.Table.PriceTotal -= (selectedItem.ItemsPrice / selectedItem.ItemQuantity);
-      selectedItem.ItemsPrice -= (selectedItem.ItemsPrice / selectedItem.ItemQuantity);
-      
+      tableUI.Table.PriceTotal -= selectedItem.ItemPrice;
+      selectedItem.ItemsPrice -= selectedItem.ItemPrice;  
       selectedItem.ItemQuantity--;
+
       if (selectedItem.ItemQuantity == 1)
       {
         minusItemButton.IsEnabled = false;
@@ -162,8 +162,8 @@ namespace RestaurantPOS.Pages
     private void AddItemButton_Click(object sender, RoutedEventArgs e)
     {
       TableItemInfo selectedItem = (TableItemInfo)itemsListView.SelectedItem;
-      tableUI.Table.PriceTotal += (selectedItem.ItemsPrice / selectedItem.ItemQuantity);
-      selectedItem.ItemsPrice += (selectedItem.ItemsPrice / selectedItem.ItemQuantity);
+      tableUI.Table.PriceTotal += selectedItem.ItemPrice;
+      selectedItem.ItemsPrice += selectedItem.ItemPrice;
       
       selectedItem.ItemQuantity++;
       itemsListView.Focus();
@@ -193,19 +193,25 @@ namespace RestaurantPOS.Pages
         Dictionary<string, Inventory> inventoryNameObjectDict = currentApp.InventoryNameObjectDict;
         foreach (TableItemInfo itemCategoryQuantity in tableUI.Table.TableItemInfosList)
         {
-          if (itemNameObjectDict.ContainsKey(itemCategoryQuantity.itemName))
+          if (itemNameObjectDict.ContainsKey(itemCategoryQuantity.ItemName))
           {
-            Item consumedItem = itemNameObjectDict[itemCategoryQuantity.itemName];
+            Item consumedItem = itemNameObjectDict[itemCategoryQuantity.ItemName];
             foreach (InventoryConsumption inventoryConsumption in consumedItem.InventoryConsumptionList)
             {
               if (inventoryNameObjectDict.ContainsKey(inventoryConsumption.InventoryName))
               {
-                inventoryNameObjectDict[inventoryConsumption.InventoryName].Quantity -= (inventoryConsumption.ConsumptionQuantity* itemCategoryQuantity.ItemQuantity);
-              }  
+                Inventory inventory = inventoryNameObjectDict[inventoryConsumption.InventoryName];
+                inventory.Quantity -= (inventoryConsumption.ConsumptionQuantity * itemCategoryQuantity.ItemQuantity); 
+                if (inventory.Quantity <= inventory.RemindingLevel)
+                {
+                  MessageBox.Show(inventory.Name + " is running Low", "Low Inventory Level", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+              }
             }
           }       
         }
         tableUI.Table.TableItemInfosList = new ObservableCollection<TableItemInfo>();
+        tableUI = null; 
         mainWindow.tabControl.SelectedItem = mainWindow.tablesTab;
         mainWindow.selectionPageTab.IsEnabled = false;
         //update dictionaries
