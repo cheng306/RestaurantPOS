@@ -49,7 +49,7 @@ namespace RestaurantPOS.Models
       foreach (TableItemInfo tableItemInfo in tableItemInfosList)
       {
         if (tableItemInfo.ItemName.Equals(oldName) && tableItemInfo.ItemCategory.Equals(oldCategory))
-        {
+        { 
           double unitPriceDifference = newPrice - oldPrice;
           tableItemInfo.ItemPrice = newPrice;
           tableItemInfo.ItemsPrice = newPrice * tableItemInfo.ItemQuantity;
@@ -78,6 +78,32 @@ namespace RestaurantPOS.Models
         if (tableItemInfo.ItemCategory.Equals(oldCategory))
         {
           tableItemInfo.ItemCategory = newCategory;
+        }
+      }
+    }
+
+    internal void RemoveTableItemInfoFromTable(string oldName, string oldCategory)
+    {
+      for (int i=0; i< TableItemInfosList.Count; i++)
+      {
+        if (TableItemInfosList[i].ItemName.Equals(oldName) && TableItemInfosList[i].ItemCategory.Equals(oldCategory))
+        {
+          PriceTotal -= TableItemInfosList[i].ItemsPrice;
+          TableItemInfosList.RemoveAt(i);    
+          break;
+        }
+      }
+    }
+
+    internal void RemoveTableItemInfoFromTable(string oldCategory)
+    {
+      for (int i = 0; i < TableItemInfosList.Count; i++)
+      {
+        if (TableItemInfosList[i].ItemCategory.Equals(oldCategory))
+        {
+          PriceTotal -= TableItemInfosList[i].ItemsPrice;
+          TableItemInfosList.RemoveAt(i);
+          break;
         }
       }
     }

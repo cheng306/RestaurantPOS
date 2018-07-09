@@ -196,7 +196,7 @@ namespace RestaurantPOS.Pages
         for (int i = 0; i < removeItemsArray.Length; i++)
         {
           //update tables' temNameCategoryQunatity
-          tablesList.RemoveItemNameCategoryQunatityFromTables(removeItemsArray[i].Name, removeItemsArray[i].Category);
+          tablesList.RemoveTableItemInfoFromTables(removeItemsArray[i].Name, removeItemsArray[i].Category);
           itemsList.Remove(removeItemsArray[i]);
 
           //update itemsSelectionPage
@@ -273,8 +273,8 @@ namespace RestaurantPOS.Pages
             itemsSelectionPage.CategoryItemsWrapPanelDict.ModifyCategoryInCategoryItemsWrapPanelDict(oldCategory, editCategoryDialog.Input);
             itemsSelectionPage.CategoriesWrapPanel.ModifyCategoryInCategoryWrapPanel(oldCategory, editCategoryDialog.Input);
 
-            //update 
-            tablesList.UpdateCategoryInItemNameCategoryQuantityLists(oldCategory, newCategory);
+            //update TableItemInfos in tables
+            tablesList.UpdateCategoryInTableItemInfos(oldCategory, newCategory);
           }
         }
         categoriesListBox.SelectedIndex = selectedIndex;
@@ -303,7 +303,7 @@ namespace RestaurantPOS.Pages
 
         for (int i = 0; i < removeCategoriesArray.Length; i++)
         {
-          categoriesList.Remove(removeCategoriesArray[i]);
+          
 
           //udate itemsSelectionPage
           itemsSelectionPage.CategoriesWrapPanel.RemoveCategoryFromCategoriesWrapPanel(removeCategoriesArray[i]);
@@ -311,9 +311,14 @@ namespace RestaurantPOS.Pages
 
           //remove all items of removed category
           RemoveItemsOfCategory(removeCategoriesArray[i]);
-          
+
+          //update TableItemInfos in tables
+          tablesList.RemoveTableItemInfoFromTables(removeCategoriesArray[i]);
+
           //update categoryItemDict
           currentApp.RemoveCategoryFromCategoryItemDict(removeCategoriesArray[i]);
+
+          categoriesList.Remove(removeCategoriesArray[i]);
         }
       }
 

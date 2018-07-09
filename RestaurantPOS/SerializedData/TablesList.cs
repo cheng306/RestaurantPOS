@@ -34,7 +34,7 @@ namespace RestaurantPOS.SerializedData
       }
     }
 
-    internal void UpdateCategoryInItemNameCategoryQuantityLists(string oldCategory, string newCategory)
+    internal void UpdateCategoryInTableItemInfos(string oldCategory, string newCategory)
     {
       if (!oldCategory.Equals(newCategory))
       {
@@ -48,25 +48,29 @@ namespace RestaurantPOS.SerializedData
       }
     }
 
-    internal void RemoveItemNameCategoryQunatityFromTables(string oldName, string oldCategory)
+    internal void RemoveTableItemInfoFromTables(string oldName, string oldCategory)
     {
       foreach (Table table in this)
       {
         if (table.IsActive)
         {
-          for (int i=0; i<table.TableItemInfosList.Count;i++)
-          {
-            if (table.TableItemInfosList[i].ItemName.Equals(oldName) && table.TableItemInfosList[i].ItemCategory.Equals(oldCategory))
-            {
-              table.TableItemInfosList.RemoveAt(i);
-              break;
-            }
-          }   
+          table.RemoveTableItemInfoFromTable(oldName, oldCategory);
         }
       }
     }
 
-    //internal UpdateInItemNameCategoryQuantityLists
+    internal void RemoveTableItemInfoFromTables(string oldCategory)
+    {
+      foreach (Table table in this)
+      {
+        if (table.IsActive)
+        {
+          table.RemoveTableItemInfoFromTable(oldCategory);
+        }
+      }
+    }
+
+
 
 
   }
