@@ -13,7 +13,7 @@ namespace RestaurantPOS.Dictionaries
 
     public ItemNameObjectDict()
     {
-      foreach (Item item in (((App)Application.Current).itemsList))
+      foreach (Item item in (((App)Application.Current).ItemsList))
       {
         this[item.Name] = item;
       }

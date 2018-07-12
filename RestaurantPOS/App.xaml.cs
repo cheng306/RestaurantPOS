@@ -25,7 +25,8 @@ namespace RestaurantPOS
   {
     //All App Objects
     internal TablesList tablesList;
-    internal ObservableCollection<Item> itemsList;
+    //internal ObservableCollection<Item> itemsList;
+    ItemsList itemsList;
     internal ObservableCollection<string> categoriesList;
     internal ObservableCollection<Inventory> inventoryList;
     internal List<bool> tableNumberBooleanList;
@@ -203,6 +204,12 @@ namespace RestaurantPOS
       set { this.categoriesList = value; }
     }
 
+    internal ItemsList ItemsList
+    {
+      get { return this.itemsList; }
+      set { this.itemsList = value; }
+    }
+
 
     private void CreateDbDirectory()
     {
@@ -242,18 +249,18 @@ namespace RestaurantPOS
       itemsListXmlPath = @"db\itemlist.xml";
 
       //initilize serizlizer
-      itemsListSerializer = new XmlSerializer(typeof(ObservableCollection<Item>));
+      itemsListSerializer = new XmlSerializer(typeof(ItemsList));
 
       if (File.Exists(itemsListXmlPath))
       {
         StreamReader streamReader = new StreamReader(itemsListXmlPath);
-        itemsList = (ObservableCollection<Item>)itemsListSerializer.Deserialize(streamReader);
+        itemsList = (ItemsList)itemsListSerializer.Deserialize(streamReader);
         streamReader.Close();
         Console.WriteLine("=================itemsList in editPage loaded");
       }
       else
       {
-        itemsList = new ObservableCollection<Item>();
+        itemsList = new ItemsList();
         Console.WriteLine("=============itemList created");
       }
     }

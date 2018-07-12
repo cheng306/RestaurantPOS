@@ -41,8 +41,8 @@ namespace RestaurantPOS.Pages
     {
       InitializeComponent();
 
-      itemsList = currentApp.itemsList;
-      itemsListView.ItemsSource = currentApp.itemsList;
+      itemsList = currentApp.ItemsList;
+      itemsListView.ItemsSource = currentApp.ItemsList;
 
       inventoryList = currentApp.inventoryList;
       inventoryListView.ItemsSource = inventoryList;
@@ -164,15 +164,21 @@ namespace RestaurantPOS.Pages
     {
       Inventory selectedInventory = (Inventory)inventoryListView.SelectedItem;
 
-      RemoveInventoryFromInventoryConsumptionLists(selectedInventory);
+      string removeInventoryMessage = "Are you sure to remove "+ selectedInventory.Name + " from Inventory";
+      YesNoCancelDialog yesNoCancelDialog = new YesNoCancelDialog(removeInventoryMessage);
+      if (yesNoCancelDialog.ShowDialog() == true)
+      {
+        RemoveInventoryFromInventoryConsumptionLists(selectedInventory);
 
-      //update InventoryNameItemListDict
-      currentApp.RemoveInventoryFromInventoryNameItemsListDict(selectedInventory);
+        //update InventoryNameItemListDict
+        currentApp.RemoveInventoryFromInventoryNameItemsListDict(selectedInventory);
 
-      //update InventoryNameObjectDict
-      currentApp.InventoryNameObjectDict.RemoveInventoryFromInventoryNameObjectDict(selectedInventory);
+        //update InventoryNameObjectDict
+        currentApp.InventoryNameObjectDict.RemoveInventoryFromInventoryNameObjectDict(selectedInventory);
 
-      inventoryList.Remove(selectedInventory);
+        inventoryList.Remove(selectedInventory);
+      }
+      
 
       DisableRightGridButtons();
       rightEnabled = false;

@@ -19,16 +19,22 @@
     <Grid Grid.Column="0"
           GotFocus="LeftGrid_GotFocus">
       <Grid.RowDefinitions>
-        <RowDefinition Height="5*" />
+        <RowDefinition Height="1*" />
+        <RowDefinition Height="6*" />
         <RowDefinition Height="1*" />
       </Grid.RowDefinitions>
-      <StackPanel Grid.Row="0">
+
+      <Grid Grid.Row="0"
+            Background="Aquamarine">
         <TextBlock Text="Item"
                    Padding="5"
                    FontSize="25"
-                   TextAlignment="Center"
-                   Background="Aquamarine"/>
+                   VerticalAlignment="Center"
+                   TextAlignment="Center"/>
+      </Grid>
+        
         <ListView x:Name="itemsListView"
+                  Grid.Row="1"
                   BorderBrush="Aquamarine"
                   BorderThickness="5"
                   SelectionMode="Single"
@@ -45,9 +51,9 @@
           </GridView>
         </ListView.View>
       </ListView>
-      </StackPanel>
+     
       <Button x:Name="editItemConsumptionButton"
-              Grid.Row="1"
+              Grid.Row="2"
               Content="Edit Item consumption"
               Click="EditItemConsumptionButton_Click"
               Background="Aquamarine"/>
@@ -56,37 +62,38 @@
     <Grid Grid.Column="1"
           GotFocus="RightGrid_GotFocus">
       <Grid.RowDefinitions>
-        <RowDefinition Height="5*" />
+        <RowDefinition Height="1*" />
+        <RowDefinition Height="6*" />
         <RowDefinition Height="1*" />
       </Grid.RowDefinitions>
-      <StackPanel Grid.Row="0">
-        <TextBlock FontSize="25" 
+      <TextBlock Grid.Row="0"
+                   FontSize="25" 
                    TextAlignment="Center"
                    Text="Invenotry"
                    Padding="5"
                    Background="AntiqueWhite"/>
-        <ListView x:Name="inventoryListView"
+      <ListView x:Name="inventoryListView"
+                  Grid.Row="1"
                   SelectionMode="Single"
                   BorderBrush="AntiqueWhite"
                   BorderThickness="5"
                   GotFocus="InventoryListView_GotFocus"
                   SelectionChanged="InventoryListView_SelectionChanged">
-      <ListView.View>
-        <GridView>
-          <GridViewColumn Header="Name"
+        <ListView.View>
+          <GridView>
+            <GridViewColumn Header="Name"
                           Width="{Binding ElementName=inventoryListView, Path=ActualWidth, Converter={StaticResource Multiplier}, ConverterParameter=0.3}"
                           DisplayMemberBinding="{Binding Name}" />
-          <GridViewColumn Header="Quantity"
+            <GridViewColumn Header="Quantity"
                           Width="{Binding ElementName=inventoryListView, Path=ActualWidth, Converter={StaticResource Multiplier}, ConverterParameter=0.3}"
                           DisplayMemberBinding="{Binding Quantity}" />
-              <GridViewColumn Header="Unit"
+            <GridViewColumn Header="Unit"
                               Width="{Binding ElementName=inventoryListView, Path=ActualWidth, Converter={StaticResource Multiplier}, ConverterParameter=0.3}"
                               DisplayMemberBinding="{Binding Unit}" />
-            </GridView>
-      </ListView.View>
+          </GridView>
+        </ListView.View>
       </ListView>
-      </StackPanel>
-      <Grid Grid.Row="1">
+      <Grid Grid.Row="2">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*"/>
           <ColumnDefinition Width="*"/>

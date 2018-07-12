@@ -38,7 +38,7 @@ namespace RestaurantPOS.Pages
     {
       InitializeComponent();
 
-      itemsList = currentApp.itemsList;
+      itemsList = currentApp.ItemsList;
       itemsListView.ItemsSource = itemsList;
 
       categoriesList = currentApp.categoriesList;
@@ -303,7 +303,6 @@ namespace RestaurantPOS.Pages
 
         for (int i = 0; i < removeCategoriesArray.Length; i++)
         {
-          
 
           //udate itemsSelectionPage
           itemsSelectionPage.CategoriesWrapPanel.RemoveCategoryFromCategoriesWrapPanel(removeCategoriesArray[i]);
@@ -339,8 +338,15 @@ namespace RestaurantPOS.Pages
       List<Item> selectedItemsList = currentApp.CategoryItemsDict[category];
       foreach (Item item in selectedItemsList)
       {
+        //update inventoryItemsDict
+        foreach (InventoryConsumption inventoryConsumption in item.InventoryConsumptionList)
+        {
+          currentApp.InventoryNameItemsListDict[inventoryConsumption.InventoryName].Remove(item);
+        }
+
         itemsList.Remove(item);
       }
+      
     }
 
     //below are about focus and buttons ability

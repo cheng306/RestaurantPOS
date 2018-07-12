@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using RestaurantPOS.CustomControls;
+using RestaurantPOS.SerializedData;
 
 namespace RestaurantPOS.Dictionaries
 {
@@ -15,7 +16,7 @@ namespace RestaurantPOS.Dictionaries
   {
     static App currentApp = (App)Application.Current;
     ObservableCollection<string> categoriesList = currentApp.CategoriesList;
-    ObservableCollection<Item> itemsList = currentApp.itemsList;
+    ItemsList itemsList = currentApp.ItemsList;
     internal CategoryItemsWrapPanelDict()
     {
       foreach(string category in categoriesList)
