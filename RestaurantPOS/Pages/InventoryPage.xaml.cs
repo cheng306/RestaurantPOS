@@ -87,7 +87,7 @@ namespace RestaurantPOS.Pages
         }
 
         selectedItem.InventoryConsumptionList = inventoryConsumptionList;
-
+        itemsListView.Focus();
       }
       else
       {

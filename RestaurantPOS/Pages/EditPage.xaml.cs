@@ -100,7 +100,7 @@ namespace RestaurantPOS.Pages
     private void AddItemButton_Click(object sender, RoutedEventArgs e)
     {
       EditItemDialog addItemWindow = new EditItemDialog();
-      Console.WriteLine("id: "+addItemWindow.GetHashCode());
+      Console.WriteLine("id: " + addItemWindow.GetHashCode());
       if (addItemWindow.ShowDialog() == true)
       {
         Item newItem = new Item
@@ -154,8 +154,8 @@ namespace RestaurantPOS.Pages
           double newPrice = editItemDialog.ItemPrice;
 
           //Update tables' ItemNameCategoryQunatityList
-          tablesList.UpdateItemNameCategoryPriceInTableItemInfos(oldName, oldCategory,oldPrice, newName, newCategory,newPrice);
-          
+          tablesList.UpdateItemNameCategoryPriceInTableItemInfos(oldName, oldCategory, oldPrice, newName, newCategory, newPrice);
+
           if (!newCategory.Equals(oldCategory))
           {
             //update CategoryItemDict
@@ -170,7 +170,7 @@ namespace RestaurantPOS.Pages
           selectedItem.Name = newName;
           selectedItem.Category = newCategory;
           selectedItem.Price = newPrice;
-          
+
         }
         editItemDialog.DisableDialog();
 
@@ -242,13 +242,15 @@ namespace RestaurantPOS.Pages
         {
           EnableModifyAndDeleteCategoryButton();
         }
-      }      
+      }
+
       categoriesListBox.Focus();
+      EnableAddItemButton();
     }
 
     private void ModifyCategoryButton_Click(object sender, RoutedEventArgs e)
     {
-      int selectedIndex; 
+      int selectedIndex;
 
       if (categoriesListBox.SelectedItem != null)
       {
@@ -264,11 +266,11 @@ namespace RestaurantPOS.Pages
           {
             //update categoriesList
             ((ObservableCollection<string>)categoriesListBox.ItemsSource)[selectedIndex] = editCategoryDialog.Input;
-            
+
             //update categoryItemDict
             currentApp.ModifyCategoryInCategoryItemDict(oldCategory, editCategoryDialog.Input);
             UpdateItemCategoryProperty(editCategoryDialog.Input);
-            
+
             //update SelectionPage
             itemsSelectionPage.CategoryItemsWrapPanelDict.ModifyCategoryInCategoryItemsWrapPanelDict(oldCategory, editCategoryDialog.Input);
             itemsSelectionPage.CategoriesWrapPanel.ModifyCategoryInCategoryWrapPanel(oldCategory, editCategoryDialog.Input);
@@ -319,6 +321,11 @@ namespace RestaurantPOS.Pages
 
           categoriesList.Remove(removeCategoriesArray[i]);
         }
+
+        if (categoriesList.Count == 0)
+        {
+          DisableAddItemButton();
+        }
       }
 
       DisableModifyAndDeleteCategoryButton();
@@ -346,7 +353,7 @@ namespace RestaurantPOS.Pages
 
         itemsList.Remove(item);
       }
-      
+
     }
 
     //below are about focus and buttons ability
@@ -356,7 +363,12 @@ namespace RestaurantPOS.Pages
       categoriesListBox.SelectedItem = null;
       DisableModifyAndDeleteItemButton();
       DisableModifyAndDeleteCategoryButton();
-      
+
+      if (categoriesList.Count == 0)
+      {
+        DisableAddItemButton();
+      }
+
       Console.WriteLine("==============editPage Loaded");
     }
 
@@ -419,11 +431,22 @@ namespace RestaurantPOS.Pages
       modifyItemButton.IsEnabled = true;
       deleteItemButton.IsEnabled = true;
     }
-    //above are about focus and buttons ability   
+
+    private void EnableAddItemButton()
+    {
+      addItemButton.IsEnabled = true;
+    }
+
+    private void DisableAddItemButton()
+    {
+      addItemButton.IsEnabled = false;
+    }
+
+    //above are about focus and buttons ability  
   }
 
 
-  //NameSortDir class is for Tag properrty of GridViewColumnHeader
+    //NameSortDir class is for Tag properrty of GridViewColumnHeader
   internal class NameSortDir
   {
     internal string Name { get; set; }
