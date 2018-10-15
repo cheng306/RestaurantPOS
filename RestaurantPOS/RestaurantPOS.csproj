@@ -54,6 +54,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Dialogs\MessageBoxDialog.xaml.cs">
+      <DependentUpon>MessageBoxDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\Templates\DependencyRow.xaml.cs">
       <DependentUpon>DependencyRow.xaml</DependentUpon>
     </Compile>
@@ -100,6 +103,10 @@
     </Compile>
     <Compile Include="SerializedData\ItemsList.cs" />
     <Compile Include="SerializedData\TablesList.cs" />
+    <Page Include="Dialogs\MessageBoxDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\Templates\DependencyRow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

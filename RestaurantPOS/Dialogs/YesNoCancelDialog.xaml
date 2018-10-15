@@ -31,20 +31,23 @@
               Grid.Column="0"
               FontSize="25"
               Content="Yes"
-              Click="YesButton_MouseOrTouchDown"
-              TouchDown="YesButton_MouseOrTouchDown"/>
+              Click="YesButton_Click"
+              TouchUp="YesButton_TouchUp"
+              />
       <Button x:Name="noButton"
               Grid.Column="1"
               FontSize="25"
               Content="No"
               IsCancel="True"
-              TouchDown="NoOrCancelButton_MouseOrTouchDown"/>
-      <Button x:Name="cancelButton"
+              TouchUp="NoOrCancelButton_TouchUp"
+              Click="NoOrCancelButton_Click" />
+      <Button x:Name="cancelButton"   
               Grid.Column="2"
               FontSize="25"
               Content="Cancel"
               IsCancel="True"
-              TouchDown="NoOrCancelButton_MouseOrTouchDown"/>
+              Click="NoOrCancelButton_Click"
+              TouchUp="NoOrCancelButton_TouchUp"/>
     </Grid>
      
 

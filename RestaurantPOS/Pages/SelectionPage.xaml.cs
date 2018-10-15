@@ -204,7 +204,9 @@ namespace RestaurantPOS.Pages
                 inventory.Quantity -= (inventoryConsumption.ConsumptionQuantity * itemCategoryQuantity.ItemQuantity); 
                 if (inventory.Quantity <= inventory.RemindingLevel)
                 {
-                  MessageBox.Show(inventory.Name + " is running Low", "Low Inventory Level", MessageBoxButton.OK, MessageBoxImage.Warning);
+                  MessageBoxDialog messageBox = new MessageBoxDialog(inventory.Name + " is running Low");
+                  messageBox.Show();
+                  //MessageBox.Show(inventory.Name + " is running Low", "Low Inventory Level", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
               }
             }

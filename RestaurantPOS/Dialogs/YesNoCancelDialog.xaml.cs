@@ -25,14 +25,42 @@ namespace RestaurantPOS.Dialogs
       messageTextBlock.Text = message;
     }
 
-    private void NoOrCancelButton_MouseOrTouchDown(object sender, EventArgs e)
+    //combine both click and touchdown
+    //private void YesButton_MouseOrTouchDown(object sender, EventArgs e)
+    //{
+    //  DialogResult = true;
+    //}
+
+    private void YesButton_Click(object sender, RoutedEventArgs e)
     {
-      DialogResult = false;
+      Console.WriteLine("======YesButton_Click======");
+      DialogResult = true;
+      e.Handled = true;
     }
 
-    private void YesButton_MouseOrTouchDown(object sender, EventArgs e)
+    private void YesButton_TouchUp(object sender, TouchEventArgs e)
     {
+      Console.WriteLine("======YesButton_TouchUp======");
       DialogResult = true;
+      e.Handled = true;
     }
+
+    private void NoOrCancelButton_Click(object sender, RoutedEventArgs e)
+    {
+      DialogResult = false;
+      e.Handled = true;
+    }
+
+    private void NoOrCancelButton_TouchUp(object sender, TouchEventArgs e)
+    {
+      DialogResult = false;
+      e.Handled = true;
+    }
+
+
+
+
+   
+    
   }
 }
